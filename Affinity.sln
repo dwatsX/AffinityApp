@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Affinity", "Affinity\Affinity.csproj", "{969B651D-6FD5-407B-8EED-C0795A393918}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{969B651D-6FD5-407B-8EED-C0795A393918}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{969B651D-6FD5-407B-8EED-C0795A393918}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{969B651D-6FD5-407B-8EED-C0795A393918}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{969B651D-6FD5-407B-8EED-C0795A393918}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E582F67F-6F13-493F-8EF7-51F5D88686C4}
+	EndGlobalSection
+EndGlobal
