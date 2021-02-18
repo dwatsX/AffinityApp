@@ -153,7 +153,7 @@ namespace Affinity.Data
             {
                 entity.HasKey(e => e.ImageId);
 
-                entity.ToTable("GameImage");
+                entity.ToTable("Image");
 
                 entity.Property(p => p.ImageId).HasColumnName("ImageId").UseIdentityColumn();
 
