@@ -19,27 +19,6 @@ namespace Affinity.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Affinity.Models.Image", b =>
-                {
-                    b.Property<int>("ImageId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("ImageId")
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("UserId")
-                        .HasColumnName("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ImageId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("GameImage");
-                });
-
             modelBuilder.Entity("Affinity.Models.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -72,14 +51,14 @@ namespace Affinity.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "b4b84410-a44a-461a-84bd-f3b79120cb0f",
+                            ConcurrencyStamp = "9b9b3508-3b81-4e2e-b531-aa362f6d99a6",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "fcac2923-0d65-49fa-8234-d985f4581ab6",
+                            ConcurrencyStamp = "88ed2477-a4a9-4c7b-8ff5-7c6c843c83f3",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         });
@@ -185,9 +164,9 @@ namespace Affinity.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            AccountNum = "2a7404f0-0f91-4688-8666-b872d4e37f70",
+                            AccountNum = "2626137a-bcf2-46e8-9448-d966a2f5af73",
                             BirthDate = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "c9256f90-b120-43be-ba65-f194602a5f50",
+                            ConcurrencyStamp = "2822a463-0df6-4d1f-be75-41107402e0c0",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             Gender = "Other",
@@ -195,7 +174,7 @@ namespace Affinity.Migrations
                             Name = "Admin",
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAECJuWLuxdKgiqK8Xu+VeeUF5W7Gdbzsp1wasXMcEhSCuNv4H/isNlSMlJHhttpqJTQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELElV4xcXkyDWvYtmwYWoSBGeFAh5+Ja40hEH2DbeShawAUB1wFWDky0+DL0+bfZVA==",
                             PhoneNumber = "555-555-5555",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -206,9 +185,9 @@ namespace Affinity.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            AccountNum = "0cd8c9cf-457c-4968-a488-41edd453714c",
+                            AccountNum = "e407c2ec-8ab4-4490-b83c-e8eb0db8c45a",
                             BirthDate = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "eaa17277-f736-4868-bbb7-e0ee86fa1153",
+                            ConcurrencyStamp = "934263f4-2c6d-47e5-aff9-95c41491724d",
                             Email = "user@user.com",
                             EmailConfirmed = true,
                             Gender = "Other",
@@ -216,7 +195,7 @@ namespace Affinity.Migrations
                             Name = "User",
                             NormalizedEmail = "USER@USER.COM",
                             NormalizedUserName = "USER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJdG18QkVI4J1Rj8IBt1DX2hRxYX8KVJZZG+qOiQi2dj5JBcq8dJhHMPLEQGUcrn0Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENy08X9o2HGZcHXwD5uzlsI3xftFU+J++NeDiFU1SzJZ+reQ1SAl5nK5e66krTYcEw==",
                             PhoneNumber = "555-555-5555",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -326,15 +305,6 @@ namespace Affinity.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("UserTokens");
-                });
-
-            modelBuilder.Entity("Affinity.Models.Image", b =>
-                {
-                    b.HasOne("Affinity.Models.User", "User")
-                        .WithMany("Images")
-                        .HasForeignKey("UserId")
-                        .HasConstraintName("FK_Image")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
