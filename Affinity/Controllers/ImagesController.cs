@@ -10,11 +10,11 @@ using Affinity.Models;
 
 namespace Affinity.Controllers
 {
-    public class ImageController : Controller
+    public class ImagesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ImageController(ApplicationDbContext context)
+        public ImagesController(ApplicationDbContext context)
         {
             _context = context;
         }
