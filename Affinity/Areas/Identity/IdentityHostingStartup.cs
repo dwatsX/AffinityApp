@@ -14,8 +14,14 @@ namespace Affinity.Areas.Identity
     {
         public void Configure(IWebHostBuilder builder)
         {
-            builder.ConfigureServices((context, services) => {
-            });
+            //builder.ConfigureServices((context, services) => {
+            //    services.AddDbContext<AffinityContext>(options =>
+            //        options.UseSqlServer(
+            //            context.Configuration.GetConnectionString("AffinityContextConnection")));
+
+            //    services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //        .AddEntityFrameworkStores<AffinityContext>();
+            //});
         }
     }
 }
