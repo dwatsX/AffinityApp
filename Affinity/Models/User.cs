@@ -28,5 +28,8 @@ namespace Affinity.Models
 
         [Display(Name = "Gender")]
         public string Gender { get; set; }
+
+        public virtual ICollection<Image> Images { get; set; }
+
     }
 }
