@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -28,5 +29,8 @@ namespace Affinity.Models
 
         [Display(Name = "Gender")]
         public string Gender { get; set; }
+
+        public virtual DbSet<Image> Images { get; set; }
+
     }
 }
