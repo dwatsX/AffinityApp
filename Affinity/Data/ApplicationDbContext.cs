@@ -10,7 +10,6 @@ namespace Affinity.Data
 {
     public class ApplicationDbContext : IdentityDbContext<User, Role, int>
     {
-        public virtual DbSet<Image> Images { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -147,25 +146,7 @@ namespace Affinity.Data
             {
                 entity.ToTable(name: "UserTokens");
                 entity.HasKey(key => new { key.UserId, key.LoginProvider, key.Name });
-            });
-
-            modelBuilder.Entity<Image>(entity =>
-            {
-                entity.HasKey(e => e.ImageId);
-
-                entity.ToTable("GameImage");
-
-                entity.Property(p => p.ImageId).HasColumnName("ImageId").UseIdentityColumn();
-
-                entity.Property(e => e.UserId).HasColumnName("UserId")
-                    .IsRequired();
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Images)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Image");
-            });
+            });         
 
             Seed(modelBuilder);
         }
