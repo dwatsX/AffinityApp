@@ -29,8 +29,6 @@ namespace Affinity.Models
 
         [Display(Name = "Gender")]
         public string Gender { get; set; }
-
-        public virtual DbSet<Image> Images { get; set; }
-
+        public Profile Profile { get; set; }
     }
 }
