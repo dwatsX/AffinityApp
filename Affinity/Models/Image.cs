@@ -8,7 +8,8 @@ namespace Affinity.Models
     public class Image
     {
         public int ImageId { get; set; }
-        public int UserId { get; set; }
-        public virtual User User { get; set; }
+        public int ProfileID { get; set; }
+        public Profile Profile { get; set; }
+        public string ImageURL { get; set; }
     }
 }

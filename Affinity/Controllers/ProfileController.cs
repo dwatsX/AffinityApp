@@ -10,23 +10,22 @@ using Affinity.Models;
 
 namespace Affinity.Controllers
 {
-    public class ImageController : Controller
+    public class ProfileController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ImageController(ApplicationDbContext context)
+        public ProfileController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Image
+        // GET: Profile
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Images.Include(i => i.Profile);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await _context.Profile.ToListAsync());
         }
 
-        // GET: Image/Details/5
+        // GET: Profile/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,42 +33,39 @@ namespace Affinity.Controllers
                 return NotFound();
             }
 
-            var image = await _context.Images
-                .Include(i => i.Profile)
-                .FirstOrDefaultAsync(m => m.ImageId == id);
-            if (image == null)
+            var profile = await _context.Profile
+                .FirstOrDefaultAsync(m => m.ProfileId == id);
+            if (profile == null)
             {
                 return NotFound();
             }
 
-            return View(image);
+            return View(profile);
         }
 
-        // GET: Image/Create
+        // GET: Profile/Create
         public IActionResult Create()
         {
-            ViewData["ProfileID"] = new SelectList(_context.Profile, "ProfileId", "Description");
             return View();
         }
 
-        // POST: Image/Create
+        // POST: Profile/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ImageId,ProfileID,ImageURL")] Image image)
+        public async Task<IActionResult> Create([Bind("ProfileId,UserId,Description")] Profile profile)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(image);
+                _context.Add(profile);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProfileID"] = new SelectList(_context.Profile, "ProfileId", "Description", image.ProfileID);
-            return View(image);
+            return View(profile);
         }
 
-        // GET: Image/Edit/5
+        // GET: Profile/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,23 +73,22 @@ namespace Affinity.Controllers
                 return NotFound();
             }
 
-            var image = await _context.Images.FindAsync(id);
-            if (image == null)
+            var profile = await _context.Profile.FindAsync(id);
+            if (profile == null)
             {
                 return NotFound();
             }
-            ViewData["ProfileID"] = new SelectList(_context.Profile, "ProfileId", "Description", image.ProfileID);
-            return View(image);
+            return View(profile);
         }
 
-        // POST: Image/Edit/5
+        // POST: Profile/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ImageId,ProfileID,ImageURL")] Image image)
+        public async Task<IActionResult> Edit(int id, [Bind("ProfileId,UserId,Description")] Profile profile)
         {
-            if (id != image.ImageId)
+            if (id != profile.ProfileId)
             {
                 return NotFound();
             }
@@ -102,12 +97,12 @@ namespace Affinity.Controllers
             {
                 try
                 {
-                    _context.Update(image);
+                    _context.Update(profile);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ImageExists(image.ImageId))
+                    if (!ProfileExists(profile.ProfileId))
                     {
                         return NotFound();
                     }
@@ -118,11 +113,10 @@ namespace Affinity.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProfileID"] = new SelectList(_context.Profile, "ProfileId", "Description", image.ProfileID);
-            return View(image);
+            return View(profile);
         }
 
-        // GET: Image/Delete/5
+        // GET: Profile/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -130,31 +124,30 @@ namespace Affinity.Controllers
                 return NotFound();
             }
 
-            var image = await _context.Images
-                .Include(i => i.Profile)
-                .FirstOrDefaultAsync(m => m.ImageId == id);
-            if (image == null)
+            var profile = await _context.Profile
+                .FirstOrDefaultAsync(m => m.ProfileId == id);
+            if (profile == null)
             {
                 return NotFound();
             }
 
-            return View(image);
+            return View(profile);
         }
 
-        // POST: Image/Delete/5
+        // POST: Profile/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var image = await _context.Images.FindAsync(id);
-            _context.Images.Remove(image);
+            var profile = await _context.Profile.FindAsync(id);
+            _context.Profile.Remove(profile);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ImageExists(int id)
+        private bool ProfileExists(int id)
         {
-            return _context.Images.Any(e => e.ImageId == id);
+            return _context.Profile.Any(e => e.ProfileId == id);
         }
     }
 }

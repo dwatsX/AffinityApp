@@ -11,6 +11,8 @@ namespace Affinity.Data
     public class ApplicationDbContext : IdentityDbContext<User, Role, int>
     {
         public virtual DbSet<Image> Images { get; set; }
+        public virtual DbSet<Profile> Profile { get; set; }
+
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -111,7 +113,7 @@ namespace Affinity.Data
                 entity.Property(e => e.Gender)
                     .IsRequired()
                     .HasColumnName("Gender");
-
+            
             });
 
             modelBuilder.Entity<Role>(entity =>
@@ -155,16 +157,37 @@ namespace Affinity.Data
 
                 entity.ToTable("Image");
 
-                entity.Property(p => p.ImageId).HasColumnName("ImageId").UseIdentityColumn();
+                entity.Property(p => p.ImageId).HasColumnName("ImageId").UseIdentityColumn();            
 
-                entity.Property(e => e.UserId).HasColumnName("UserId")
-                    .IsRequired();
-
-                entity.HasOne(d => d.User)
+                entity.HasOne(d => d.Profile)
                     .WithMany(p => p.Images)
-                    .HasForeignKey(d => d.UserId)
+                    .HasForeignKey(d => d.ProfileID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Image");
+            });
+
+            modelBuilder.Entity<Profile>(entity =>
+            {
+                entity.HasKey(e => e.ProfileId);
+
+                entity.ToTable("Profile");
+
+                entity.Property(p => p.ProfileId).HasColumnName("ProfileId").UseIdentityColumn();
+
+                entity.Property(e => e.Description).HasColumnName("Description")
+                    .IsRequired()
+                    .HasColumnName("Description")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(p => p.UserId).HasColumnName("UserId");
+
+                modelBuilder.Entity<Profile>()
+                   .HasOne<User>()
+                   .WithMany()
+                   .HasForeignKey(p => p.UserId)
+                   .HasConstraintName("FK_Profile_User");
+
             });
 
             Seed(modelBuilder);
