@@ -7,16 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Affinity.Data;
 using Affinity.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Affinity.Controllers
 {
     public class ProfileController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public ProfileController(ApplicationDbContext context)
+
+        public ProfileController(ApplicationDbContext context, UserManager<User> user)
         {
             _context = context;
+            _userManager = user;
         }
 
         // GET: Profile
@@ -54,8 +58,30 @@ namespace Affinity.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProfileId,UserId,Description")] Profile profile)
+        public async Task<IActionResult> Create(int? id, [Bind("ProfileId,UserId,Description")] Profile profile)
         {
+            User user = await _userManager.GetUserAsync(User);
+
+            if (id == null && user == null)
+            {
+                return NotFound();
+            }
+
+            if (profile.UserId == null || profile.UserId == 0)
+            {
+                profile.UserId = user.Id;
+            }
+            else
+            {
+                var profileExists = _context.Profile
+                    .FirstOrDefault(p => p.UserId == user.Id);
+                if (profileExists != null)
+                {
+                    TempData["AlreadyExists"] = $"You've already created a profile. Click edit to change your profile";
+                    return RedirectToAction("Index");
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(profile);
