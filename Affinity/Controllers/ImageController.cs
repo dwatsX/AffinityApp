@@ -20,9 +20,16 @@ namespace Affinity.Controllers
         }
 
         // GET: Image
-        public async Task<IActionResult> Index()
+        [HttpGet("[controller]/{profileId}")]
+        public async Task<IActionResult> Index(int? profileId)
         {
-            var applicationDbContext = _context.Images.Include(i => i.Profile);
+            if (profileId == null)
+            {
+                return NotFound();
+            }
+
+            var applicationDbContext = _context.Images.Include(p => p.Profile)
+                .Where(p => p.ProfileId == profileId);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -65,7 +72,7 @@ namespace Affinity.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProfileID"] = new SelectList(_context.Profile, "ProfileId", "Description", image.ProfileID);
+            ViewData["ProfileID"] = new SelectList(_context.Profile, "ProfileId", "Description", image.ProfileId);
             return View(image);
         }
 
@@ -82,7 +89,7 @@ namespace Affinity.Controllers
             {
                 return NotFound();
             }
-            ViewData["ProfileID"] = new SelectList(_context.Profile, "ProfileId", "Description", image.ProfileID);
+            ViewData["ProfileID"] = new SelectList(_context.Profile, "ProfileId", "Description", image.ProfileId);
             return View(image);
         }
 
@@ -118,7 +125,7 @@ namespace Affinity.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProfileID"] = new SelectList(_context.Profile, "ProfileId", "Description", image.ProfileID);
+            ViewData["ProfileID"] = new SelectList(_context.Profile, "ProfileId", "Description", image.ProfileId);
             return View(image);
         }
 

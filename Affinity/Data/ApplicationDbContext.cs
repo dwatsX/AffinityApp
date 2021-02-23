@@ -165,7 +165,7 @@ namespace Affinity.Data
                 entity.Property(e => e.Gender)
                     .IsRequired()
                     .HasColumnName("Gender");
-            
+
             });
 
             modelBuilder.Entity<Role>(entity =>
@@ -209,13 +209,9 @@ namespace Affinity.Data
 
                 entity.ToTable("Image");
 
-                entity.Property(p => p.ImageId).HasColumnName("ImageId").UseIdentityColumn();            
+                entity.Property(p => p.ProfileId).HasColumnName("ProfileId");
 
-                entity.HasOne(d => d.Profile)
-                    .WithMany(p => p.Images)
-                    .HasForeignKey(d => d.ProfileID)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Image");
+                entity.Property(p => p.ImageURL).HasColumnName("ImageURL");
 
             });
 
@@ -225,21 +221,17 @@ namespace Affinity.Data
 
                 entity.ToTable("Profile");
 
-                entity.Property(p => p.ProfileId).HasColumnName("ProfileId").UseIdentityColumn();
-
                 entity.Property(e => e.Description).HasColumnName("Description")
                     .IsRequired()
                     .HasColumnName("Description")
                     .HasMaxLength(150)
                     .IsUnicode(false);
 
-                entity.Property(p => p.UserId).HasColumnName("UserId");
-
                 modelBuilder.Entity<Profile>()
-                   .HasOne<User>()
-                   .WithMany()
-                   .HasForeignKey(p => p.UserId)
-                   .HasConstraintName("FK_Profile_User");
+                    .HasOne(u => u.User)
+                    .WithOne(p => p.Profile)
+                    .HasForeignKey<Profile>(p => p.UserId)
+                    .HasConstraintName("FK_Profile_User");
 
             });
 
