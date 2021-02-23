@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Affinity.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210221183011_CreateProfileApplicationSchema")]
-    partial class CreateProfileApplicationSchema
+    [Migration("20210222235159_CreateApplicationSchema")]
+    partial class CreateApplicationSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.11")
+                .HasAnnotation("ProductVersion", "3.1.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -25,21 +25,20 @@ namespace Affinity.Migrations
                 {
                     b.Property<int>("ImageId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("ImageId")
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ImageURL")
+                        .HasColumnName("ImageURL")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProfileID")
+                    b.Property<int>("ProfileId")
+                        .HasColumnName("ProfileId")
                         .HasColumnType("int");
 
                     b.HasKey("ImageId");
 
-                    b.HasIndex("ProfileID");
+                    b.HasIndex("ProfileId");
 
                     b.ToTable("Image");
                 });
@@ -48,10 +47,7 @@ namespace Affinity.Migrations
                 {
                     b.Property<int>("ProfileId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("ProfileId")
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
@@ -62,19 +58,12 @@ namespace Affinity.Migrations
                         .IsUnicode(false);
 
                     b.Property<int>("UserId")
-                        .HasColumnName("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UserId1")
                         .HasColumnType("int");
 
                     b.HasKey("ProfileId");
 
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("UserId1")
-                        .IsUnique()
-                        .HasFilter("[UserId1] IS NOT NULL");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Profile");
                 });
@@ -111,14 +100,14 @@ namespace Affinity.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "2604bbd7-b0a4-48ce-91e7-edf28835dc29",
+                            ConcurrencyStamp = "93be957a-2560-41a8-a86e-c529f90052f0",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "7dbb1928-ac92-4181-9e2a-b69230d764fb",
+                            ConcurrencyStamp = "2cdce6dd-2885-4728-8d86-b144a861fd88",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         });
@@ -224,9 +213,9 @@ namespace Affinity.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            AccountNum = "a6b13e5e-50f6-4742-850d-9279fc49811a",
+                            AccountNum = "c6a6678f-272d-4632-8b79-93a3cf9794a1",
                             BirthDate = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "c3a7cfee-f4c4-48cb-afc2-7035973b8591",
+                            ConcurrencyStamp = "7a3c3c87-119d-4ff0-b4e2-bd950f4658dd",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             Gender = "Other",
@@ -234,7 +223,7 @@ namespace Affinity.Migrations
                             Name = "Admin",
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBKjpnc4nqJ7FtBuiaHFtrVEAHCLX8kKI6UNwynQ/aZbQ4PyQUzNXejhy2HS3AZPlA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEG6hBRh6hqTeQLpQPZ9mOZ74+9oDsc8xMlEIOFNGfGswiGs/tjMfpZhwCCoNIwoPTg==",
                             PhoneNumber = "555-555-5555",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -245,9 +234,9 @@ namespace Affinity.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            AccountNum = "17eccb2c-20c2-4251-91c7-01d7506343ab",
+                            AccountNum = "bc9ae58e-e9ab-40af-b066-7ab67d16e60f",
                             BirthDate = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "d46834fb-940b-4d87-9e9a-b39f9099686b",
+                            ConcurrencyStamp = "3bc1cf66-0b11-4d4f-918c-7fbb11882132",
                             Email = "user@user.com",
                             EmailConfirmed = true,
                             Gender = "Other",
@@ -255,7 +244,7 @@ namespace Affinity.Migrations
                             Name = "User",
                             NormalizedEmail = "USER@USER.COM",
                             NormalizedUserName = "USER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAi1P5aZzFp3oWTghB/VIoJmFXCdDu3WmayRbZE2cRpvaL67Ul18wSaV9sk12WgqwQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEERpJz7CgMfkFH57h071Id3EjCuyF1NFEbvSljpBPikUJxOw5o0IGdYGmwQK3HodYQ==",
                             PhoneNumber = "555-555-5555",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -371,23 +360,19 @@ namespace Affinity.Migrations
                 {
                     b.HasOne("Affinity.Models.Profile", "Profile")
                         .WithMany("Images")
-                        .HasForeignKey("ProfileID")
-                        .HasConstraintName("FK_Image")
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("Affinity.Models.Profile", b =>
                 {
-                    b.HasOne("Affinity.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                    b.HasOne("Affinity.Models.User", "User")
+                        .WithOne("Profile")
+                        .HasForeignKey("Affinity.Models.Profile", "UserId")
                         .HasConstraintName("FK_Profile_User")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Affinity.Models.User", "User")
-                        .WithOne("Profile")
-                        .HasForeignKey("Affinity.Models.Profile", "UserId1");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
