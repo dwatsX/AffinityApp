@@ -3,10 +3,23 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Affinity.Migrations
 {
-    public partial class CreateApplicationSchema : Migration
+    public partial class CreateNewInterestsApplicationSchema : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "InterestCategory",
+                columns: table => new
+                {
+                    InterestCategoryId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    InterestCategoryName = table.Column<string>(unicode: false, maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InterestCategory", x => x.InterestCategoryId);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Role",
                 columns: table => new
@@ -50,6 +63,26 @@ namespace Affinity.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_User", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "InterestSubCategory",
+                columns: table => new
+                {
+                    InterestSubCategoryId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    InterestCategoryId = table.Column<int>(nullable: false),
+                    InterestSubCategoryName = table.Column<string>(unicode: false, maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InterestSubCategory", x => x.InterestSubCategoryId);
+                    table.ForeignKey(
+                        name: "FK_Sub_InterestCategory",
+                        column: x => x.InterestCategoryId,
+                        principalTable: "InterestCategory",
+                        principalColumn: "InterestCategoryId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -196,13 +229,51 @@ namespace Affinity.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Interests",
+                columns: table => new
+                {
+                    InterestId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    InterestSubCategoryId = table.Column<int>(nullable: false),
+                    ProfileId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Interests", x => x.InterestId);
+                    table.ForeignKey(
+                        name: "FK_Interest_SubCategory",
+                        column: x => x.InterestSubCategoryId,
+                        principalTable: "InterestSubCategory",
+                        principalColumn: "InterestSubCategoryId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Profile_Interests",
+                        column: x => x.ProfileId,
+                        principalTable: "Profile",
+                        principalColumn: "ProfileId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.InsertData(
+                table: "InterestCategory",
+                columns: new[] { "InterestCategoryId", "InterestCategoryName" },
+                values: new object[,]
+                {
+                    { 1, "Music" },
+                    { 2, "Food" },
+                    { 3, "Gaming" },
+                    { 4, "Sports" },
+                    { 5, "Literature" }
+                });
+
             migrationBuilder.InsertData(
                 table: "Role",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "93be957a-2560-41a8-a86e-c529f90052f0", "Admin", "ADMIN" },
-                    { 2, "2cdce6dd-2885-4728-8d86-b144a861fd88", "Member", "MEMBER" }
+                    { 1, "53d500c5-8bd6-4551-9bc6-853ee5954bd2", "Admin", "ADMIN" },
+                    { 2, "f1ca58cf-b38f-4863-bd42-17c9d4556b95", "Member", "MEMBER" }
                 });
 
             migrationBuilder.InsertData(
@@ -210,24 +281,70 @@ namespace Affinity.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "AccountNum", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "Gender", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, "c6a6678f-272d-4632-8b79-93a3cf9794a1", new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "7a3c3c87-119d-4ff0-b4e2-bd950f4658dd", "admin@admin.com", true, "Other", false, null, "Admin", "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAEG6hBRh6hqTeQLpQPZ9mOZ74+9oDsc8xMlEIOFNGfGswiGs/tjMfpZhwCCoNIwoPTg==", "555-555-5555", false, "", false, "admin" },
-                    { 2, 0, "bc9ae58e-e9ab-40af-b066-7ab67d16e60f", new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "3bc1cf66-0b11-4d4f-918c-7fbb11882132", "user@user.com", true, "Other", false, null, "User", "USER@USER.COM", "USER", "AQAAAAEAACcQAAAAEERpJz7CgMfkFH57h071Id3EjCuyF1NFEbvSljpBPikUJxOw5o0IGdYGmwQK3HodYQ==", "555-555-5555", false, "", false, "user" }
+                    { 1, 0, "dd241818-5fe8-4800-bd7c-2ea674ed3e1b", new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "f25063ca-faee-42fc-8b6a-27de8ff72e52", "admin@admin.com", true, "Other", false, null, "Admin", "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAEEr3GdKFAouQWqx1oag8A0+X2dEuawtPbB1IAFymsUZTuBjow8X1MckYBvSW476Row==", "555-555-5555", false, "", false, "admin" },
+                    { 2, 0, "d17005f5-ce60-4090-a10d-59d257afcf6e", new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "444fb478-614d-4b8c-86eb-898ceb2b2f21", "user@user.com", true, "Other", false, null, "User", "USER@USER.COM", "USER", "AQAAAAEAACcQAAAAEHK3XpFeN8aZesKEPvEh5nsXM7bSR9GuuTVO2guL9KPqRG4992DiYMOdAuAk4bW2jQ==", "555-555-5555", false, "", false, "user" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "InterestSubCategory",
+                columns: new[] { "InterestSubCategoryId", "InterestCategoryId", "InterestSubCategoryName" },
+                values: new object[,]
+                {
+                    { 1, 1, "Rock" },
+                    { 25, 5, "Historical" },
+                    { 24, 5, "Fiction" },
+                    { 23, 5, "Non-Fiction" },
+                    { 22, 5, "Fantasy" },
+                    { 21, 5, "Sci Fi" },
+                    { 20, 4, "VolleyBall" },
+                    { 19, 4, "Football" },
+                    { 18, 4, "Soccer" },
+                    { 17, 4, "Hockey" },
+                    { 16, 4, "Basketball" },
+                    { 15, 3, "Sandbox" },
+                    { 14, 3, "Simulation" },
+                    { 12, 3, "Action" },
+                    { 11, 3, "RPG" },
+                    { 10, 2, "Africa" },
+                    { 9, 2, "South American" },
+                    { 8, 2, "North American" },
+                    { 7, 2, "European" },
+                    { 6, 2, "Asian" },
+                    { 5, 1, "Jazz" },
+                    { 4, 1, "Country" },
+                    { 3, 1, "Classical" },
+                    { 2, 1, "Rap" },
+                    { 13, 3, "Strategy" }
                 });
 
             migrationBuilder.InsertData(
                 table: "UserRoles",
                 columns: new[] { "UserId", "RoleId" },
-                values: new object[] { 1, 1 });
-
-            migrationBuilder.InsertData(
-                table: "UserRoles",
-                columns: new[] { "UserId", "RoleId" },
-                values: new object[] { 2, 2 });
+                values: new object[,]
+                {
+                    { 1, 1 },
+                    { 2, 2 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Image_ProfileId",
                 table: "Image",
                 column: "ProfileId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Interests_InterestSubCategoryId",
+                table: "Interests",
+                column: "InterestSubCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Interests_ProfileId",
+                table: "Interests",
+                column: "ProfileId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InterestSubCategory_InterestCategoryId",
+                table: "InterestSubCategory",
+                column: "InterestCategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Profile_UserId",
@@ -266,6 +383,9 @@ namespace Affinity.Migrations
                 name: "Image");
 
             migrationBuilder.DropTable(
+                name: "Interests");
+
+            migrationBuilder.DropTable(
                 name: "RoleClaims");
 
             migrationBuilder.DropTable(
@@ -281,10 +401,16 @@ namespace Affinity.Migrations
                 name: "UserTokens");
 
             migrationBuilder.DropTable(
+                name: "InterestSubCategory");
+
+            migrationBuilder.DropTable(
                 name: "Profile");
 
             migrationBuilder.DropTable(
                 name: "Role");
+
+            migrationBuilder.DropTable(
+                name: "InterestCategory");
 
             migrationBuilder.DropTable(
                 name: "User");

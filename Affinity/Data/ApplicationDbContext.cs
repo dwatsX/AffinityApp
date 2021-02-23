@@ -12,6 +12,9 @@ namespace Affinity.Data
     {
         public virtual DbSet<Image> Images { get; set; }
         public virtual DbSet<Profile> Profile { get; set; }
+        public virtual DbSet<Interests> Interests { get; set; }
+        public virtual DbSet<InterestCategory> InterestCategory { get; set; }
+        public virtual DbSet<InterestSubCategory> InterestSubCategory { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -73,7 +76,56 @@ namespace Affinity.Data
             modelBuilder.Entity<IdentityUserRole<int>>().HasData(
                 new IdentityUserRole<int> { RoleId = 1, UserId = 1 },
                 new IdentityUserRole<int> { RoleId = 2, UserId = 2 }
-            );
+                );
+
+            modelBuilder.Entity<InterestCategory>().HasData(
+
+                new InterestCategory { InterestCategoryId = 1, InterestCategoryName = "Music" },
+
+                new InterestCategory { InterestCategoryId = 2, InterestCategoryName = "Food" },
+
+                new InterestCategory { InterestCategoryId = 3, InterestCategoryName = "Gaming"},
+
+                new InterestCategory { InterestCategoryId = 4, InterestCategoryName = "Sports" },
+
+                new InterestCategory { InterestCategoryId = 5, InterestCategoryName = "Literature" }
+
+                );
+
+            modelBuilder.Entity<InterestSubCategory>().HasData(
+
+                new InterestSubCategory { InterestSubCategoryId = 1, InterestCategoryId = 1, InterestSubCategoryName ="Rock"},
+                new InterestSubCategory { InterestSubCategoryId = 2, InterestCategoryId = 1, InterestSubCategoryName = "Rap" },
+                new InterestSubCategory { InterestSubCategoryId = 3, InterestCategoryId = 1, InterestSubCategoryName = "Classical" },
+                new InterestSubCategory { InterestSubCategoryId = 4, InterestCategoryId = 1, InterestSubCategoryName = "Country" },
+                new InterestSubCategory { InterestSubCategoryId = 5, InterestCategoryId = 1, InterestSubCategoryName = "Jazz" },
+
+                new InterestSubCategory { InterestSubCategoryId = 6, InterestCategoryId = 2, InterestSubCategoryName = "Asian" },
+                new InterestSubCategory { InterestSubCategoryId = 7, InterestCategoryId = 2, InterestSubCategoryName = "European" },
+                new InterestSubCategory { InterestSubCategoryId = 8, InterestCategoryId = 2, InterestSubCategoryName = "North American" },
+                new InterestSubCategory { InterestSubCategoryId = 9, InterestCategoryId = 2, InterestSubCategoryName = "South American" },
+                new InterestSubCategory { InterestSubCategoryId = 10, InterestCategoryId = 2, InterestSubCategoryName = "Africa" },
+
+                new InterestSubCategory { InterestSubCategoryId = 11, InterestCategoryId = 3, InterestSubCategoryName = "RPG" },
+                new InterestSubCategory { InterestSubCategoryId = 12, InterestCategoryId = 3, InterestSubCategoryName = "Action" },
+                new InterestSubCategory { InterestSubCategoryId = 13, InterestCategoryId = 3, InterestSubCategoryName = "Strategy" },
+                new InterestSubCategory { InterestSubCategoryId = 14, InterestCategoryId = 3, InterestSubCategoryName = "Simulation" },
+                new InterestSubCategory { InterestSubCategoryId = 15, InterestCategoryId = 3, InterestSubCategoryName = "Sandbox" },
+
+                new InterestSubCategory { InterestSubCategoryId = 16, InterestCategoryId = 4, InterestSubCategoryName = "Basketball" },
+                new InterestSubCategory { InterestSubCategoryId = 17, InterestCategoryId = 4, InterestSubCategoryName = "Hockey" },
+                new InterestSubCategory { InterestSubCategoryId = 18, InterestCategoryId = 4, InterestSubCategoryName = "Soccer" },
+                new InterestSubCategory { InterestSubCategoryId = 19, InterestCategoryId = 4, InterestSubCategoryName = "Football" },
+                new InterestSubCategory { InterestSubCategoryId = 20, InterestCategoryId = 4, InterestSubCategoryName = "VolleyBall" },
+
+                new InterestSubCategory { InterestSubCategoryId = 21, InterestCategoryId = 5, InterestSubCategoryName = "Sci Fi" },
+                new InterestSubCategory { InterestSubCategoryId = 22, InterestCategoryId = 5, InterestSubCategoryName = "Fantasy" },
+                new InterestSubCategory { InterestSubCategoryId = 23, InterestCategoryId = 5, InterestSubCategoryName = "Non-Fiction" },
+                new InterestSubCategory { InterestSubCategoryId = 24, InterestCategoryId = 5, InterestSubCategoryName = "Fiction" },
+                new InterestSubCategory { InterestSubCategoryId = 25, InterestCategoryId = 5, InterestSubCategoryName = "Historical" }
+
+                );
+            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -183,10 +235,67 @@ namespace Affinity.Data
 
             });
 
-            modelBuilder.Entity<Image>()
-                .HasOne(i => i.Profile)
-                .WithMany(p => p.Images)
-                .HasForeignKey(p => p.ProfileId);
+            modelBuilder.Entity<InterestCategory>(entity =>
+            {
+                entity.HasKey(e => e.InterestCategoryId);
+
+                entity.ToTable("InterestCategory");
+
+                entity.Property(e => e.InterestCategoryId).HasColumnName("InterestCategoryId").UseIdentityColumn();
+
+                entity.Property(e => e.InterestCategoryName).HasColumnName("InterestCategoryName")
+                    .IsRequired()
+                    .HasColumnName("InterestCategoryName")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<InterestSubCategory>(entity =>
+            {
+                entity.HasKey(e => e.InterestSubCategoryId);
+
+                entity.ToTable("InterestSubCategory");
+
+                entity.Property(e => e.InterestSubCategoryId).HasColumnName("InterestSubCategoryId").UseIdentityColumn();
+
+                entity.Property(e => e.InterestCategoryId).HasColumnName("InterestCategoryId");
+
+                entity.HasOne(e => e.InterestCategory)
+                    .WithMany(p => p.InterestSubCategories)
+                    .HasForeignKey(d => d.InterestCategoryId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Sub_InterestCategory");
+
+                entity.Property(e => e.InterestSubCategoryName).HasColumnName("InterestSubCategoryName")
+                    .IsRequired()
+                    .HasColumnName("InterestSubCategoryName")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Interests>(entity =>
+            {
+                entity.HasKey(e => e.InterestId);
+
+                entity.ToTable("Interests");
+
+                entity.Property(e => e.InterestId).HasColumnName("InterestId").UseIdentityColumn();
+
+                entity.Property(e => e.InterestSubCategoryId).HasColumnName("InterestSubCategoryId");
+
+                entity.HasOne(e => e.InterestSubCategory)
+                      .WithMany(p => p.Interests)
+                      .HasForeignKey(d => d.InterestSubCategoryId)
+                      .OnDelete(DeleteBehavior.ClientSetNull)
+                      .HasConstraintName("FK_Interest_SubCategory");
+
+                entity.HasOne(d => d.Profile)
+                    .WithMany(p => p.Interests)
+                    .HasForeignKey(d => d.ProfileId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Profile_Interests");
+
+            });
 
             Seed(modelBuilder);
         }

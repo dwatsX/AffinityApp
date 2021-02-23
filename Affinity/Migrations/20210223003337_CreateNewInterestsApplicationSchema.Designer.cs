@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Affinity.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210222235159_CreateApplicationSchema")]
-    partial class CreateApplicationSchema
+    [Migration("20210223003337_CreateNewInterestsApplicationSchema")]
+    partial class CreateNewInterestsApplicationSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -41,6 +41,261 @@ namespace Affinity.Migrations
                     b.HasIndex("ProfileId");
 
                     b.ToTable("Image");
+                });
+
+            modelBuilder.Entity("Affinity.Models.InterestCategory", b =>
+                {
+                    b.Property<int>("InterestCategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("InterestCategoryId")
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("InterestCategoryName")
+                        .IsRequired()
+                        .HasColumnName("InterestCategoryName")
+                        .HasColumnType("varchar(50)")
+                        .HasMaxLength(50)
+                        .IsUnicode(false);
+
+                    b.HasKey("InterestCategoryId");
+
+                    b.ToTable("InterestCategory");
+
+                    b.HasData(
+                        new
+                        {
+                            InterestCategoryId = 1,
+                            InterestCategoryName = "Music"
+                        },
+                        new
+                        {
+                            InterestCategoryId = 2,
+                            InterestCategoryName = "Food"
+                        },
+                        new
+                        {
+                            InterestCategoryId = 3,
+                            InterestCategoryName = "Gaming"
+                        },
+                        new
+                        {
+                            InterestCategoryId = 4,
+                            InterestCategoryName = "Sports"
+                        },
+                        new
+                        {
+                            InterestCategoryId = 5,
+                            InterestCategoryName = "Literature"
+                        });
+                });
+
+            modelBuilder.Entity("Affinity.Models.InterestSubCategory", b =>
+                {
+                    b.Property<int>("InterestSubCategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("InterestSubCategoryId")
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("InterestCategoryId")
+                        .HasColumnName("InterestCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("InterestSubCategoryName")
+                        .IsRequired()
+                        .HasColumnName("InterestSubCategoryName")
+                        .HasColumnType("varchar(50)")
+                        .HasMaxLength(50)
+                        .IsUnicode(false);
+
+                    b.HasKey("InterestSubCategoryId");
+
+                    b.HasIndex("InterestCategoryId");
+
+                    b.ToTable("InterestSubCategory");
+
+                    b.HasData(
+                        new
+                        {
+                            InterestSubCategoryId = 1,
+                            InterestCategoryId = 1,
+                            InterestSubCategoryName = "Rock"
+                        },
+                        new
+                        {
+                            InterestSubCategoryId = 2,
+                            InterestCategoryId = 1,
+                            InterestSubCategoryName = "Rap"
+                        },
+                        new
+                        {
+                            InterestSubCategoryId = 3,
+                            InterestCategoryId = 1,
+                            InterestSubCategoryName = "Classical"
+                        },
+                        new
+                        {
+                            InterestSubCategoryId = 4,
+                            InterestCategoryId = 1,
+                            InterestSubCategoryName = "Country"
+                        },
+                        new
+                        {
+                            InterestSubCategoryId = 5,
+                            InterestCategoryId = 1,
+                            InterestSubCategoryName = "Jazz"
+                        },
+                        new
+                        {
+                            InterestSubCategoryId = 6,
+                            InterestCategoryId = 2,
+                            InterestSubCategoryName = "Asian"
+                        },
+                        new
+                        {
+                            InterestSubCategoryId = 7,
+                            InterestCategoryId = 2,
+                            InterestSubCategoryName = "European"
+                        },
+                        new
+                        {
+                            InterestSubCategoryId = 8,
+                            InterestCategoryId = 2,
+                            InterestSubCategoryName = "North American"
+                        },
+                        new
+                        {
+                            InterestSubCategoryId = 9,
+                            InterestCategoryId = 2,
+                            InterestSubCategoryName = "South American"
+                        },
+                        new
+                        {
+                            InterestSubCategoryId = 10,
+                            InterestCategoryId = 2,
+                            InterestSubCategoryName = "Africa"
+                        },
+                        new
+                        {
+                            InterestSubCategoryId = 11,
+                            InterestCategoryId = 3,
+                            InterestSubCategoryName = "RPG"
+                        },
+                        new
+                        {
+                            InterestSubCategoryId = 12,
+                            InterestCategoryId = 3,
+                            InterestSubCategoryName = "Action"
+                        },
+                        new
+                        {
+                            InterestSubCategoryId = 13,
+                            InterestCategoryId = 3,
+                            InterestSubCategoryName = "Strategy"
+                        },
+                        new
+                        {
+                            InterestSubCategoryId = 14,
+                            InterestCategoryId = 3,
+                            InterestSubCategoryName = "Simulation"
+                        },
+                        new
+                        {
+                            InterestSubCategoryId = 15,
+                            InterestCategoryId = 3,
+                            InterestSubCategoryName = "Sandbox"
+                        },
+                        new
+                        {
+                            InterestSubCategoryId = 16,
+                            InterestCategoryId = 4,
+                            InterestSubCategoryName = "Basketball"
+                        },
+                        new
+                        {
+                            InterestSubCategoryId = 17,
+                            InterestCategoryId = 4,
+                            InterestSubCategoryName = "Hockey"
+                        },
+                        new
+                        {
+                            InterestSubCategoryId = 18,
+                            InterestCategoryId = 4,
+                            InterestSubCategoryName = "Soccer"
+                        },
+                        new
+                        {
+                            InterestSubCategoryId = 19,
+                            InterestCategoryId = 4,
+                            InterestSubCategoryName = "Football"
+                        },
+                        new
+                        {
+                            InterestSubCategoryId = 20,
+                            InterestCategoryId = 4,
+                            InterestSubCategoryName = "VolleyBall"
+                        },
+                        new
+                        {
+                            InterestSubCategoryId = 21,
+                            InterestCategoryId = 5,
+                            InterestSubCategoryName = "Sci Fi"
+                        },
+                        new
+                        {
+                            InterestSubCategoryId = 22,
+                            InterestCategoryId = 5,
+                            InterestSubCategoryName = "Fantasy"
+                        },
+                        new
+                        {
+                            InterestSubCategoryId = 23,
+                            InterestCategoryId = 5,
+                            InterestSubCategoryName = "Non-Fiction"
+                        },
+                        new
+                        {
+                            InterestSubCategoryId = 24,
+                            InterestCategoryId = 5,
+                            InterestSubCategoryName = "Fiction"
+                        },
+                        new
+                        {
+                            InterestSubCategoryId = 25,
+                            InterestCategoryId = 5,
+                            InterestSubCategoryName = "Historical"
+                        });
+                });
+
+            modelBuilder.Entity("Affinity.Models.Interests", b =>
+                {
+                    b.Property<int>("InterestId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("InterestId")
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("InterestSubCategoryId")
+                        .HasColumnName("InterestSubCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProfileId")
+                        .HasColumnType("int");
+
+                    b.HasKey("InterestId");
+
+                    b.HasIndex("InterestSubCategoryId");
+
+                    b.HasIndex("ProfileId");
+
+                    b.ToTable("Interests");
                 });
 
             modelBuilder.Entity("Affinity.Models.Profile", b =>
@@ -100,14 +355,14 @@ namespace Affinity.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "93be957a-2560-41a8-a86e-c529f90052f0",
+                            ConcurrencyStamp = "53d500c5-8bd6-4551-9bc6-853ee5954bd2",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "2cdce6dd-2885-4728-8d86-b144a861fd88",
+                            ConcurrencyStamp = "f1ca58cf-b38f-4863-bd42-17c9d4556b95",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         });
@@ -213,9 +468,9 @@ namespace Affinity.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            AccountNum = "c6a6678f-272d-4632-8b79-93a3cf9794a1",
+                            AccountNum = "dd241818-5fe8-4800-bd7c-2ea674ed3e1b",
                             BirthDate = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "7a3c3c87-119d-4ff0-b4e2-bd950f4658dd",
+                            ConcurrencyStamp = "f25063ca-faee-42fc-8b6a-27de8ff72e52",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             Gender = "Other",
@@ -223,7 +478,7 @@ namespace Affinity.Migrations
                             Name = "Admin",
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEG6hBRh6hqTeQLpQPZ9mOZ74+9oDsc8xMlEIOFNGfGswiGs/tjMfpZhwCCoNIwoPTg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEr3GdKFAouQWqx1oag8A0+X2dEuawtPbB1IAFymsUZTuBjow8X1MckYBvSW476Row==",
                             PhoneNumber = "555-555-5555",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -234,9 +489,9 @@ namespace Affinity.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            AccountNum = "bc9ae58e-e9ab-40af-b066-7ab67d16e60f",
+                            AccountNum = "d17005f5-ce60-4090-a10d-59d257afcf6e",
                             BirthDate = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "3bc1cf66-0b11-4d4f-918c-7fbb11882132",
+                            ConcurrencyStamp = "444fb478-614d-4b8c-86eb-898ceb2b2f21",
                             Email = "user@user.com",
                             EmailConfirmed = true,
                             Gender = "Other",
@@ -244,7 +499,7 @@ namespace Affinity.Migrations
                             Name = "User",
                             NormalizedEmail = "USER@USER.COM",
                             NormalizedUserName = "USER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEERpJz7CgMfkFH57h071Id3EjCuyF1NFEbvSljpBPikUJxOw5o0IGdYGmwQK3HodYQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHK3XpFeN8aZesKEPvEh5nsXM7bSR9GuuTVO2guL9KPqRG4992DiYMOdAuAk4bW2jQ==",
                             PhoneNumber = "555-555-5555",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -362,6 +617,30 @@ namespace Affinity.Migrations
                         .WithMany("Images")
                         .HasForeignKey("ProfileId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Affinity.Models.InterestSubCategory", b =>
+                {
+                    b.HasOne("Affinity.Models.InterestCategory", "InterestCategory")
+                        .WithMany("InterestSubCategories")
+                        .HasForeignKey("InterestCategoryId")
+                        .HasConstraintName("FK_Sub_InterestCategory")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Affinity.Models.Interests", b =>
+                {
+                    b.HasOne("Affinity.Models.InterestSubCategory", "InterestSubCategory")
+                        .WithMany("Interests")
+                        .HasForeignKey("InterestSubCategoryId")
+                        .HasConstraintName("FK_Interest_SubCategory")
+                        .IsRequired();
+
+                    b.HasOne("Affinity.Models.Profile", "Profile")
+                        .WithMany("Interests")
+                        .HasForeignKey("ProfileId")
+                        .HasConstraintName("FK_Profile_Interests")
                         .IsRequired();
                 });
 
