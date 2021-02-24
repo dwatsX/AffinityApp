@@ -67,14 +67,16 @@ namespace Affinity.Controllers
                 return NotFound();
             }
 
-            if (profile.UserId == null || profile.UserId == 0)
+            var profileExists = _context.Profile
+             .FirstOrDefault(p => p.UserId == user.Id);
+
+            if (profileExists == null && profile.UserId == 0)
             {
                 profile.UserId = user.Id;
             }
             else
             {
-                var profileExists = _context.Profile
-                    .FirstOrDefault(p => p.UserId == user.Id);
+         
                 if (profileExists != null)
                 {
                     TempData["AlreadyExists"] = $"You've already created a profile. Click edit to change your profile";
