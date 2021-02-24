@@ -28,6 +28,6 @@
     <form asp-action="Delete">
         <input type="hidden" asp-for="ImageId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <a asp-controller="Image" asp-action="Index" asp-route-profileId="@Model.ProfileId">Back to List</a>
     </form>
 </div>

@@ -44,6 +44,7 @@ namespace Affinity.Controllers
             var image = await _context.Images
                 .Include(i => i.Profile)
                 .FirstOrDefaultAsync(m => m.ImageId == id);
+
             if (image == null)
             {
                 return NotFound();
@@ -55,7 +56,7 @@ namespace Affinity.Controllers
         // GET: Image/Create
         public IActionResult Create()
         {
-            ViewData["ProfileID"] = new SelectList(_context.Profile, "ProfileId", "Description");
+            ViewData["ProfileId"] = new SelectList(_context.Profile,"ProfileId", "ProfileId");
             return View();
         }
 
@@ -64,13 +65,13 @@ namespace Affinity.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ImageId,ProfileID,ImageURL")] Image image)
+        public async Task<IActionResult> Create([Bind("ImageId,ProfileId,ImageURL")] Image image)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(image);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { profileId = image.ProfileId});
             }
             ViewData["ProfileID"] = new SelectList(_context.Profile, "ProfileId", "Description", image.ProfileId);
             return View(image);
@@ -98,7 +99,7 @@ namespace Affinity.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ImageId,ProfileID,ImageURL")] Image image)
+        public async Task<IActionResult> Edit(int id, [Bind("ImageId,ProfileId,ImageURL")] Image image)
         {
             if (id != image.ImageId)
             {
@@ -123,7 +124,7 @@ namespace Affinity.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { profileId = image.ProfileId });
             }
             ViewData["ProfileID"] = new SelectList(_context.Profile, "ProfileId", "Description", image.ProfileId);
             return View(image);
@@ -156,7 +157,7 @@ namespace Affinity.Controllers
             var image = await _context.Images.FindAsync(id);
             _context.Images.Remove(image);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { profileId = image.ProfileId });
         }
 
         private bool ImageExists(int id)
