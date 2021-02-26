@@ -221,9 +221,39 @@ namespace Affinity.Data
 
                 entity.ToTable("Profile");
 
-                entity.Property(e => e.Description).HasColumnName("Description")
+                entity.Property(e => e.ProfileName).HasColumnName("ProfileName")
                     .IsRequired()
+                    .HasColumnName("ProfileName")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Description).HasColumnName("Description")
+                    .IsRequired(false)
                     .HasColumnName("Description")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Occupation).HasColumnName("Occupation")
+                    .IsRequired(false)
+                    .HasColumnName("Occupation")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Location).HasColumnName("Location")
+                    .IsRequired(false)
+                    .HasColumnName("Location")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Discord).HasColumnName("Discord")
+                    .IsRequired(false)
+                    .HasColumnName("Discord")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Instagram).HasColumnName("Instagram")
+                    .IsRequired(false)
+                    .HasColumnName("Instagram")
                     .HasMaxLength(150)
                     .IsUnicode(false);
 
@@ -280,6 +310,8 @@ namespace Affinity.Data
                 entity.ToTable("Interests");
 
                 entity.Property(e => e.InterestId).HasColumnName("InterestId").UseIdentityColumn();
+
+                entity.Property(e => e.InterestCategoryId).HasColumnName("InterestCategoryId");
 
                 entity.Property(e => e.InterestSubCategoryId).HasColumnName("InterestSubCategoryId");
 

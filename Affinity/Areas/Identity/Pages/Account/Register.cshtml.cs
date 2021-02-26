@@ -57,6 +57,11 @@ namespace Affinity.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
+            [Phone]
+            [Display(Name = "PhoneNumber")]
+            public string PhoneNumber { get; set; }
+
+            [Required]
             [DataType(DataType.Date)]
             [Display(Name = "Birthdate")]
             public DateTime Birthdate { get; set; }
@@ -89,7 +94,7 @@ namespace Affinity.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = Input.Email, Name = Input.Name, Email = Input.Email, BirthDate = Input.Birthdate, AccountNum = Guid.NewGuid().ToString(), Gender = Input.Gender };
+                var user = new User {Name = Input.Name, UserName = Input.Email, Email = Input.Email, BirthDate = Input.Birthdate, PhoneNumber = Input.PhoneNumber, AccountNum = Guid.NewGuid().ToString(), Gender = Input.Gender };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

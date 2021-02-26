@@ -15,14 +15,39 @@
             <input type="hidden" asp-for="ProfileId" />
             <input type="hidden" asp-for="UserId" />
             @*<div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
-                <span asp-validation-for="UserId" class="text-danger"></span>
-            </div>*@
+            <label asp-for="UserId" class="control-label"></label>
+            <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
+            <span asp-validation-for="UserId" class="text-danger"></span>
+        </div>*@
+            <div class="form-group">
+                <label asp-for="ProfileName" class="control-label"></label>
+                <input asp-for="ProfileName" class="form-control" />
+                <span asp-validation-for="ProfileName" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Location" class="control-label"></label>
+                <input asp-for="Location" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Occupation" class="control-label"></label>
+                <input asp-for="Occupation" class="form-control" />
+                <span asp-validation-for="Occupation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Instagram" class="control-label"></label>
+                <input asp-for="Instagram" class="form-control" />
+                <span asp-validation-for="Instagram" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Discord" class="control-label"></label>
+                <input asp-for="Discord" class="form-control" />
+                <span asp-validation-for="Discord" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <a class="btn btn-primary w-25" role="button" asp-controller="Image" asp-action="Index" asp-route-profileId="@Model.ProfileId">Images</a>

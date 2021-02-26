@@ -17,7 +17,22 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.ProfileName)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Occupation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Instagram)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Discord)
             </th>
             <th></th>
         </tr>
@@ -25,16 +40,31 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.ProfileId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ProfileId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ProfileId">Delete</a>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProfileName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Occupation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Instagram)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Discord)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ProfileId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ProfileId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ProfileId">Delete</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

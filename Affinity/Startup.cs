@@ -45,6 +45,7 @@ namespace Affinity
             }).AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders()
                 .AddDefaultUI();
+            
 
             services.AddRouting(options => options.LowercaseUrls = true);
 

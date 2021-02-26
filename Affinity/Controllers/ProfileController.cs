@@ -58,7 +58,7 @@ namespace Affinity.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int? id, [Bind("ProfileId,UserId,Description")] Profile profile)
+        public async Task<IActionResult> Create(int? id, [Bind("ProfileId,UserId,ProfileName,Description,Location,Occupation,Instagram,Discord")] Profile profile)
         {
             User user = await _userManager.GetUserAsync(User);
 
@@ -114,7 +114,7 @@ namespace Affinity.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProfileId,UserId,Description")] Profile profile)
+        public async Task<IActionResult> Edit(int id, [Bind("ProfileId,UserId,ProfileName,Description,Location,Occupation,Instagram,Discord")] Profile profile)
         {
             if (id != profile.ProfileId)
             {
