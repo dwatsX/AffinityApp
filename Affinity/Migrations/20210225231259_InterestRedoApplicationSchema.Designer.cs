@@ -4,14 +4,16 @@ using Affinity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Affinity.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210225231259_InterestRedoApplicationSchema")]
+    partial class InterestRedoApplicationSchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -293,8 +295,6 @@ namespace Affinity.Migrations
 
                     b.HasKey("InterestId");
 
-                    b.HasIndex("InterestCategoryId");
-
                     b.HasIndex("InterestSubCategoryId");
 
                     b.HasIndex("ProfileId");
@@ -310,38 +310,8 @@ namespace Affinity.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
-                        .HasColumnName("Description")
-                        .HasColumnType("varchar(150)")
-                        .HasMaxLength(150)
-                        .IsUnicode(false);
-
-                    b.Property<string>("Discord")
-                        .HasColumnName("Discord")
-                        .HasColumnType("varchar(150)")
-                        .HasMaxLength(150)
-                        .IsUnicode(false);
-
-                    b.Property<string>("Instagram")
-                        .HasColumnName("Instagram")
-                        .HasColumnType("varchar(150)")
-                        .HasMaxLength(150)
-                        .IsUnicode(false);
-
-                    b.Property<string>("Location")
-                        .HasColumnName("Location")
-                        .HasColumnType("varchar(150)")
-                        .HasMaxLength(150)
-                        .IsUnicode(false);
-
-                    b.Property<string>("Occupation")
-                        .HasColumnName("Occupation")
-                        .HasColumnType("varchar(150)")
-                        .HasMaxLength(150)
-                        .IsUnicode(false);
-
-                    b.Property<string>("ProfileName")
                         .IsRequired()
-                        .HasColumnName("ProfileName")
+                        .HasColumnName("Description")
                         .HasColumnType("varchar(150)")
                         .HasMaxLength(150)
                         .IsUnicode(false);
@@ -389,14 +359,14 @@ namespace Affinity.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "1999ed13-4cdd-49e9-8171-379caef01ecd",
+                            ConcurrencyStamp = "f5510a41-59c8-41a5-abbc-3fa70385de65",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "e16cdf8c-8056-4a5f-9cbd-da5d94109c69",
+                            ConcurrencyStamp = "7740baba-5364-4cde-9936-7751ce06caba",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         });
@@ -502,9 +472,9 @@ namespace Affinity.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            AccountNum = "31f7678e-c646-47a3-afe4-b3b66fd0f60f",
+                            AccountNum = "4e9387b4-7435-4677-a89d-e047f718fa31",
                             BirthDate = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "2da6a9cd-143d-4d21-975a-47d920d9706d",
+                            ConcurrencyStamp = "586ffe5b-3f87-40c8-9b34-b665f240b514",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             Gender = "Other",
@@ -512,7 +482,7 @@ namespace Affinity.Migrations
                             Name = "Admin",
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAECX96Q4AEyTkuyMkZU/IpEex3gD/V0janBB/wx3OeGAXVGC+tO6dvW6mHqooiGZi3Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGIi4Xk1hzztiq/AH3dtV6NuKW3KKzVVanrXwJlvbLnbDCNruthAko2huc3uHxRguA==",
                             PhoneNumber = "555-555-5555",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -523,9 +493,9 @@ namespace Affinity.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            AccountNum = "e0b410ef-1fa5-49a7-b459-c400a394e0b4",
+                            AccountNum = "859cc78b-b8e3-4e97-806e-8700ad222d74",
                             BirthDate = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "df7d96eb-6a1e-46b8-8b0d-7f9783a5989c",
+                            ConcurrencyStamp = "f98f7948-43ad-4221-80a1-4daff2bd39d9",
                             Email = "user@user.com",
                             EmailConfirmed = true,
                             Gender = "Other",
@@ -533,7 +503,7 @@ namespace Affinity.Migrations
                             Name = "User",
                             NormalizedEmail = "USER@USER.COM",
                             NormalizedUserName = "USER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMsr6Zw9X9DVYkjl9N/UXXl7h6Lj/JxMnupVtCp4IOLnHGbdW+SfJivNzuOn+4eBRA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAgww2JLgfpkQnSIZnzFOMBNlmynIuMeEG2+9MmVatjAJceTnIoyBFSLznX5pswZtA==",
                             PhoneNumber = "555-555-5555",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -665,12 +635,6 @@ namespace Affinity.Migrations
 
             modelBuilder.Entity("Affinity.Models.Interests", b =>
                 {
-                    b.HasOne("Affinity.Models.InterestCategory", "InterestCategory")
-                        .WithMany()
-                        .HasForeignKey("InterestCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Affinity.Models.InterestSubCategory", "InterestSubCategory")
                         .WithMany("Interests")
                         .HasForeignKey("InterestSubCategoryId")
