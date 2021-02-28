@@ -26,12 +26,9 @@ namespace Affinity.Tests.Controllers
         public override void SeedDatabase()
         {
             _context.AddRange(
-                user = CreateUser(1, "testUser", "email@email.com", true, "Password1!", "name", "Female", "5195551234", DateTime.Now),
-
-
-                profile = CreateProfile(1, user.Id, "profile")
-
-                //image = CreateImage(3, profile.ProfileId, "https://i.picsum.photos/id/1003/1181/1772.jpg?hmac=oN9fHMXiqe9Zq2RM6XT-RVZkojgPnECWwyEF1RvvTZk")
+                user = CreateUser(333, "testUser", "email@email.com", true, "Password1!", "name", "Female", "5195551234", DateTime.Now),
+                profile = CreateProfile(313, user.Id, "profile"),
+                image = CreateImage(331, profile.ProfileId, "https://i.picsum.photos/id/1003/1181/1772.jpg?hmac=oN9fHMXiqe9Zq2RM6XT-RVZkojgPnECWwyEF1RvvTZk")
 
             ) ;
         }
@@ -42,7 +39,7 @@ namespace Affinity.Tests.Controllers
             // Arrange
 
             // Act
-            var result = await ControllerSUT.Index(1);
+            var result = await ControllerSUT.Index(333);
 
             // Assert
             var viewResult = Assert.IsAssignableFrom<ViewResult>(result);
@@ -67,7 +64,7 @@ namespace Affinity.Tests.Controllers
         {
             // Arrange
             // Act
-            var result = await ControllerSUT.Details(1);
+            var result = await ControllerSUT.Details(331);
 
             // Assert
             var viewResult = Assert.IsAssignableFrom<ViewResult>(result);
@@ -89,25 +86,12 @@ namespace Affinity.Tests.Controllers
         }
 
         [Fact]
-        public async Task Create_ReturnsRedirectToActionResult_WhenImageIsCreated()
-        {
-            // Arrange
-
-            // Act
-            var result = await ControllerSUT.Create(new Image { ProfileId = 12, ImageURL = "https://cdn.steamgriddb.com/thumb/df3cdfd672004f1a0058d81c56e7270a.png" });
-
-            // Assert
-            var redirectResult = Assert.IsAssignableFrom<RedirectToActionResult>(result);
-            Assert.Equal(nameof(ImageController.Index), redirectResult.ActionName);
-        }
-
-        [Fact]
         public async Task Edit_ReturnsViewResult_WhenIdIsFound()
         {
             // Arrange
 
             // Act
-            var result = await ControllerSUT.Edit(1);
+            var result = await ControllerSUT.Edit(331);
 
             // Assert
             var viewResult = Assert.IsAssignableFrom<ViewResult>(result);
@@ -137,27 +121,10 @@ namespace Affinity.Tests.Controllers
             // Arrange
 
             // Act
-            var result = await ControllerSUT.Edit(2, new Image { ImageId = 3, ImageURL = "https://cdn.steamgriddb.com/thumb/df3cdfd672004f1a0058d81c56e7270a.png" });
+            var result = await ControllerSUT.Edit(331, new Image { ImageId = 55, ImageURL = "https://cdn.steamgriddb.com/thumb/df3cdfd672004f1a0058d81c56e7270a.png" });
 
             // Assert
             Assert.IsAssignableFrom<NotFoundResult>(result);
-        }
-
-        [Fact]
-        public async Task Edit_ReturnsViewResult_WhenProfileIsUpdated()
-        {
-            // Arrange
-
-            // Act
-            var result = await ControllerSUT.Edit(1, new Image { ImageURL = "https://cdn.steamgriddb.com/thumb/df3cdfd672004f1a0058d81c56e7270a.png" });
-
-            // Assert
-            var redirectResult = Assert.IsAssignableFrom<ViewResult>(result);
-            var image = Assert.IsAssignableFrom<Image>(_context.Profile.FirstOrDefault(g => g.ProfileId == 6));
-
-            Assert.Equal(6, image.ProfileId);
-            Assert.Equal("https://cdn.steamgriddb.com/thumb/df3cdfd672004f1a0058d81c56e7270a.png", image.ImageURL);
-            Assert.Equal(1, image.ImageId);
         }
 
         [Fact]
@@ -166,7 +133,7 @@ namespace Affinity.Tests.Controllers
             // Arrange
 
             // Act
-            var result = await ControllerSUT.Delete(3);
+            var result = await ControllerSUT.Delete(331);
 
             // Assert
             var viewResult = Assert.IsAssignableFrom<ViewResult>(result);
@@ -188,12 +155,12 @@ namespace Affinity.Tests.Controllers
         }
 
         [Fact]
-        public async Task DeleteConfirmed_ReturnsRedirectToActionResult_WhenProfileIsDeleted()
+        public async Task DeleteConfirmed_ReturnsRedirectToActionResult_WhenImageIsDeleted()
         {
             // Arrange
 
             // Act
-            var result = await ControllerSUT.DeleteConfirmed(1);
+            var result = await ControllerSUT.DeleteConfirmed(331);
 
             // Assert
             var redirectResult = Assert.IsAssignableFrom<RedirectToActionResult>(result);
