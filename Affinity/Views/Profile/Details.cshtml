@@ -4,51 +4,119 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+
+<h1 class="display-4">My Profile (<a asp-action="Edit" asp-route-id="@Model.ProfileId">Edit</a>)</h1>
 
 <div>
-    <h4>Profile</h4>
     <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ProfileName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ProfileName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Location)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Location)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Occupation)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Occupation)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Instagram)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Instagram)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Discord)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Discord)
-        </dd>
-    </dl>
+    <div class="card">
+        <div id="profilePicCarousel" class="carousel slide carouselContainer" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#profilePicCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#profilePicCarousel" data-slide-to="1"></li>
+                <li data-target="#profilePicCarousel" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="d-block w-100 carouselImage" src="~/img/shrek1.png" alt="First slide">
+                    <div class="carousel-caption d-none d-md-block">
+                        <p>pic caption</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100 carouselImage" src="~/img/shrek4.jpg" alt="Second slide">
+                    <div class="carousel-caption d-none d-md-block">
+                        <p>pic caption</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100 carouselImage" src="~/img/shrek5.jpg" alt="Third slide">
+                    <div class="carousel-caption d-none d-md-block">
+                        <p>pic caption</p>
+                    </div>
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#profilePicCarousel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#profilePicCarousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+    <div class="card" style="margin-top: 10px;">
+        <div style="font-weight: bold;">
+            <div class="card-header">
+                <h2>@Html.DisplayFor(model => model.ProfileName), (Age)</h2>
+            </div>
+            <div class="card-body">
+                <h3 class="card-text">--- Headline goes here ---</h3>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>Basics</h1>
+        </div>
+    </div>
+    <div class="row profileBasics">
+        <div class="col-sm-4">
+            <h4><i class="fa fa-briefcase text-secondary pr-2" aria-hidden="true"></i>  @Html.DisplayFor(model => model.Occupation)</h4>
+        </div>
+        <div class="col-sm-4">
+            <h4><i class="fa fa-graduation-cap text-secondary pr-2" aria-hidden="true"></i>  Education</h4>
+        </div>
+        <div class="col-sm-4">
+            <h4><i class="fa fa-search-location text-secondary pr-2" aria-hidden="true"></i>  @Html.DisplayFor(model => model.Location)</h4>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>Lifestyle</h1>
+        </div>
+    </div>
+    <div class="row profileLifestyle">
+        <div class="col-sm-4">
+            <h4><i class="fa fa-smoking text-secondary pr-2" aria-hidden="true"></i>  No</h4>
+        </div>
+        <div class="col-sm-4">
+            <h4><i class="fa fa-glass-cheers text-secondary pr-2" aria-hidden="true"></i>  Socially</h4>
+        </div>
+        <div class="col-sm-4">
+            <h4><i class="fa fa-cannabis text-secondary pr-2" aria-hidden="true"></i>  Sometimes</h4>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>Description</h1>
+            <br />
+            <div class="shadow p-3 mb-5 bg-body rounded">@Html.DisplayFor(model => model.Description)</div>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>Interests</h1>
+            <h1 class="profileInterests">
+                <span class="badge bg-secondary">@Html.DisplayNameFor(model => model.Instagram)</span>
+                <span class="badge bg-secondary">@Html.DisplayNameFor(model => model.Discord)</span>
+                <span class="badge bg-secondary">Rock Music</span>
+                <span class="badge bg-secondary">Movies</span>
+                <span class="badge bg-secondary">Video Games</span>
+                <span class="badge bg-secondary">Board Games</span>
+                <span class="badge bg-secondary">Rap Music</span>
+                <span class="badge bg-secondary">Pasta</span>
+                <span class="badge bg-secondary">Chess</span>
+            </h1>
+        </div>
+    </div>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ProfileId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
