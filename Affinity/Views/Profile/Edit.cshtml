@@ -4,60 +4,154 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
 
-<h4>Profile</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ProfileId" />
-            <input type="hidden" asp-for="UserId" />
-            @*<div class="form-group">
-            <label asp-for="UserId" class="control-label"></label>
-            <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
-            <span asp-validation-for="UserId" class="text-danger"></span>
-        </div>*@
-            <div class="form-group">
-                <label asp-for="ProfileName" class="control-label"></label>
-                <input asp-for="ProfileName" class="form-control" />
-                <span asp-validation-for="ProfileName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Location" class="control-label"></label>
-                <input asp-for="Location" class="form-control" />
-                <span asp-validation-for="Location" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Occupation" class="control-label"></label>
-                <input asp-for="Occupation" class="form-control" />
-                <span asp-validation-for="Occupation" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Instagram" class="control-label"></label>
-                <input asp-for="Instagram" class="form-control" />
-                <span asp-validation-for="Instagram" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Discord" class="control-label"></label>
-                <input asp-for="Discord" class="form-control" />
-                <span asp-validation-for="Discord" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <a class="btn btn-primary w-25" role="button" asp-controller="Image" asp-action="Index" asp-route-profileId="@Model.ProfileId">Images</a>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+<h1 class="display-4">Edit Profile</h1>
+
+<div>
+    <hr />
+    <div class="card" style="text-align: center;">
+        <br />
+        <p>Upload pictures! Click here:</p>
+        <div class="form-group">
+            <a class="btn btn-secondary w-25" role="button" asp-controller="Image" asp-action="Index" asp-route-profileId="@Model.ProfileId">Images</a>
+        </div>
     </div>
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="ProfileId" />
+        <input type="hidden" asp-for="UserId" />
+        <div class="card" style="margin-top: 10px;">
+            <div style="font-weight: bold;">
+                <div class="card-header">
+                    <p>
+                        <div class="form-group">
+                            <label asp-for="ProfileName" class="control-label">Profile Name:</label>
+                            <input asp-for="ProfileName" class="form-control" />
+                            <span asp-validation-for="ProfileName" class="text-danger"></span>
+                        </div>
+                    </p>
+                    <p>
+                        Birthday:
+                        <div class="form-group">
+                            <div class='input-group date' id='datetimepicker1'>
+                                <input type='text' class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <script type="text/javascript">
+                            $(function () {
+                                $('#datetimepicker1').datetimepicker();
+                            });
+                        </script>
+                    </p>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        Headline:
+                        <div class='input-group'>
+                            <input type='text' class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-sm-12">
+                <h1>Basics</h1>
+            </div>
+        </div>
+        <div class="row profileBasics">
+            <div class="col-sm-4">
+                <h4>@Html.DisplayNameFor(model => model.Occupation):</h4>
+                <div class="form-group">
+                    <input asp-for="Occupation" class="form-control" />
+                    <span asp-validation-for="Occupation" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <h4>Education:</h4>
+                <div class="form-group">
+                    <div class='input-group'>
+                        <input type='text' class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <h4>@Html.DisplayNameFor(model => model.Location):</h4>
+                <div class="form-group">
+                    <input asp-for="Location" class="form-control" />
+                    <span asp-validation-for="Location" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-sm-12">
+                <h1>Lifestyle</h1>
+            </div>
+        </div>
+        <div class="row profileLifestyle">
+            <div class="col-sm-4 form-group">
+                <h4>Do you smoke?</h4>
+                <select class="form-control" name="smoke" id="smoke">
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                    <option value="occasionally">Occasionally</option>
+                    <option value="socially">Socially</option>
+                </select>
+            </div>
+            <div class="col-sm-4 form-group">
+                <h4>Do you drink?</h4>
+                <select class="form-control" name="drink" id="drink">
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                    <option value="occasionally">Occasionally</option>
+                    <option value="socially">Socially</option>
+                </select>
+            </div>
+            <div class="col-sm-4 form-group">
+                <h4>Do you use cannabis?</h4>
+                <select class="form-control" name="cannabis" id="cannabis">
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                    <option value="occasionally">Occasionally</option>
+                    <option value="socially">Socially</option>
+                </select>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+    </form>
 </div>
+
+<!--
+<div class="form-group">
+    <label asp-for="Instagram" class="control-label"></label>
+    <input asp-for="Instagram" class="form-control" />
+    <span asp-validation-for="Instagram" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Discord" class="control-label"></label>
+    <input asp-for="Discord" class="form-control" />
+    <span asp-validation-for="Discord" class="text-danger"></span>
+</div>
+-->
 
 <div>
     <a asp-action="Index">Back to List</a>
