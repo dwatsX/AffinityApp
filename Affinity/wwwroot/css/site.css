@@ -1,6 +1,14 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+@import url(//db.onlinewebfonts.com/c/a9db6cd9116ff56da3875b35444f0c45?family=GothamBook);
+
+@font-face {
+    font-family: "GothamBook";
+    src: url("//db.onlinewebfonts.com/t/a9db6cd9116ff56da3875b35444f0c45.eot");
+    src: url("//db.onlinewebfonts.com/t/a9db6cd9116ff56da3875b35444f0c45.eot?#iefix") format("embedded-opentype"), url("//db.onlinewebfonts.com/t/a9db6cd9116ff56da3875b35444f0c45.woff2") format("woff2"), url("//db.onlinewebfonts.com/t/a9db6cd9116ff56da3875b35444f0c45.woff") format("woff"), url("//db.onlinewebfonts.com/t/a9db6cd9116ff56da3875b35444f0c45.ttf") format("truetype"), url("//db.onlinewebfonts.com/t/a9db6cd9116ff56da3875b35444f0c45.svg#GothamBook") format("svg");
+}
+
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -8,8 +16,16 @@ a.navbar-brand {
 }
 
 /* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
+a, a:visited {
+    color: darkgray;
+}
+
+a:hover {
+    color: grey;
+}
+
+a:active {
+    color: grey;
 }
 
 .btn-primary {
@@ -59,8 +75,9 @@ html {
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    font-family: 'GothamBook', sans-serif !important;
 }
 .footer {
   position: absolute;
@@ -68,4 +85,47 @@ body {
   width: 100%;
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
+}
+
+/* Matches - Card styles
+-------------------------------------------------- */
+.picContainer {
+    max-width: 10em; 
+    max-height: 10em; 
+    float: left; 
+    padding-right: 10px;
+}
+
+.profilePic {
+    max-width: 100%; 
+    max-height: 100%;
+}
+
+/* Profile Details
+-------------------------------------------------- */
+.carouselContainer {
+    max-width: 30em;
+    max-height: 30em;
+}
+
+.carouselImage {
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto;
+}
+
+.carousel {
+    margin: 0 auto !important;
+}
+
+.profileBasics {
+    text-align: center;
+}
+
+.profileLifestyle {
+    text-align: center;
+}
+
+.profileInterests {
+    color: white;
 }
