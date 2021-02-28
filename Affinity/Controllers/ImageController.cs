@@ -56,7 +56,7 @@ namespace Affinity.Controllers
         // GET: Image/Create
         public IActionResult Create()
         {
-            ViewData["ProfileId"] = new SelectList(_context.Profile,"ProfileId", "ProfileId");
+            ViewData["ProfileId"] = new SelectList(_context.Profile, "ProfileId", "ProfileId");
             return View();
         }
 
@@ -67,14 +67,23 @@ namespace Affinity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ImageId,ProfileId,ImageURL")] Image image)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(image);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index), new { profileId = image.ProfileId});
+                if (ModelState.IsValid)
+                {
+                    _context.Add(image);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index), new { profileId = image.ProfileId });
+                }
+                ViewData["ProfileID"] = new SelectList(_context.Profile, "ProfileId", "Description", image.ProfileId);
+                return View(image);
             }
-            ViewData["ProfileID"] = new SelectList(_context.Profile, "ProfileId", "Description", image.ProfileId);
-            return View(image);
+            catch (Exception e)
+            {
+
+                throw;
+            }
+
         }
 
         // GET: Image/Edit/5
@@ -139,14 +148,15 @@ namespace Affinity.Controllers
             }
 
             var image = await _context.Images
-                .Include(i => i.Profile)
-                .FirstOrDefaultAsync(m => m.ImageId == id);
+                     .Include(i => i.Profile)
+                     .FirstOrDefaultAsync(m => m.ImageId == id);
             if (image == null)
             {
                 return NotFound();
             }
 
             return View(image);
+
         }
 
         // POST: Image/Delete/5
