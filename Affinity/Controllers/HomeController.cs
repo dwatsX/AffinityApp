@@ -1,4 +1,6 @@
-﻿using Affinity.Models;
+﻿using Affinity.Data;
+using Affinity.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SendGrid;
@@ -22,6 +24,15 @@ namespace Affinity.Controllers
 
         public async Task<IActionResult> IndexAsync()
         {
+            //User user = await _userManager.GetUserAsync(User);
+    
+            //if (user != null)
+            //{
+            //    var profile = _context.Profile
+            //        .FirstOrDefault(p => p.UserId == user.Id);
+            //    return View(profile);
+            //}
+
             return View();
 
             //var apiKey = Environment.GetEnvironmentVariable("dscAffinity");

@@ -6,13 +6,13 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
 
-<h1 class="display-4">Edit Profile</h1>
+<h1>Edit Profile</h1>
 
 <div>
     <hr />
     <div class="card" style="text-align: center;">
         <br />
-        <p>Upload pictures! Click here:</p>
+        <p>Upload or Edit Pictures! Click here:</p>
         <div class="form-group">
             <a class="btn btn-secondary w-25" role="button" asp-controller="Image" asp-action="Index" asp-route-profileId="@Model.ProfileId">Images</a>
         </div>
@@ -61,7 +61,7 @@
         <br />
         <div class="row">
             <div class="col-sm-12">
-                <h1>Basics</h1>
+                <h5>Basics</h5>
             </div>
         </div>
         <div class="row profileBasics">
@@ -91,12 +91,12 @@
         <hr />
         <div class="row">
             <div class="col-sm-12">
-                <h1>Lifestyle</h1>
+                <h5>Lifestyle</h5>
             </div>
         </div>
         <div class="row profileLifestyle">
             <div class="col-sm-4 form-group">
-                <h4>Do you smoke?</h4>
+                <h6>Do you smoke?</h6>
                 <select class="form-control" name="smoke" id="smoke">
                     <option value="no">No</option>
                     <option value="yes">Yes</option>
@@ -105,7 +105,7 @@
                 </select>
             </div>
             <div class="col-sm-4 form-group">
-                <h4>Do you drink?</h4>
+                <h6>Do you drink?</h6>
                 <select class="form-control" name="drink" id="drink">
                     <option value="no">No</option>
                     <option value="yes">Yes</option>
@@ -114,7 +114,7 @@
                 </select>
             </div>
             <div class="col-sm-4 form-group">
-                <h4>Do you use cannabis?</h4>
+                <h6>Do you use cannabis?</h6>
                 <select class="form-control" name="cannabis" id="cannabis">
                     <option value="no">No</option>
                     <option value="yes">Yes</option>
