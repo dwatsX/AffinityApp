@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Affinity.Data;
 using Affinity.Models;
 using Microsoft.AspNetCore.Identity;
+using Affinity.ViewModels;
 
 namespace Affinity.Controllers
 {
@@ -38,13 +39,36 @@ namespace Affinity.Controllers
             }
 
             var profile = await _context.Profile
+                   .Include(p => p.Interests)
+                    .ThenInclude(i => i.InterestSubCategory)
+                    .ThenInclude(i => i.InterestCategory)
                 .FirstOrDefaultAsync(m => m.ProfileId == id);
+
             if (profile == null)
             {
                 return NotFound();
             }
 
-            return View(profile);
+            return View(new ProfileViewModel 
+            { 
+                Profile = profile,
+                ProfileId = profile.ProfileId,
+                User = profile.User,
+                UserId = profile.UserId,
+                Images = await _context.Images
+                    .Where(i => i.ProfileId == profile.ProfileId)
+                    .ToListAsync(),
+                Interests = await _context.Interests
+                    .Where(i => i.ProfileId == profile.ProfileId)                 
+                    .ToListAsync(),
+                ProfileName = profile.ProfileName,
+                Description = profile.Description,
+                Discord = profile.Discord,
+                Instagram = profile.Instagram,
+                Location = profile.Location,
+                Occupation = profile.Occupation
+                
+            });
         }
 
         // GET: Profile/Create
@@ -76,7 +100,7 @@ namespace Affinity.Controllers
             }
             else
             {
-         
+
                 if (profileExists != null)
                 {
                     TempData["AlreadyExists"] = $"You've already created a profile. Click edit to change your profile";
@@ -84,13 +108,11 @@ namespace Affinity.Controllers
                 }
             }
 
-            if (ModelState.IsValid)
-            {
-                _context.Add(profile);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(profile);
+
+            _context.Add(profile);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
         }
 
         // GET: Profile/Edit/5
