@@ -75,7 +75,7 @@ namespace Affinity.Controllers
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index), new { profileId = image.ProfileId });
                 }
-                ViewData["ProfileID"] = new SelectList(_context.Profile, "ProfileId", "Description", image.ProfileId);
+                ViewData["ProfileID"] = new SelectList(_context.Profile, "ProfileId", "ProfileId", image.ProfileId);
                 return View(image);
             }
             catch (Exception e)
