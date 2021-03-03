@@ -132,3 +132,9 @@ body {
 .profileInterests {
     color: white;
 }
+
+/* Colours
+----------------------------------------------- */
+.card-header {
+    background-color: #91daff !important;
+}
