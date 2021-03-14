@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Affinity.Migrations
 {
-    public partial class CreateNewInterestsApplicationSchema : Migration
+    public partial class CreateApplicationSchema : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -112,7 +112,12 @@ namespace Affinity.Migrations
                     ProfileId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(nullable: false),
-                    Description = table.Column<string>(unicode: false, maxLength: 150, nullable: false)
+                    ProfileName = table.Column<string>(unicode: false, maxLength: 150, nullable: false),
+                    Description = table.Column<string>(unicode: false, maxLength: 150, nullable: true),
+                    Discord = table.Column<string>(unicode: false, maxLength: 150, nullable: true),
+                    Instagram = table.Column<string>(unicode: false, maxLength: 150, nullable: true),
+                    Location = table.Column<string>(unicode: false, maxLength: 150, nullable: true),
+                    Occupation = table.Column<string>(unicode: false, maxLength: 150, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -230,22 +235,62 @@ namespace Affinity.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Matches",
+                columns: table => new
+                {
+                    MatchId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProfileId = table.Column<int>(nullable: false),
+                    MatchedProfileId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Matches", x => x.MatchId);
+                    table.ForeignKey(
+                        name: "FK_Matches_Profile_MatchedProfileId",
+                        column: x => x.MatchedProfileId,
+                        principalTable: "Profile",
+                        principalColumn: "ProfileId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Profile_Matches",
+                        column: x => x.ProfileId,
+                        principalTable: "Profile",
+                        principalColumn: "ProfileId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Interests",
                 columns: table => new
                 {
                     InterestId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    InterestCategoryId = table.Column<int>(nullable: false),
                     InterestSubCategoryId = table.Column<int>(nullable: false),
-                    ProfileId = table.Column<int>(nullable: false)
+                    ProfileId = table.Column<int>(nullable: false),
+                    MatchesMatchId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Interests", x => x.InterestId);
                     table.ForeignKey(
+                        name: "FK_Interests_InterestCategory_InterestCategoryId",
+                        column: x => x.InterestCategoryId,
+                        principalTable: "InterestCategory",
+                        principalColumn: "InterestCategoryId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Interest_SubCategory",
                         column: x => x.InterestSubCategoryId,
                         principalTable: "InterestSubCategory",
                         principalColumn: "InterestSubCategoryId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Interests_Matches_MatchesMatchId",
+                        column: x => x.MatchesMatchId,
+                        principalTable: "Matches",
+                        principalColumn: "MatchId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Profile_Interests",
@@ -272,8 +317,8 @@ namespace Affinity.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "53d500c5-8bd6-4551-9bc6-853ee5954bd2", "Admin", "ADMIN" },
-                    { 2, "f1ca58cf-b38f-4863-bd42-17c9d4556b95", "Member", "MEMBER" }
+                    { 1, "4e9b841d-b1af-43ba-99a5-3c24c083ab50", "Admin", "ADMIN" },
+                    { 2, "7071c523-d869-4f8c-9e85-de0321c4f743", "Member", "MEMBER" }
                 });
 
             migrationBuilder.InsertData(
@@ -281,8 +326,8 @@ namespace Affinity.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "AccountNum", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "Gender", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, "dd241818-5fe8-4800-bd7c-2ea674ed3e1b", new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "f25063ca-faee-42fc-8b6a-27de8ff72e52", "admin@admin.com", true, "Other", false, null, "Admin", "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAEEr3GdKFAouQWqx1oag8A0+X2dEuawtPbB1IAFymsUZTuBjow8X1MckYBvSW476Row==", "555-555-5555", false, "", false, "admin" },
-                    { 2, 0, "d17005f5-ce60-4090-a10d-59d257afcf6e", new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "444fb478-614d-4b8c-86eb-898ceb2b2f21", "user@user.com", true, "Other", false, null, "User", "USER@USER.COM", "USER", "AQAAAAEAACcQAAAAEHK3XpFeN8aZesKEPvEh5nsXM7bSR9GuuTVO2guL9KPqRG4992DiYMOdAuAk4bW2jQ==", "555-555-5555", false, "", false, "user" }
+                    { 1, 0, "4b47790c-586b-4d53-b3a6-32365af6d28f", new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "86dd11d3-44cb-4bc9-af83-2262192d318f", "admin@admin.com", true, "Other", false, null, "Admin", "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAEARlyD4eyhMJxb5eDv/vhGCSWPLZHKSa8jCcaZrzrysw9PPYnwUnyYo/14cP8BTHEQ==", "555-555-5555", false, "", false, "admin" },
+                    { 2, 0, "ddb5e8af-d1f6-4236-9369-844bf845ee1a", new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "aa0aea9b-07d1-45c9-be0d-c18e65bfc221", "user@user.com", true, "Other", false, null, "User", "USER@USER.COM", "USER", "AQAAAAEAACcQAAAAEDopb5MVYvXFJO7Zun4UFed1Xu2W5ahFbto3Wee7fgIoOb5LiWsGsYXJ50lBRsuebQ==", "555-555-5555", false, "", false, "user" }
                 });
 
             migrationBuilder.InsertData(
@@ -332,9 +377,19 @@ namespace Affinity.Migrations
                 column: "ProfileId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Interests_InterestCategoryId",
+                table: "Interests",
+                column: "InterestCategoryId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Interests_InterestSubCategoryId",
                 table: "Interests",
                 column: "InterestSubCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Interests_MatchesMatchId",
+                table: "Interests",
+                column: "MatchesMatchId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Interests_ProfileId",
@@ -345,6 +400,16 @@ namespace Affinity.Migrations
                 name: "IX_InterestSubCategory_InterestCategoryId",
                 table: "InterestSubCategory",
                 column: "InterestCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Matches_MatchedProfileId",
+                table: "Matches",
+                column: "MatchedProfileId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Matches_ProfileId",
+                table: "Matches",
+                column: "ProfileId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Profile_UserId",
@@ -404,13 +469,16 @@ namespace Affinity.Migrations
                 name: "InterestSubCategory");
 
             migrationBuilder.DropTable(
-                name: "Profile");
+                name: "Matches");
 
             migrationBuilder.DropTable(
                 name: "Role");
 
             migrationBuilder.DropTable(
                 name: "InterestCategory");
+
+            migrationBuilder.DropTable(
+                name: "Profile");
 
             migrationBuilder.DropTable(
                 name: "User");

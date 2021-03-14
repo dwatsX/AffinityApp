@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Affinity.Models.Matches>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Profile)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MatchedProfile)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MatchedProfile.Description)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Profile.ProfileName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MatchedProfile.ProfileName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MatchedProfile.Description)
+            </td>
+            <td>
+                <a asp-controller="profile" asp-action="Details" asp-route-id="@item.MatchedProfileId">View Profile</a> |
+                <a asp-action="Details" asp-route-id="@item.MatchId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.MatchId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

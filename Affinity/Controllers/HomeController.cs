@@ -22,29 +22,10 @@ namespace Affinity.Controllers
             _logger = logger;
         }
 
+
         public async Task<IActionResult> IndexAsync()
         {
-            //User user = await _userManager.GetUserAsync(User);
-    
-            //if (user != null)
-            //{
-            //    var profile = _context.Profile
-            //        .FirstOrDefault(p => p.UserId == user.Id);
-            //    return View(profile);
-            //}
-
             return View();
-
-            //var apiKey = Environment.GetEnvironmentVariable("dscAffinity");
-            //var client = new SendGridClient("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");
-            //var from = new EmailAddress("test@example.com", "Example User");
-            //var subject = "Sending with SendGrid is Fun";
-            //var to = new EmailAddress("test@example.com", "Example User");
-            //var plainTextContent = "and easy to do anywhere, even with C#";
-            //var htmlContent = "<strong>and easy to do anywhere, even with C#</strong>";
-            //var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-            //var response = await client.SendEmailAsync(msg);
-
         }
 
         public IActionResult Privacy()

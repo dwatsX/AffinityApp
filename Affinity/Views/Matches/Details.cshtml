@@ -1,0 +1,30 @@
+﻿@model Affinity.Models.Matches
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Matches</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Profile)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Profile.ProfileName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MatchedProfile.ProfileName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MatchedProfile.ProfileName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-controller="profile" asp-action="Details" asp-route-id="@Model.MatchedProfileId">View Profile</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

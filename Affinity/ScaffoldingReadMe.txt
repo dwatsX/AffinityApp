@@ -1,3 +1,5 @@
-﻿Support for ASP.NET Core Identity was added to your project.
+﻿To Create the database and tables, in the Package Manager Console type in:
+update-database -verbose -Context ApplicationDbContext
 
-For setup and configuration information, see https://go.microsoft.com/fwlink/?linkid=2116645.
+If an update has been made to the ApplicationDbContext, build new migration with the command:
+Add-Migration CreateApplicationSchema -Context ApplicationDbContext

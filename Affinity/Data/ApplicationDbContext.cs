@@ -15,6 +15,7 @@ namespace Affinity.Data
         public virtual DbSet<Interests> Interests { get; set; }
         public virtual DbSet<InterestCategory> InterestCategory { get; set; }
         public virtual DbSet<InterestSubCategory> InterestSubCategory { get; set; }
+        public virtual DbSet<Matches> Matches { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -38,40 +39,73 @@ namespace Affinity.Data
                 new Role { Id = 2, Name = "Member", NormalizedName = "MEMBER" }
             );
 
-            var hasher = new PasswordHasher<User>();
-            modelBuilder.Entity<User>().HasData(
-                new User
-                {
-                    Id = 1,
-                    UserName = "admin",
-                    NormalizedUserName = "ADMIN",
-                    Email = "admin@admin.com",
-                    NormalizedEmail = "ADMIN@ADMIN.COM",
-                    EmailConfirmed = true,
-                    PasswordHash = hasher.HashPassword(null, "Password1!"),
-                    SecurityStamp = string.Empty,
-                    AccountNum = Guid.NewGuid().ToString(),
-                    Name = "Admin",
-                    Gender = "Other",
-                    PhoneNumber = "555-555-5555",
-                    BirthDate = new DateTime(1970, 01, 01)
-                },
-                new User
-                {
-                    Id = 2,
-                    UserName = "user",
-                    NormalizedUserName = "USER",
-                    Email = "user@user.com",
-                    NormalizedEmail = "USER@USER.COM",
-                    EmailConfirmed = true,
-                    PasswordHash = hasher.HashPassword(null, "Password1!"),
-                    SecurityStamp = string.Empty,
-                    AccountNum = Guid.NewGuid().ToString(),
-                    Name = "User",
-                    Gender = "Other",
-                    PhoneNumber = "555-555-5555",
-                    BirthDate = new DateTime(1970, 01, 01)
-                });
+            //var hasher = new PasswordHasher<User>();
+            //modelBuilder.Entity<User>().HasData(
+                //new User
+                //{
+                //    Id = 1,
+                //    UserName = "admin",
+                //    NormalizedUserName = "ADMIN",
+                //    Email = "admin@admin.com",
+                //    NormalizedEmail = "ADMIN@ADMIN.COM",
+                //    EmailConfirmed = true,
+                //    PasswordHash = hasher.HashPassword(null, "Password1!"),
+                //    SecurityStamp = string.Empty,
+                //    AccountNum = Guid.NewGuid().ToString(),
+                //    Name = "Admin",
+                //    Gender = "Other",
+                //    PhoneNumber = "555-555-5555",
+                //    BirthDate = new DateTime(1970, 01, 01)
+                //},
+                //new User
+                //{
+                //    Id = 2,
+                //    UserName = "user",
+                //    NormalizedUserName = "USER",
+                //    Email = "user@user.com",
+                //    NormalizedEmail = "USER@USER.COM",
+                //    EmailConfirmed = true,
+                //    PasswordHash = hasher.HashPassword(null, "Password1!"),
+                //    SecurityStamp = string.Empty,
+                //    AccountNum = Guid.NewGuid().ToString(),
+                //    Name = "User",
+                //    Gender = "Other",
+                //    PhoneNumber = "555-555-5555",
+                //    BirthDate = new DateTime(1970, 01, 01)
+                //}
+                //new User
+                //{
+                //    Id = 3,
+                //    UserName = "profileA",
+                //    NormalizedUserName = "PROFILEA",
+                //    Email = "profileA@profileA.com",
+                //    NormalizedEmail = "PROFILEA@PROFILEA.COM",
+                //    EmailConfirmed = true,
+                //    PasswordHash = hasher.HashPassword(null, "Password1!"),
+                //    SecurityStamp = string.Empty,
+                //    AccountNum = Guid.NewGuid().ToString(),
+                //    Name = "ProfileA",
+                //    Gender = "Other",
+                //    PhoneNumber = "555-555-5555",
+                //    BirthDate = new DateTime(1970, 01, 01)
+                //},
+                //new User
+                //{
+                //    Id = 4,
+                //    UserName = "profileB",
+                //    NormalizedUserName = "PROFILEB",
+                //    Email = "profileB@profileB.com",
+                //    NormalizedEmail = "PROFILEA@PROFILEA.COM",
+                //    EmailConfirmed = true,
+                //    PasswordHash = hasher.HashPassword(null, "Password1!"),
+                //    SecurityStamp = string.Empty,
+                //    AccountNum = Guid.NewGuid().ToString(),
+                //    Name = "ProfileB",
+                //    Gender = "Other",
+                //    PhoneNumber = "555-555-5555",
+                //    BirthDate = new DateTime(1970, 01, 01)
+                //}
+                //);
 
             modelBuilder.Entity<IdentityUserRole<int>>().HasData(
                 new IdentityUserRole<int> { RoleId = 1, UserId = 1 },
@@ -104,7 +138,7 @@ namespace Affinity.Data
                 new InterestSubCategory { InterestSubCategoryId = 7, InterestCategoryId = 2, InterestSubCategoryName = "European" },
                 new InterestSubCategory { InterestSubCategoryId = 8, InterestCategoryId = 2, InterestSubCategoryName = "North American" },
                 new InterestSubCategory { InterestSubCategoryId = 9, InterestCategoryId = 2, InterestSubCategoryName = "South American" },
-                new InterestSubCategory { InterestSubCategoryId = 10, InterestCategoryId = 2, InterestSubCategoryName = "Africa" },
+                new InterestSubCategory { InterestSubCategoryId = 10, InterestCategoryId = 2, InterestSubCategoryName = "African" },
 
                 new InterestSubCategory { InterestSubCategoryId = 11, InterestCategoryId = 3, InterestSubCategoryName = "RPG" },
                 new InterestSubCategory { InterestSubCategoryId = 12, InterestCategoryId = 3, InterestSubCategoryName = "Action" },
@@ -125,7 +159,19 @@ namespace Affinity.Data
                 new InterestSubCategory { InterestSubCategoryId = 25, InterestCategoryId = 5, InterestSubCategoryName = "Historical" }
 
                 );
-            
+
+            modelBuilder.Entity<Interests>().HasData(
+                new Interests { InterestId = 1, InterestCategoryId = 1, InterestSubCategoryId = 1, ProfileId = 1 },
+                new Interests { InterestId = 2, InterestCategoryId = 2, InterestSubCategoryId = 6, ProfileId = 1 },
+                new Interests { InterestId = 3, InterestCategoryId = 3, InterestSubCategoryId = 11, ProfileId = 1 },
+                new Interests { InterestId = 4, InterestCategoryId = 1, InterestSubCategoryId = 1, ProfileId = 2 },
+                new Interests { InterestId = 5, InterestCategoryId = 2, InterestSubCategoryId = 6, ProfileId = 2 },
+                new Interests { InterestId = 6, InterestCategoryId = 3, InterestSubCategoryId = 11, ProfileId = 2 },
+                new Interests { InterestId = 7, InterestCategoryId = 1, InterestSubCategoryId = 2, ProfileId = 3 },
+                new Interests { InterestId = 8, InterestCategoryId = 2, InterestSubCategoryId = 7, ProfileId = 3 },
+                new Interests { InterestId = 9, InterestCategoryId = 3, InterestSubCategoryId = 12, ProfileId = 3 }
+                );
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -301,6 +347,7 @@ namespace Affinity.Data
                     .HasColumnName("InterestSubCategoryName")
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
             });
 
             modelBuilder.Entity<Interests>(entity =>
@@ -321,15 +368,36 @@ namespace Affinity.Data
                       .OnDelete(DeleteBehavior.ClientSetNull)
                       .HasConstraintName("FK_Interest_SubCategory");
 
-                entity.HasOne(d => d.Profile)
-                    .WithMany(p => p.Interests)
-                    .HasForeignKey(d => d.ProfileId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Profile_Interests");
+                   entity.HasOne(d => d.Profile)
+                        .WithMany(p => p.Interests)
+                        .HasForeignKey(d => d.ProfileId)
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK_Profile_Interests");
 
             });
 
+            modelBuilder.Entity<Matches>(entity =>
+            {
+                entity.HasKey(e => e.MatchId);
+
+                entity.ToTable("Matches");
+
+                entity.Property(e => e.MatchId).HasColumnName("MatchId").UseIdentityColumn();
+
+                entity.Property(e => e.ProfileId).HasColumnName("ProfileId")
+                .IsRequired();
+
+                entity.Property(e => e.MatchedProfileId).HasColumnName("MatchedProfileId")
+                .IsRequired();
+
+                entity.HasOne(e => e.Profile)
+                      .WithMany(p => p.Matches)
+                      .HasForeignKey(d => d.ProfileId)
+                      .OnDelete(DeleteBehavior.ClientSetNull)
+                      .HasConstraintName("FK_Profile_Matches");
+            });
+
             Seed(modelBuilder);
-        }
+        } 
     }
 }
