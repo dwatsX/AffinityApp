@@ -13,6 +13,7 @@ namespace Affinity.Models
         {
             Images = new HashSet<Image>();
             Interests = new HashSet<Interests>();
+            Matches = new HashSet<Matches>();
         }
         [Key]
         public int ProfileId { get; set; }
@@ -20,6 +21,7 @@ namespace Affinity.Models
         public User User { get; set; }
         public ICollection<Image> Images { get; set; }
         public ICollection<Interests> Interests { get; set; }
+        public ICollection<Matches> Matches { get; set; }
         public string ProfileName {get; set;}
         public string Description { get; set; }
         public string Discord { get; set; }

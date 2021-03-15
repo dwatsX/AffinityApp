@@ -156,6 +156,17 @@ namespace Affinity.Tests.Helpers
             };
         }
 
+        protected Interests CreateInterest(int? id, int interestCategoryId, int InterestSubCategoryId, int profileId)
+        {
+            return new Interests
+            {
+                InterestId = id ?? default,
+                InterestCategoryId = interestCategoryId,
+                InterestSubCategoryId = InterestSubCategoryId,
+                ProfileId = profileId
+            };
+        }
+
         public virtual void Dispose()
         {
             _context.Database.EnsureDeleted();

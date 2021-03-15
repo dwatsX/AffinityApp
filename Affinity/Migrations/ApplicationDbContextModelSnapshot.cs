@@ -15,7 +15,7 @@ namespace Affinity.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.12")
+                .HasAnnotation("ProductVersion", "3.1.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -288,6 +288,9 @@ namespace Affinity.Migrations
                         .HasColumnName("InterestSubCategoryId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("MatchesMatchId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ProfileId")
                         .HasColumnType("int");
 
@@ -297,9 +300,38 @@ namespace Affinity.Migrations
 
                     b.HasIndex("InterestSubCategoryId");
 
+                    b.HasIndex("MatchesMatchId");
+
                     b.HasIndex("ProfileId");
 
                     b.ToTable("Interests");
+                });
+
+            modelBuilder.Entity("Affinity.Models.Matches", b =>
+                {
+                    b.Property<int>("MatchId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("MatchId")
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("MatchedProfileId")
+                        .HasColumnName("MatchedProfileId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProfileId")
+                        .HasColumnName("ProfileId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MatchId");
+
+                    b.HasIndex("MatchedProfileId");
+
+                    b.HasIndex("ProfileId");
+
+                    b.ToTable("Matches");
                 });
 
             modelBuilder.Entity("Affinity.Models.Profile", b =>
@@ -389,14 +421,14 @@ namespace Affinity.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "017b7f8e-970a-4061-8654-20ecc41a8a0b",
+                            ConcurrencyStamp = "4e9b841d-b1af-43ba-99a5-3c24c083ab50",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "1b71df49-aff5-4cdb-b842-f82372ac65df",
+                            ConcurrencyStamp = "7071c523-d869-4f8c-9e85-de0321c4f743",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         });
@@ -502,9 +534,9 @@ namespace Affinity.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            AccountNum = "438993d1-76b3-4b01-bd7b-089fc64254a2",
+                            AccountNum = "4b47790c-586b-4d53-b3a6-32365af6d28f",
                             BirthDate = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "0f40e30f-3241-4d39-ae0a-7724e4a5e2b5",
+                            ConcurrencyStamp = "86dd11d3-44cb-4bc9-af83-2262192d318f",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             Gender = "Other",
@@ -512,7 +544,7 @@ namespace Affinity.Migrations
                             Name = "Admin",
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEP9vrReynJJC1FvuaDSs4ukEGODFuFDqlhlPMrTaq0BeoF8D+UO386vw8bEiKIGeYg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEARlyD4eyhMJxb5eDv/vhGCSWPLZHKSa8jCcaZrzrysw9PPYnwUnyYo/14cP8BTHEQ==",
                             PhoneNumber = "555-555-5555",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -523,9 +555,9 @@ namespace Affinity.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            AccountNum = "fec54148-0275-4ef7-b486-54813c5ea095",
+                            AccountNum = "ddb5e8af-d1f6-4236-9369-844bf845ee1a",
                             BirthDate = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "c70ddc7e-75ab-455b-b636-22cbc8eff945",
+                            ConcurrencyStamp = "aa0aea9b-07d1-45c9-be0d-c18e65bfc221",
                             Email = "user@user.com",
                             EmailConfirmed = true,
                             Gender = "Other",
@@ -533,7 +565,7 @@ namespace Affinity.Migrations
                             Name = "User",
                             NormalizedEmail = "USER@USER.COM",
                             NormalizedUserName = "USER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAC0HFCs098uhxOkTQiZ5i34IRRRWRWRSUL0gsS/FlFi6pB2X0s8S2wYijDysCEvhw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDopb5MVYvXFJO7Zun4UFed1Xu2W5ahFbto3Wee7fgIoOb5LiWsGsYXJ50lBRsuebQ==",
                             PhoneNumber = "555-555-5555",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -677,10 +709,29 @@ namespace Affinity.Migrations
                         .HasConstraintName("FK_Interest_SubCategory")
                         .IsRequired();
 
+                    b.HasOne("Affinity.Models.Matches", null)
+                        .WithMany("SharedInterests")
+                        .HasForeignKey("MatchesMatchId");
+
                     b.HasOne("Affinity.Models.Profile", "Profile")
                         .WithMany("Interests")
                         .HasForeignKey("ProfileId")
                         .HasConstraintName("FK_Profile_Interests")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Affinity.Models.Matches", b =>
+                {
+                    b.HasOne("Affinity.Models.Profile", "MatchedProfile")
+                        .WithMany()
+                        .HasForeignKey("MatchedProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Affinity.Models.Profile", "Profile")
+                        .WithMany("Matches")
+                        .HasForeignKey("ProfileId")
+                        .HasConstraintName("FK_Profile_Matches")
                         .IsRequired();
                 });
 
