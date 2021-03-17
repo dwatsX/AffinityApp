@@ -1,61 +1,37 @@
-﻿@{
-    ViewData["Title"] = "Matches";
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<User> SignInManager
+
+@{
+    ViewData["Title"] = "Home";
 }
 
-<div>
-    <h1>Matches</h1>
-    <div class="card">
-        <div class="card-header">
-            Bob, 25
-        </div>
-        <div class="card-body">
-            <div class="picContainer">
-                <img class="profilePic" src="~/img/guy1.jpeg" />
-            </div>
-            <h5 class="card-title">Arcade games are the best</h5>
-            <p class="card-text">Hi I'm Bob and I really like Mario Kart, retro arcade games, and rock music.</p>
-        </div>
-        
-    </div>
-    <br />
-    <div class="card">
-        <div class="card-header">
-            Jane, 23
-        </div>
-        <div class="card-body">
-            <div class="picContainer">
-                <img class="profilePic" src="~/img/girl1.jpeg" />
-            </div>
-            <h5 class="card-title">I am a wizard</h5>
-            <p class="card-text">I'm Jane and I play D&D all day and all night</p>
-        </div>
-        
-    </div>
-    <br />
-    <div class="card">
-        <div class="card-header">
-            John, 26
-        </div>
-        <div class="card-body">
-            <div class="picContainer">
-                <img class="profilePic" src="~/img/guy2.jpg" />
-            </div>
-            <h5 class="card-title">To be or not to be, that is the question</h5>
-            <p class="card-text">I really like eating various forms of bread products especially baguettes</p>
-        </div>
-        
-    </div>
-    <br />
-    <div class="card">
-        <div class="card-header">
-            Sarah, 29
-        </div>
-        <div class="card-body">
-            <div class="picContainer">
-                <img class="profilePic" src="~/img/girl3.jpeg" />
-            </div>
-            <h5 class="card-title">How much wood would a woodchuck chuck</h5>
-            <p class="card-text">I'm an aspiring instagram model and influencer that likes video games!</p>
-        </div>
+<div class="row">
+    <div class="col-sm-12 text-center">
+        <img src="~/img/affinityLogoV2.png" style="max-width: 100%;" />
     </div>
 </div>
+<br />
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="row text-center">
+        <div class="col-sm-6">
+            <a class="btn btn-outline-primary btn-lg" style="width: 100%;" role="button" asp-area="" asp-controller="Profile" asp-action="Index">Profile</a>
+        </div>
+        <div class="col-sm-6">
+            <a class="btn btn-outline-primary btn-lg" style="width: 100%;" role="button" asp-area="" asp-controller="Matches" asp-action="Index">Matches</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row text-center">
+        <div class="col-sm-6">
+            <a class="btn btn-outline-primary btn-lg" style="width: 100%;" role="button" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </div>
+        <div class="col-sm-6">
+            <a class="btn btn-outline-primary btn-lg" style="width: 100%;" role="button" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </div>
+    </div>
+}

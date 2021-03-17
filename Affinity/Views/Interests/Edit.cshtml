@@ -23,7 +23,7 @@
                 <select asp-for="InterestSubCategoryId" class="form-control" asp-items="ViewBag.InterestSubCategoryId">Interest</select>
                 <span asp-validation-for="InterestSubCategoryId" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label asp-for="ProfileId" class="control-label">Profile</label>
                 <select asp-for="ProfileId" class="form-control" asp-items="ViewBag.ProfileId"></select>
                 <span asp-validation-for="ProfileId" class="text-danger"></span>

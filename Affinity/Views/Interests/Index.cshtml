@@ -4,46 +4,34 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.InterestCategory)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InterestSubCategory)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Profile)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.InterestCategory.InterestCategoryName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InterestSubCategory.InterestSubCategoryName)
-            </td>
-            <td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Profile.ProfileName)
-            </td>
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.InterestId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.InterestId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.InterestId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="container">
+    <h1>My Interests</h1>
+    <hr />
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <h5>Enter your interests, and you'll be automatically matched with people who share the same ones!</h5>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <a class="btn btn-outline-primary btn-lg" role="button" asp-action="Create">➕ Add New</a>
+        </div>
+    </div>
+    <br />
+    <hr />
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            string interest = item.InterestCategory.InterestCategoryName + ": " + item.InterestSubCategory.InterestSubCategoryName;
+            <h3>
+                <span class="badge badge-light">
+                    <a asp-action="Edit" asp-route-id="@item.InterestId">@interest</a>
+                </span>
+            </h3>
+            <h3>
+                <a class="close" role="button" style="padding-top: 6px; color: cornflowerblue;" asp-action="Delete" asp-route-id="@item.InterestId">&nbsp;×&nbsp;</a>
+            </h3>
+        }
+    </div>
+</div>

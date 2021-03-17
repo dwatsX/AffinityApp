@@ -4,8 +4,63 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<div>
+    <h1>Matches</h1>
+    <div class="card">
+        <div class="card-header">
+            Bob, 25
+        </div>
+        <div class="card-body">
+            <div class="picContainer">
+                <img class="profilePic" src="~/img/guy1.jpeg" />
+            </div>
+            <h5 class="card-title">Arcade games are the best</h5>
+            <p class="card-text">Hi I'm Bob and I really like Mario Kart, retro arcade games, and rock music.</p>
+        </div>
 
+    </div>
+    <br />
+    <div class="card">
+        <div class="card-header">
+            Jane, 23
+        </div>
+        <div class="card-body">
+            <div class="picContainer">
+                <img class="profilePic" src="~/img/girl1.jpeg" />
+            </div>
+            <h5 class="card-title">I am a wizard</h5>
+            <p class="card-text">I'm Jane and I play D&D all day and all night</p>
+        </div>
+
+    </div>
+    <br />
+    <div class="card">
+        <div class="card-header">
+            John, 26
+        </div>
+        <div class="card-body">
+            <div class="picContainer">
+                <img class="profilePic" src="~/img/guy2.jpg" />
+            </div>
+            <h5 class="card-title">To be or not to be, that is the question</h5>
+            <p class="card-text">I really like eating various forms of bread products especially baguettes</p>
+        </div>
+
+    </div>
+    <br />
+    <div class="card">
+        <div class="card-header">
+            Sarah, 29
+        </div>
+        <div class="card-body">
+            <div class="picContainer">
+                <img class="profilePic" src="~/img/girl3.jpeg" />
+            </div>
+            <h5 class="card-title">How much wood would a woodchuck chuck</h5>
+            <p class="card-text">I'm an aspiring instagram model and influencer that likes video games!</p>
+        </div>
+    </div>
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -18,26 +73,39 @@
             <th>
                 @Html.DisplayNameFor(model => model.MatchedProfile.Description)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MatchedProfile.Images)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MatchedProfile.Interests)
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Profile.ProfileName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MatchedProfile.ProfileName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MatchedProfile.Description)
-            </td>
-            <td>
-                <a asp-controller="profile" asp-action="Details" asp-route-id="@item.MatchedProfileId">View Profile</a> |
-                <a asp-action="Details" asp-route-id="@item.MatchId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MatchId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Profile.ProfileName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MatchedProfile.ProfileName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MatchedProfile.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MatchedProfile.Images.Count)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MatchedProfile.Interests.Count)
+                </td>
+                <td>
+                    <a asp-controller="profile" asp-action="Details" asp-route-id="@item.MatchedProfileId">View Profile</a> |
+                    <a asp-action="Details" asp-route-id="@item.MatchId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.MatchId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
