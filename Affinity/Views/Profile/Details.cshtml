@@ -14,7 +14,7 @@
     {
         // Images Carousel
         <div class="card">
-            <div id="profilePicCarousel" class="carousel slide carouselContainer" data-ride="carousel">
+            <div id="profilePicCarousel" class="carousel carouselContainer" data-ride="carousel">
                 <ol class="carousel-indicators">
                     @if (Model.Images.Count >= 2)
                     {
@@ -109,7 +109,7 @@
                 @foreach (var i in Model.Interests)
                 {
                     string interest = i.InterestCategory.InterestCategoryName + ": " + i.InterestSubCategory.InterestSubCategoryName;
-                    <span class="badge bg-secondary">@interest</span>
+                    <span class="badge bg-primary">@interest</span>
                 }
             }
         </h3>

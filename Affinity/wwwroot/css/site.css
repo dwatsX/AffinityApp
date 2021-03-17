@@ -17,15 +17,15 @@ a.navbar-brand {
 
 /* Provide sufficient contrast against white background */
 a, a:visited {
-    color: darkgray;
+    color: cornflowerblue;
 }
 
     a:hover {
-        color: grey;
+        color: cornflowerblue;
     }
 
     a:active {
-        color: grey;
+        color: cornflowerblue;
     }
 
 .btn-primary {
@@ -138,3 +138,18 @@ body {
 .card-header {
     background-color: #91daff !important;
 }
+
+/* Interests
+----------------------------------------------- */
+
+.interestsBadges, .interestsBadges:visited {
+    color: white !important;
+}
+
+    .interestsBadges:hover {
+        color: blue;
+    }
+
+    .interestsBadges:active {
+        color: blue;
+    }
