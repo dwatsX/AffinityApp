@@ -1,0 +1,38 @@
+﻿@model Affinity.ViewModels.FriendsViewModel
+
+@{
+    ViewData["Title"] = "Add";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="row centered-form">
+    <div class="container col-md-6 col-md-offset-1">
+        <h4>
+            <i aria-hidden="true"></i> Are you sure you want to add @Model.Name
+        </h4>
+        <hr />
+        <form asp-action="Add"  asp-route-id="@Model.Id">
+            <div class="form-row">
+                <div asp-validation-summary="All" class="text-danger"></div>
+            </div>
+            <div class="form-row">
+                <div>
+                    @*<a asp-controller="Friends" asp-action="AddUser" asp-route-id="@Model.Id">Yes</a> |*@
+                    <input name="userProfileId" value="@Model.Id" type="hidden"/>
+                    <input type="submit" class="btn btn-primary w-100" value="AddUser"/>
+                </div>
+                <div>
+                    <a asp-controller="Matches" asp-action="Index">No - Back to Friends List</a>
+                </div>
+            </div>
+        </form>
+
+
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

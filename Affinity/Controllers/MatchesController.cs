@@ -9,6 +9,7 @@ using Affinity.Data;
 using Affinity.Models;
 using Microsoft.AspNetCore.Identity;
 using Affinity.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Affinity.Controllers
 {
@@ -24,6 +25,7 @@ namespace Affinity.Controllers
         }
 
         // GET: Matches
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             User user = await _userManager.GetUserAsync(User);
@@ -74,25 +76,12 @@ namespace Affinity.Controllers
             _context.Update(profile);
             await _context.SaveChangesAsync();
 
-            var viewModel = new MatchesViewModel
-            {
-
-            };
-
             return View(profile.Matches);
-            //IQueryable<Matches> matchQuery = _context.Matches.Include(g => g.MatchId).Where(p => p.ProfileId =);
 
-
-            //if (user1 == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //var applicationDbContext = _context.Matches.Include(m => m.MatchedProfile).Include(m => m.Profile);
-            //return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Matches/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -113,6 +102,7 @@ namespace Affinity.Controllers
         }
 
         // GET: Matches/Create
+        [Authorize]
         public IActionResult Create()
         {
             ViewData["MatchedProfileId"] = new SelectList(_context.Profile, "ProfileId", "ProfileName");
@@ -124,6 +114,7 @@ namespace Affinity.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("MatchId,ProfileId,MatchedProfileId")] Matches matches)
         {
@@ -139,6 +130,7 @@ namespace Affinity.Controllers
         }
 
         // GET: Matches/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -160,6 +152,7 @@ namespace Affinity.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("MatchId,ProfileId,MatchedProfileId")] Matches matches)
         {
@@ -194,6 +187,7 @@ namespace Affinity.Controllers
         }
 
         // GET: Matches/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

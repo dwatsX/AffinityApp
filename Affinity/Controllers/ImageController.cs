@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Affinity.Data;
 using Affinity.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Affinity.Controllers
 {
@@ -21,6 +22,7 @@ namespace Affinity.Controllers
 
         // GET: Image
         [HttpGet("[controller]/{profileId}")]
+        [Authorize]
         public async Task<IActionResult> Index(int? profileId)
         {
             if (profileId == null)
@@ -34,6 +36,7 @@ namespace Affinity.Controllers
         }
 
         // GET: Image/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -64,6 +67,7 @@ namespace Affinity.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ImageId,ProfileId,ImageURL")] Image image)
         {
@@ -107,6 +111,7 @@ namespace Affinity.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ImageId,ProfileId,ImageURL")] Image image)
         {
@@ -140,6 +145,7 @@ namespace Affinity.Controllers
         }
 
         // GET: Image/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

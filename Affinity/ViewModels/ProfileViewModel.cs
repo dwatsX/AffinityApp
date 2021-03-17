@@ -20,5 +20,8 @@ namespace Affinity.ViewModels
         public string Instagram { get; set; }
         public string Location { get; set; }
         public string Occupation { get; set; }
+        public Frequency Alcohol { get; set; }
+        public Frequency Marijuana { get; set; }
+        public Frequency Cigarettes { get; set; }
     }
 }

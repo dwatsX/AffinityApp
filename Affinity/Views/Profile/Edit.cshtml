@@ -97,30 +97,18 @@
         <div class="row profileLifestyle">
             <div class="col-sm-4 form-group">
                 <h6>Do you smoke?</h6>
-                <select class="form-control" name="smoke" id="smoke">
-                    <option value="no">No</option>
-                    <option value="yes">Yes</option>
-                    <option value="occasionally">Occasionally</option>
-                    <option value="socially">Socially</option>
-                </select>
+                <select class="form-control right" id="select-visibility" asp-for="Cigarettes" asp-items="@Html.GetEnumSelectList<Frequency>()"></select>
+
             </div>
             <div class="col-sm-4 form-group">
                 <h6>Do you drink?</h6>
-                <select class="form-control" name="drink" id="drink">
-                    <option value="no">No</option>
-                    <option value="yes">Yes</option>
-                    <option value="occasionally">Occasionally</option>
-                    <option value="socially">Socially</option>
-                </select>
+                <select class="form-control right" id="select-visibility" asp-for="Alcohol" asp-items="@Html.GetEnumSelectList<Frequency>()"></select>
+
             </div>
             <div class="col-sm-4 form-group">
                 <h6>Do you use cannabis?</h6>
-                <select class="form-control" name="cannabis" id="cannabis">
-                    <option value="no">No</option>
-                    <option value="yes">Yes</option>
-                    <option value="occasionally">Occasionally</option>
-                    <option value="socially">Socially</option>
-                </select>
+                <select class="form-control right" id="select-visibility" asp-for="Marijuana" asp-items="@Html.GetEnumSelectList<Frequency>()"></select>
+
             </div>
         </div>
         <hr />
@@ -133,6 +121,18 @@
                 </div>
             </div>
         </div>
+
+        <div class="form-group">
+            <label asp-for="Instagram" class="control-label"></label>
+            <input asp-for="Instagram" class="form-control" />
+            <span asp-validation-for="Instagram" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Discord" class="control-label"></label>
+            <input asp-for="Discord" class="form-control" />
+            <span asp-validation-for="Discord" class="text-danger"></span>
+        </div>
+
         <hr />
         <div class="form-group">
             <input type="submit" value="Save" class="btn btn-primary" />
@@ -140,18 +140,7 @@
     </form>
 </div>
 
-<!--
-<div class="form-group">
-    <label asp-for="Instagram" class="control-label"></label>
-    <input asp-for="Instagram" class="form-control" />
-    <span asp-validation-for="Instagram" class="text-danger"></span>
-</div>
-<div class="form-group">
-    <label asp-for="Discord" class="control-label"></label>
-    <input asp-for="Discord" class="form-control" />
-    <span asp-validation-for="Discord" class="text-danger"></span>
-</div>
--->
+
 
 <div>
     <a asp-action="Index">Back to List</a>

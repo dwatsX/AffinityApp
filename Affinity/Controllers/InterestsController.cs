@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Affinity.Data;
 using Affinity.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Affinity.Controllers
 {
@@ -23,6 +24,7 @@ namespace Affinity.Controllers
         }
 
         // GET: Interests
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Interests.Include(i => i.InterestCategory).Include(i => i.InterestSubCategory).Include(i =>i.Profile);
@@ -30,6 +32,7 @@ namespace Affinity.Controllers
         }
 
         // GET: Interests/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -51,6 +54,7 @@ namespace Affinity.Controllers
         }
 
         // GET: Interests/Create
+        [Authorize]
         public IActionResult Create()
         {
             ViewData["InterestCategoryId"] = new SelectList(_context.InterestCategory, "InterestCategoryId", "InterestCategoryName");
@@ -63,6 +67,7 @@ namespace Affinity.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("InterestId,InterestCategoryId,InterestSubCategoryId,ProfileId")] Interests interests)
         {
@@ -79,6 +84,7 @@ namespace Affinity.Controllers
         }
 
         // GET: Interests/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -101,6 +107,7 @@ namespace Affinity.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("InterestId,InterestCategoryId,InterestSubCategoryId,ProfileId")] Interests interests)
         {
@@ -136,6 +143,7 @@ namespace Affinity.Controllers
         }
 
         // GET: Interests/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -158,6 +166,7 @@ namespace Affinity.Controllers
 
         // POST: Interests/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

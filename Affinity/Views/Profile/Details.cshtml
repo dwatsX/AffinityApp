@@ -82,13 +82,13 @@
 </div>
 <div class="row profileLifestyle">
     <div class="col-sm-4">
-        <h4><i class="fa fa-smoking text-secondary pr-2" aria-hidden="true"></i>  No</h4>
+        <h4><i class="fa fa-smoking text-secondary pr-2" aria-hidden="true"></i>  @Html.DisplayFor(model => model.Cigarettes)</h4>
     </div>
     <div class="col-sm-4">
-        <h4><i class="fa fa-glass-cheers text-secondary pr-2" aria-hidden="true"></i>  Socially</h4>
+        <h4><i class="fa fa-glass-cheers text-secondary pr-2" aria-hidden="true"></i>  @Html.DisplayFor(model => model.Alcohol)</h4>
     </div>
     <div class="col-sm-4">
-        <h4><i class="fa fa-cannabis text-secondary pr-2" aria-hidden="true"></i>  Sometimes</h4>
+        <h4><i class="fa fa-cannabis text-secondary pr-2" aria-hidden="true"></i> @Html.DisplayFor(model => model.Marijuana)</h4>
     </div>
 </div>
 <hr />
@@ -99,6 +99,19 @@
         <div class="shadow p-3 mb-5 bg-body rounded">@Html.DisplayFor(model => model.Description)</div>
     </div>
 </div>
+<div class="row">
+    <div class="col-sm-6">
+        <h3>Instagram</h3>
+        <br />
+        <div class="shadow p-3 mb-5 bg-body rounded">@Html.DisplayFor(model => model.Instagram)</div>
+    </div>
+    <div class="col-sm-6">
+        <h3>Discord</h3>
+        <br />
+        <div class="shadow p-3 mb-5 bg-body rounded">@Html.DisplayFor(model => model.Discord)</div>
+    </div>
+</div>
+
 <hr />
 <div class="row">
     <div class="col-sm-12">

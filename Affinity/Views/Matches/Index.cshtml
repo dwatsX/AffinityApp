@@ -101,9 +101,10 @@
                     @Html.DisplayFor(modelItem => item.MatchedProfile.Interests.Count)
                 </td>
                 <td>
-                    <a asp-controller="profile" asp-action="Details" asp-route-id="@item.MatchedProfileId">View Profile</a> |
-                    <a asp-action="Details" asp-route-id="@item.MatchId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.MatchId">Delete</a>
+                    <a asp-controller="Profile" asp-action="Details" asp-route-id="@item.MatchedProfileId">View Profile</a> |
+                    <a asp-controller="Friends" asp-action="Add" asp-route-id="@item.MatchedProfileId">Send Friend Request</a> |
+                  @*@Html.ActionLink("AddUser", "AddUser", "Friends", new { id = item.MatchedProfileId})*@
+                    <a asp-controller="Friends" asp-action="Delete" asp-route-id="@item.MatchId">Delete</a>
                 </td>
             </tr>
         }
