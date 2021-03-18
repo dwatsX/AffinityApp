@@ -117,7 +117,11 @@ namespace Affinity.Migrations
                     Discord = table.Column<string>(unicode: false, maxLength: 150, nullable: true),
                     Instagram = table.Column<string>(unicode: false, maxLength: 150, nullable: true),
                     Location = table.Column<string>(unicode: false, maxLength: 150, nullable: true),
-                    Occupation = table.Column<string>(unicode: false, maxLength: 150, nullable: true)
+                    Occupation = table.Column<string>(unicode: false, maxLength: 150, nullable: true),
+                    Education = table.Column<string>(nullable: true),
+                    Alcohol = table.Column<int>(nullable: false),
+                    Marijuana = table.Column<int>(nullable: false),
+                    Cigarettes = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -261,6 +265,33 @@ namespace Affinity.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserRelationship",
+                columns: table => new
+                {
+                    UserRelationshipId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RelatingUser = table.Column<int>(nullable: false),
+                    RelatedUser = table.Column<int>(nullable: false),
+                    Type = table.Column<int>(nullable: false, defaultValue: 0)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserRelationship", x => x.UserRelationshipId);
+                    table.ForeignKey(
+                        name: "FK_User_Related",
+                        column: x => x.RelatedUser,
+                        principalTable: "Profile",
+                        principalColumn: "ProfileId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_User_Relating",
+                        column: x => x.RelatingUser,
+                        principalTable: "Profile",
+                        principalColumn: "ProfileId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Interests",
                 columns: table => new
                 {
@@ -317,8 +348,8 @@ namespace Affinity.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "4e9b841d-b1af-43ba-99a5-3c24c083ab50", "Admin", "ADMIN" },
-                    { 2, "7071c523-d869-4f8c-9e85-de0321c4f743", "Member", "MEMBER" }
+                    { 1, "97e1fbd8-ebf1-4055-ab97-2294a60324bd", "Admin", "ADMIN" },
+                    { 2, "ba449407-f00a-4a8d-bb35-29f79a708305", "Member", "MEMBER" }
                 });
 
             migrationBuilder.InsertData(
@@ -326,8 +357,8 @@ namespace Affinity.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "AccountNum", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "Gender", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, "4b47790c-586b-4d53-b3a6-32365af6d28f", new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "86dd11d3-44cb-4bc9-af83-2262192d318f", "admin@admin.com", true, "Other", false, null, "Admin", "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAEARlyD4eyhMJxb5eDv/vhGCSWPLZHKSa8jCcaZrzrysw9PPYnwUnyYo/14cP8BTHEQ==", "555-555-5555", false, "", false, "admin" },
-                    { 2, 0, "ddb5e8af-d1f6-4236-9369-844bf845ee1a", new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "aa0aea9b-07d1-45c9-be0d-c18e65bfc221", "user@user.com", true, "Other", false, null, "User", "USER@USER.COM", "USER", "AQAAAAEAACcQAAAAEDopb5MVYvXFJO7Zun4UFed1Xu2W5ahFbto3Wee7fgIoOb5LiWsGsYXJ50lBRsuebQ==", "555-555-5555", false, "", false, "user" }
+                    { 1, 0, "2c281fda-0552-44c8-a61d-cc2f319f6ae4", new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "02d666b1-4b34-48eb-8050-95512e31b757", "admin@admin.com", true, "Other", false, null, "Admin", "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAEOiBNp0JJ4h5l1Lx7KCDwCPtPiVBuiDeDbl7pDKD2R1EwjtvUjCl7E0hJPDZwN9c+A==", "555-555-5555", false, "", false, "admin" },
+                    { 2, 0, "842a531a-ca9a-4eeb-974e-1d66ea2f9a9d", new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "0c35104f-dcd2-4805-9cc4-0ee8063d217d", "user@user.com", true, "Other", false, null, "User", "USER@USER.COM", "USER", "AQAAAAEAACcQAAAAEBXRsr365BCsR8KP932TSIj9Gnx2o0rT9V/gy86fI36awoCVN7fH2J1QccLNlTB04Q==", "555-555-5555", false, "", false, "user" }
                 });
 
             migrationBuilder.InsertData(
@@ -350,7 +381,7 @@ namespace Affinity.Migrations
                     { 14, 3, "Simulation" },
                     { 12, 3, "Action" },
                     { 11, 3, "RPG" },
-                    { 10, 2, "Africa" },
+                    { 10, 2, "African" },
                     { 9, 2, "South American" },
                     { 8, 2, "North American" },
                     { 7, 2, "European" },
@@ -437,6 +468,17 @@ namespace Affinity.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserRelationship_RelatedUser",
+                table: "UserRelationship",
+                column: "RelatedUser");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserRelationship_RelatingUser_RelatedUser",
+                table: "UserRelationship",
+                columns: new[] { "RelatingUser", "RelatedUser" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserRoles_RoleId",
                 table: "UserRoles",
                 column: "RoleId");
@@ -458,6 +500,9 @@ namespace Affinity.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserLogins");
+
+            migrationBuilder.DropTable(
+                name: "UserRelationship");
 
             migrationBuilder.DropTable(
                 name: "UserRoles");
