@@ -34,24 +34,33 @@ namespace Affinity.Controllers
                 return Problem();
             }
 
+            var profile = _context.Profile
+                .FirstOrDefault(r => r.UserId == user.Id);
+
             var test = await _context.UserRelationships
                 .ToListAsync();
 
             var friends = await _context.UserRelationships
                 .Include(r => r.RelatedUser)
-                .Where(r => r.RelatingUserId == user.Id && r.Type == Relationship.Friend)
+                .Include(r => r.RelatedProfile)
+                .Include(r => r.RelatingProfile)
+                .Include(r => r.RelatingUser)
+                .Where(r => r.RelatingProfileId == profile.ProfileId && r.Type == Relationship.Friend || r.RelatedProfileId == profile.ProfileId && r.Type == Relationship.Friend)
                 .ToListAsync();
 
-            
             var pendings = await _context.UserRelationships
                 .Include(r => r.RelatedUser)
-                .Where(r => r.RelatingUserId == user.Id && r.Type == Relationship.Pending)
-                .ToListAsync();
+                .Include(r => r.RelatedProfile)
+                .Include(r => r.RelatingProfile)
+                .Include(r => r.RelatingUser)
+                .Where(r => r.RelatingProfileId == profile.ProfileId && r.Type == Relationship.Pending ||  r.RelatedProfileId == profile.ProfileId && r.Type == Relationship.Pending)
+                .ToListAsync(); 
 
             return View(new FriendsViewModel
             {
                 FriendRelationships = friends,
                 PendingRelationships = pendings,
+                Id = profile.ProfileId.ToString()
             });
         }
 
@@ -72,7 +81,7 @@ namespace Affinity.Controllers
                 {
                     Id = id,
                     Name = person.ProfileName
-                }) ;
+                });
             }
 
         }
@@ -80,81 +89,73 @@ namespace Affinity.Controllers
         // POST: Friends/Add
         [HttpPost, ActionName("Add")]
         [Authorize]
-        public async Task AddUser(int userProfileId)
+        public async Task<IActionResult> AddUser(int id)
         {
-            if (userProfileId == 0)
-            {
-                ModelState.AddModelError("username", $"Username is required");
-                //return View();
-            }
 
             User userInviting = await _userManager.GetUserAsync(User);
             if (userInviting == null)
             {
-                //return Problem();
+                return Problem();
             }
 
-            var profileInviting =  _context.Profile
+            var profileInviting = _context.Profile
                 .Include(u => u.User)
                 .FirstOrDefault(u => u.UserId == userInviting.Id);
 
-            var profileInvited =  _context.Profile
+            var profileInvited = _context.Profile
                  .Include(u => u.User)
-                .FirstOrDefault(u => u.ProfileId == userProfileId);
+                .FirstOrDefault(u => u.ProfileId == id);
+
+            User userInvited = await _userManager.FindByIdAsync(profileInvited.UserId.ToString());
 
             if (profileInvited == null)
             {
                 ModelState.AddModelError("user", $"No results found matching \"{profileInvited.ProfileName}\"");
-                //return View();
+                return View();
             }
-            else if (profileInvited.ProfileId == userProfileId)
+
+
+            // friend relationship (or invite) already exists
+            if (await _context.UserRelationships.AnyAsync(r => r.RelatedUser.Id == userInvited.Id && r.RelatingUser.Id == userInviting.Id))
             {
-                ModelState.AddModelError("user", "Cannot invite yourself");
-                //return View();
+                return RedirectToAction(nameof(Index));
             }
-
-            //TempData["FriendInvite"] = $"A friend invite was sent to {userInviting.Profile.ProfileName}.";
-
-            //// friend relationship (or invite) already exists
-            //if (await _context.UserRelationships.AnyAsync(r => r.RelatingUserId == user.Id && r.RelatedUserId == userInviting.Id))
-            //{
-            //    return RedirectToAction(nameof(Index));
-            //}
 
             var relationship = new UserRelationship
             {
-                RelatingUserId = profileInviting.UserId,
-                RelatedUserId = profileInvited.UserId,
-                RelatedUser = profileInviting,
-                RelatingUser = profileInvited,
+                RelatingProfileId = profileInviting.ProfileId,
+                RelatedProfileId = profileInvited.ProfileId,
+                RelatedUser = userInvited,
+                RelatingUser = userInviting,
                 Type = Relationship.Pending
             };
 
-            // friend has already sent relationship invite - add them as a friend without invite
-            //var existingRelationship = await _context.UserRelationships.FirstOrDefaultAsync(r => r.RelatingUserId == profileInvited.ProfileId && r.RelatedUserId == profileInviting.ProfileId);
-            //if (existingRelationship != null)
-            //{
-            //    existingRelationship.Type = Relationship.Friend;
-            //    _context.UserRelationships.Update(existingRelationship);
+            //friend has already sent relationship invite -add them as a friend without invite
+            var existingRelationship = await _context.UserRelationships.FirstOrDefaultAsync(r => r.RelatedProfileId == profileInviting.ProfileId && r.RelatingProfileId == profileInvited.ProfileId);
+            if (existingRelationship != null)
+            {
+                existingRelationship.Type = Relationship.Friend;
+                _context.UserRelationships.Update(existingRelationship);        
+                relationship.Type = Relationship.Friend;
+                TempData["FriendInvite"] = $"{profileInvited.ProfileName} has been added to your friends.";
+            }
+            else
+            {
+                TempData["FriendInvite"] = $"A friend invite was sent to {userInviting.Profile.ProfileName}.";
+                _context.UserRelationships.Add(relationship);
+            }
 
-            //    relationship.Type = Relationship.Friend;
-            //    TempData["FriendInvite"] = $"{profileInvited.ProfileName} has been added to your friends.";
-            //}
-            //profileInviting.RelatingRelationships.Add(relationship);
-
-            _context.UserRelationships.Add(relationship);
-            //_context.Profile.Update(profileInviting);
             await _context.SaveChangesAsync();
 
-           // return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index));
         }
 
-        // GET: Friends/Remove/username
-        [HttpGet, Route("Friends/Remove/{username}")]
+        // GET: Friends/Remove/id
+        [HttpGet, Route("Friends/Remove/{id}")]
         [Authorize]
-        public async Task<IActionResult> Remove(string username)
+        public async Task<IActionResult> Remove(string id)
         {
-            if (string.IsNullOrWhiteSpace(username))
+            if (string.IsNullOrWhiteSpace(id))
             {
                 return NotFound();
             }
@@ -165,15 +166,16 @@ namespace Affinity.Controllers
                 return Problem();
             }
 
-            User userRemoving = await _userManager.FindByNameAsync(username);
+            var userRemoving = _userManager.FindByIdAsync(id);
             if (userRemoving.Id == user.Id)
             {
                 return BadRequest();
             }
 
-            var relationship = await _context.UserRelationships
-                .Include(r => r.RelatedUser)
-                .FirstOrDefaultAsync(r => r.RelatingUserId == user.Id && r.RelatedUserId == userRemoving.Id);
+            var relationship = await _context.UserRelationships 
+                .Include(r => r.RelatingUser)
+                .FirstOrDefaultAsync(r => r.RelatingUser.Id == user.Id && r.RelatedUser.Id.ToString() == id || r.RelatedUser.Id == user.Id && r.RelatingUser.Id.ToString() == id);
+
             if (relationship == null)
             {
                 return NotFound();
@@ -183,12 +185,12 @@ namespace Affinity.Controllers
         }
 
         // POST: Friends/Remove/username
-        [HttpPost, ActionName("Remove")]
+        [HttpPost, ActionName("Delete")]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RemoveConfirmed(string userId)
+        public async Task<IActionResult> RemoveConfirmed(string id)
         {
-            if (string.IsNullOrWhiteSpace(userId))
+            if (string.IsNullOrWhiteSpace(id))
             {
                 return NotFound();
             }
@@ -199,18 +201,19 @@ namespace Affinity.Controllers
                 return Problem();
             }
 
-            User userRemoving = await _userManager.FindByNameAsync(userId);
-            if (user.Id == userRemoving.Id)
+            var userRemoving = _context.Profile.FirstOrDefault(r => r.ProfileId.ToString() == id);
+            if (user.Id == userRemoving.ProfileId)
             {
                 return BadRequest();
             }
 
             // get relationships
-            var relationships = await _context.UserRelationships
-                .Where(r => (r.RelatingUserId == user.Id && r.RelatedUserId == userRemoving.Id) ||
-                    (r.RelatingUserId == userRemoving.Id && r.RelatedUserId == user.Id))
-                .ToArrayAsync();
-            _context.RemoveRange(relationships);
+
+            var relationship = await _context.UserRelationships
+                .Include(r => r.RelatingUser)
+                .FirstOrDefaultAsync(r => r.RelatingUser.Id == user.Id && r.RelatedProfileId.ToString() == id);
+                
+            _context.RemoveRange(relationship);
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));

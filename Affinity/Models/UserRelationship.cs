@@ -11,24 +11,32 @@ namespace Affinity.Models
         /// <summary>
         /// This User's ID.
         /// </summary>
-        public int RelatingUserId { get; set; }
+        public int RelatingProfileId { get; set; }
         /// <summary>
         /// This user's related User's ID (ie: Friend).
         /// </summary>
-        public int RelatedUserId { get; set; }
+        public int RelatedProfileId { get; set; }
         /// <summary>
         /// The relationship type for these two users.
         /// </summary>
         public Relationship Type { get; set; }
 
         /// <summary>
+        /// This Users profile.
+        /// </summary>
+        public Profile RelatingProfile { get; set; }
+        /// <summary>
+        /// This user's related Profile (ie: Friend).
+        /// </summary>
+        public Profile RelatedProfile { get; set; }
+        /// <summary>
         /// This User.
         /// </summary>
-        public Profile RelatingUser { get; set; }
+        public User RelatingUser { get; set; }
         /// <summary>
         /// This user's related User (ie: Friend).
         /// </summary>
-        public Profile RelatedUser { get; set; }
+        public User RelatedUser { get; set; }
     }
     public enum Relationship
     {

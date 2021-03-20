@@ -9,6 +9,7 @@ namespace Affinity.ViewModels
     public class FriendsViewModel
     {
         public string Id { get; set; }
+        public Profile InvitedProfile{ get; set; }
         public string Name { get; set; }
         public List<UserRelationship> PendingRelationships { get; set; }
         public List<UserRelationship> FriendRelationships { get; set; }
