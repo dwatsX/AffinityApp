@@ -270,24 +270,38 @@ namespace Affinity.Migrations
                 {
                     UserRelationshipId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RelatingUser = table.Column<int>(nullable: false),
-                    RelatedUser = table.Column<int>(nullable: false),
-                    Type = table.Column<int>(nullable: false, defaultValue: 0)
+                    RelatingUserProfile = table.Column<int>(nullable: false),
+                    RelatedUserProfile = table.Column<int>(nullable: false),
+                    Type = table.Column<int>(nullable: false, defaultValue: 0),
+                    RelatingUserId = table.Column<int>(nullable: true),
+                    RelatedUserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserRelationship", x => x.UserRelationshipId);
                     table.ForeignKey(
-                        name: "FK_User_Related",
-                        column: x => x.RelatedUser,
+                        name: "FK_Profile_Related",
+                        column: x => x.RelatedUserProfile,
                         principalTable: "Profile",
                         principalColumn: "ProfileId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_User_Relating",
-                        column: x => x.RelatingUser,
+                        name: "FK_UserRelationship_User_RelatedUserId",
+                        column: x => x.RelatedUserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Profile_Relating",
+                        column: x => x.RelatingUserProfile,
                         principalTable: "Profile",
                         principalColumn: "ProfileId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserRelationship_User_RelatingUserId",
+                        column: x => x.RelatingUserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -348,8 +362,8 @@ namespace Affinity.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "97e1fbd8-ebf1-4055-ab97-2294a60324bd", "Admin", "ADMIN" },
-                    { 2, "ba449407-f00a-4a8d-bb35-29f79a708305", "Member", "MEMBER" }
+                    { 1, "ee2d242b-6adb-46ba-a77a-dfa1a77f2603", "Admin", "ADMIN" },
+                    { 2, "87487151-a1b0-4500-9fbd-641b40ee06c8", "Member", "MEMBER" }
                 });
 
             migrationBuilder.InsertData(
@@ -357,8 +371,8 @@ namespace Affinity.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "AccountNum", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "Gender", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, "2c281fda-0552-44c8-a61d-cc2f319f6ae4", new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "02d666b1-4b34-48eb-8050-95512e31b757", "admin@admin.com", true, "Other", false, null, "Admin", "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAEOiBNp0JJ4h5l1Lx7KCDwCPtPiVBuiDeDbl7pDKD2R1EwjtvUjCl7E0hJPDZwN9c+A==", "555-555-5555", false, "", false, "admin" },
-                    { 2, 0, "842a531a-ca9a-4eeb-974e-1d66ea2f9a9d", new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "0c35104f-dcd2-4805-9cc4-0ee8063d217d", "user@user.com", true, "Other", false, null, "User", "USER@USER.COM", "USER", "AQAAAAEAACcQAAAAEBXRsr365BCsR8KP932TSIj9Gnx2o0rT9V/gy86fI36awoCVN7fH2J1QccLNlTB04Q==", "555-555-5555", false, "", false, "user" }
+                    { 1, 0, "b81af45d-9dc7-4794-931b-cfd0e2b1bf0d", new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "53a29bfc-360e-4962-8cfe-53073631c1e0", "admin@admin.com", true, "Other", false, null, "Admin", "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAEI3cV/paGeDbhjJIovCnrHOD3glhnhFPyiT2o3twMvRHTbKfqm9SNFYQvvO+JQRgJg==", "555-555-5555", false, "", false, "admin" },
+                    { 2, 0, "20d4d5ad-ef79-4da4-b917-d7fcbf519e0f", new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "f11b3a01-c12e-4fe7-b643-f16c4288a7df", "user@user.com", true, "Other", false, null, "User", "USER@USER.COM", "USER", "AQAAAAEAACcQAAAAEDHeKbKhlhj3i1Nf0TkAmfdTg1QoGanR3/r4o+TFtjt7Infy7Y6l1xMFkogpd+up4A==", "555-555-5555", false, "", false, "user" }
                 });
 
             migrationBuilder.InsertData(
@@ -468,14 +482,24 @@ namespace Affinity.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRelationship_RelatedUser",
+                name: "IX_UserRelationship_RelatedUserProfile",
                 table: "UserRelationship",
-                column: "RelatedUser");
+                column: "RelatedUserProfile");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRelationship_RelatingUser_RelatedUser",
+                name: "IX_UserRelationship_RelatedUserId",
                 table: "UserRelationship",
-                columns: new[] { "RelatingUser", "RelatedUser" },
+                column: "RelatedUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserRelationship_RelatingUserId",
+                table: "UserRelationship",
+                column: "RelatingUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserRelationship_RelatingUserProfile_RelatedUserProfile",
+                table: "UserRelationship",
+                columns: new[] { "RelatingUserProfile", "RelatedUserProfile" },
                 unique: true);
 
             migrationBuilder.CreateIndex(

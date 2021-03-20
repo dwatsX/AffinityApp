@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Affinity.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210317180744_CreateApplicationSchema")]
+    [Migration("20210319144008_CreateApplicationSchema")]
     partial class CreateApplicationSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -435,14 +435,14 @@ namespace Affinity.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "97e1fbd8-ebf1-4055-ab97-2294a60324bd",
+                            ConcurrencyStamp = "ee2d242b-6adb-46ba-a77a-dfa1a77f2603",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "ba449407-f00a-4a8d-bb35-29f79a708305",
+                            ConcurrencyStamp = "87487151-a1b0-4500-9fbd-641b40ee06c8",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         });
@@ -548,9 +548,9 @@ namespace Affinity.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            AccountNum = "2c281fda-0552-44c8-a61d-cc2f319f6ae4",
+                            AccountNum = "b81af45d-9dc7-4794-931b-cfd0e2b1bf0d",
                             BirthDate = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "02d666b1-4b34-48eb-8050-95512e31b757",
+                            ConcurrencyStamp = "53a29bfc-360e-4962-8cfe-53073631c1e0",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             Gender = "Other",
@@ -558,7 +558,7 @@ namespace Affinity.Migrations
                             Name = "Admin",
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOiBNp0JJ4h5l1Lx7KCDwCPtPiVBuiDeDbl7pDKD2R1EwjtvUjCl7E0hJPDZwN9c+A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEI3cV/paGeDbhjJIovCnrHOD3glhnhFPyiT2o3twMvRHTbKfqm9SNFYQvvO+JQRgJg==",
                             PhoneNumber = "555-555-5555",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -569,9 +569,9 @@ namespace Affinity.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            AccountNum = "842a531a-ca9a-4eeb-974e-1d66ea2f9a9d",
+                            AccountNum = "20d4d5ad-ef79-4da4-b917-d7fcbf519e0f",
                             BirthDate = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "0c35104f-dcd2-4805-9cc4-0ee8063d217d",
+                            ConcurrencyStamp = "f11b3a01-c12e-4fe7-b643-f16c4288a7df",
                             Email = "user@user.com",
                             EmailConfirmed = true,
                             Gender = "Other",
@@ -579,7 +579,7 @@ namespace Affinity.Migrations
                             Name = "User",
                             NormalizedEmail = "USER@USER.COM",
                             NormalizedUserName = "USER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBXRsr365BCsR8KP932TSIj9Gnx2o0rT9V/gy86fI36awoCVN7fH2J1QccLNlTB04Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDHeKbKhlhj3i1Nf0TkAmfdTg1QoGanR3/r4o+TFtjt7Infy7Y6l1xMFkogpd+up4A==",
                             PhoneNumber = "555-555-5555",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -598,12 +598,18 @@ namespace Affinity.Migrations
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("RelatedUserId")
-                        .HasColumnName("RelatedUser")
+                    b.Property<int>("RelatedProfileId")
+                        .HasColumnName("RelatedUserProfile")
                         .HasColumnType("int");
 
-                    b.Property<int>("RelatingUserId")
-                        .HasColumnName("RelatingUser")
+                    b.Property<int?>("RelatedUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RelatingProfileId")
+                        .HasColumnName("RelatingUserProfile")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RelatingUserId")
                         .HasColumnType("int");
 
                     b.Property<int>("Type")
@@ -614,9 +620,13 @@ namespace Affinity.Migrations
 
                     b.HasKey("UserRelationshipId");
 
+                    b.HasIndex("RelatedProfileId");
+
                     b.HasIndex("RelatedUserId");
 
-                    b.HasIndex("RelatingUserId", "RelatedUserId")
+                    b.HasIndex("RelatingUserId");
+
+                    b.HasIndex("RelatingProfileId", "RelatedProfileId")
                         .IsUnique();
 
                     b.ToTable("UserRelationship");
@@ -795,17 +805,25 @@ namespace Affinity.Migrations
 
             modelBuilder.Entity("Affinity.Models.UserRelationship", b =>
                 {
-                    b.HasOne("Affinity.Models.Profile", "RelatedUser")
+                    b.HasOne("Affinity.Models.Profile", "RelatedProfile")
                         .WithMany("RelatedRelationships")
-                        .HasForeignKey("RelatedUserId")
-                        .HasConstraintName("FK_User_Related")
+                        .HasForeignKey("RelatedProfileId")
+                        .HasConstraintName("FK_Profile_Related")
                         .IsRequired();
 
-                    b.HasOne("Affinity.Models.Profile", "RelatingUser")
+                    b.HasOne("Affinity.Models.User", "RelatedUser")
+                        .WithMany()
+                        .HasForeignKey("RelatedUserId");
+
+                    b.HasOne("Affinity.Models.Profile", "RelatingProfile")
                         .WithMany("RelatingRelationships")
-                        .HasForeignKey("RelatingUserId")
-                        .HasConstraintName("FK_User_Relating")
+                        .HasForeignKey("RelatingProfileId")
+                        .HasConstraintName("FK_Profile_Relating")
                         .IsRequired();
+
+                    b.HasOne("Affinity.Models.User", "RelatingUser")
+                        .WithMany()
+                        .HasForeignKey("RelatingUserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

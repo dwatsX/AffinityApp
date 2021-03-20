@@ -1,4 +1,5 @@
 ﻿@model Affinity.ViewModels.FriendsViewModel
+@using Microsoft.AspNetCore.Identity
 
 @{
     ViewData["Title"] = "Index";
@@ -32,75 +33,112 @@
                             <i class="fa fa-check-square-o mr-2" aria-hidden="true"></i>@TempData["FriendInvite"]
                         </div>
                     }
-                    @if (TempData["RestrictedWishlist"] is string)
-                    {
-                        <div class="alert alert-danger" role="alert">
-                            <i class="fa fa-exclamation-triangle mr-2" aria-hidden="true"></i>@TempData["RestrictedWishlist"]
-                        </div>
-                    }
                 </div>
             </div>
 
-        @if (Model.PendingRelationships.Any())
-        {
+            @if (Model.PendingRelationships.Any())
+            {
+                <hr />
+                <h4 class=" font-weight-light mb-3">You have a friend request!</h4>
+
+                <div class="container moist-border-secondary mt-3 p-2">
+                    @foreach (var item in Model.PendingRelationships)
+                    {
+                        <div class="row">
+
+
+                            <div class="col-xl-8 d-flex">
+                                @if (User.Identity.Name == item.RelatingUser.Email)
+                                {
+                                    <div class="col-lg-4 pt-2">
+                                        <span class=" font-weight-bold">
+                                            <i class="fa fa-user-o pl-2 pr-2" aria-hidden="true"></i>@Html.DisplayFor(modelItem => item.RelatedProfile.ProfileName)
+                                        </span>
+                                    </div>
+                                    <form class="flex-fill mr-3">
+                                        <button type="button" disabled>Pending..</button>
+                                    </form>
+                                    <form class="flex-fill" asp-action="Remove">
+                                        <input type="hidden" name="id" value="@item.RelatedProfileId" />
+                                        <button type="submit" class="btn btn-danger w-100">
+                                            <i class="fa fa-user-times pr-2" aria-hidden="true"></i>Remove
+                                        </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <div class="col-lg-4 pt-2">
+                                        <span class=" font-weight-bold">
+                                            <i class="fa fa-user-o pl-2 pr-2" aria-hidden="true"></i>@Html.DisplayFor(modelItem => item.RelatingProfile.ProfileName)
+                                        </span>
+                                    </div>
+                                    <form class="flex-fill mr-3" asp-action="Add">
+                                        <input type="hidden" name="id" value="@item.RelatingProfileId" />
+                                        <button type="submit" class="btn btn-primary btn-success w-100">
+                                            <i class="fa fa-user-plus pr-2" aria-hidden="true"></i>Accept
+                                        </button>
+                                    </form>
+                                    <form class="flex-fill" asp-action="Remove">
+                                        <input type="hidden" name="id" value="@item.RelatingProfileId" />
+                                        <button type="submit" class="btn btn-danger w-100">
+                                            <i class="fa fa-user-times pr-2" aria-hidden="true"></i>Remove
+                                        </button>
+                                    </form>
+                                }
+
+
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+
             <hr />
-            <h4 class=" font-weight-light mb-3">You have a friend request!</h4>
 
-            <div class="container moist-border-secondary mt-3 p-2">
-                @foreach (var item in Model.PendingRelationships)
-                {
-                    <div class="row">
-                        <div class="col-lg-4 pt-2">
-                            <span class=" font-weight-bold">
-                                <i class="fa fa-user-o pl-2 pr-2" aria-hidden="true"></i>@Html.DisplayFor(modelItem => item.RelatingUser.ProfileName)
-                            </span>
-                        </div>
-                        <div class="col-xl-8 d-flex">
-                            <form class="flex-fill mr-3" asp-action="Add">
-                                <input type="hidden" name="username" value="@item.RelatingUser.ProfileName" />
-                                <button type="submit" class="btn btn-primary btn-success w-100">
-                                    <i class="fa fa-user-plus pr-2" aria-hidden="true"></i>Accept
-                                </button>
-                            </form>
-                            <form class="flex-fill" asp-action="Remove">
-                                <input type="hidden" name="username" value="@item.RelatingUser.ProfileName" />
-                                <button type="submit" class="btn btn-danger w-100">
-                                    <i class="fa fa-user-times pr-2" aria-hidden="true"></i>Remove
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                }
-            </div>
-        }
+            @if (Model.FriendRelationships.Any())
+            {
+                <h4 class="font-weight-light mb-3">Your Connections</h4>
 
-        <hr />
+                <div class="container rounded moist-bg-light moist-shadow moist-border-secondary mt-3 p-2">
+                    @foreach (var item in Model.FriendRelationships)
+                    {
+                        @if (User.Identity.Name == item.RelatingUser.Email)
+                        {
+                            <div class="row">
+                                <div class="col-lg-4 pt-2">
+                                    <span class="text-dark font-weight-bold">
+                                        <i class="fa fa-user text-secondary pl-2 pr-2" aria-hidden="true"></i>@Html.DisplayFor(modelItem => item.RelatedProfile.ProfileName)
+                                    </span>
+                                </div>
+                                <div class="col-xl-8 d-flex">
+                                    <a class="btn btn-danger d-inline align-middle ml-auto" asp-action="Remove" asp-route-id="@item.RelatedUser.Id" title="Unfriend">
+                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row">
+                                <div class="col-lg-4 pt-2">
+                                    <span class="text-dark font-weight-bold">
+                                        <i class="fa fa-user text-secondary pl-2 pr-2" aria-hidden="true"></i>@Html.DisplayFor(modelItem => item.RelatingProfile.ProfileName)
+                                    </span>
+                                </div>
+                                <div class="col-xl-8 d-flex">
+                                    <a class="btn btn-danger d-inline align-middle ml-auto" asp-action="Remove" asp-route-id="@item.RelatingUser.Id" title="Unfriend">
+                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        }
 
-        @if (Model.FriendRelationships.Any())
-        {
-            <h4 class="font-weight-light mb-3">Your Connections</h4>
-
-            <div class="container rounded moist-bg-light moist-shadow moist-border-secondary mt-3 p-2">
-                @foreach (var item in Model.FriendRelationships)
-                {
-                    <div class="row">
-                        <div class="col-lg-4 pt-2">
-                            <span class="text-dark font-weight-bold">
-                                <i class="fa fa-user text-secondary pl-2 pr-2" aria-hidden="true"></i>@Html.DisplayFor(modelItem => item.RelatedUser.ProfileName)
-                            </span>
-                        </div>
-                        <div class="col-xl-8 d-flex">
-                            <a class="btn btn-danger d-inline align-middle ml-auto" asp-action="Remove" asp-route-username="@item.RelatedUser.ProfileName" title="Unfriend">
-                                <i class="fa fa-trash-o" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                    </div>
-                }
-            </div>
-        }
-        else if (!Model.PendingRelationships.Any())
-        {
-            <h4 class="font-weight-light text-uppercase text-center mt-3">You haven't added anybody yet</h4>
-        }
+                    }
+                </div>
+            }
+            else if (!Model.PendingRelationships.Any())
+            {
+                <h4 class="font-weight-light text-uppercase text-center mt-3">You haven't added anybody yet</h4>
+            }
+        </div>
     </div>
-</div>

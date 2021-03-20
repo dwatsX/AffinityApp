@@ -18,13 +18,13 @@
                 <div asp-validation-summary="All" class="text-danger"></div>
             </div>
             <div class="form-row">
-                <div>
-                    @*<a asp-controller="Friends" asp-action="AddUser" asp-route-id="@Model.Id">Yes</a> |*@
-                    <input name="userProfileId" value="@Model.Id" type="hidden"/>
-                    <input type="submit" class="btn btn-primary w-100" value="AddUser"/>
+                <div>-->
+                    <a asp-controller="Friends" asp-action="AddUser" asp-route-id="@Model.Id"></a> 
+                    <input name="userProfileId"  value="@Model.Id" type="hidden"/>
+                    <input type="submit" class="btn btn-primary w-100" value="Yes"/>
                 </div>
                 <div>
-                    <a asp-controller="Matches" asp-action="Index">No - Back to Friends List</a>
+                    <a asp-controller="Matches" asp-action="Index">No - Back to Matches List</a>
                 </div>
             </div>
         </form>

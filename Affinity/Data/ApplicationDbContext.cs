@@ -399,7 +399,6 @@ namespace Affinity.Data
                       .HasConstraintName("FK_Profile_Matches");
             });
 
-
             modelBuilder.Entity<UserRelationship>(entity =>
             {
                 entity.HasKey(e => e.UserRelationshipId);
@@ -408,32 +407,31 @@ namespace Affinity.Data
 
                 entity.Property(p => p.UserRelationshipId).HasColumnName("UserRelationshipId").UseIdentityColumn();
 
-                entity.Property(e => e.RelatingUserId).HasColumnName("RelatingUser")
+                entity.Property(e => e.RelatingProfileId).HasColumnName("RelatingUserProfile")
                     .IsRequired();
 
-                entity.Property(e => e.RelatedUserId).HasColumnName("RelatedUser")
+                entity.Property(e => e.RelatedProfileId).HasColumnName("RelatedUserProfile")
                     .IsRequired();
 
                 entity.Property(e => e.Type).HasColumnName("Type")
                     .IsRequired()
                     .HasDefaultValue(Relationship.Pending);
 
-                entity.HasIndex(b => new { b.RelatingUserId, b.RelatedUserId })
+                entity.HasIndex(b => new { b.RelatingProfileId, b.RelatedProfileId })
                     .IsUnique();
 
-                entity.HasOne(d => d.RelatingUser)
+                entity.HasOne(d => d.RelatingProfile)
                     .WithMany(p => p.RelatingRelationships)
-                    .HasForeignKey(d => d.RelatingUserId)
+                    .HasForeignKey(d => d.RelatingProfileId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_User_Relating");
+                    .HasConstraintName("FK_Profile_Relating");
 
-                entity.HasOne(d => d.RelatedUser)
+                entity.HasOne(d => d.RelatedProfile)
                     .WithMany(p => p.RelatedRelationships)
-                    .HasForeignKey(d => d.RelatedUserId)
+                    .HasForeignKey(d => d.RelatedProfileId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_User_Related");
+                    .HasConstraintName("FK_Profile_Related");
             });
-
 
             Seed(modelBuilder);
         } 

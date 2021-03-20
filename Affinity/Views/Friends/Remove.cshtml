@@ -18,21 +18,21 @@
             @Html.DisplayFor(model => model.Type)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RelatingUser)
+            @Html.DisplayNameFor(model => model.RelatingProfile)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RelatingUser.ProfileId)
+            @Html.DisplayFor(model => model.RelatingProfile.ProfileId)
         </dd class>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.RelatedUser)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RelatedUser.ProfileId)
+            @Html.DisplayFor(model => model.RelatedProfile.ProfileId)
         </dd class>
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="UserRelationshipId" />
+        <input type="hidden" name="id" value="@Model.RelatedProfileId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>

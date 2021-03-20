@@ -2,4 +2,4 @@
 update-database -verbose -Context ApplicationDbContext
 
 If an update has been made to the ApplicationDbContext, build new migration with the command:
-Add-Migration CreateApplicationSchema -Context ApplicationDbContext
+Add-Migration CreateUpdateApplicationSchema -Context ApplicationDbContext
