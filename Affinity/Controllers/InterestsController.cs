@@ -65,12 +65,17 @@ namespace Affinity.Controllers
 
         // GET: Interests/Create
         [Authorize]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             ViewData["InterestCategoryId"] = new SelectList(_context.InterestCategory, "InterestCategoryId", "InterestCategoryName");
             ViewData["InterestSubCategoryId"] = new SelectList(_context.InterestSubCategory, "InterestSubCategoryId", "InterestSubCategoryName");
-            ViewData["ProfileId"] = new SelectList(_context.Profile, "ProfileId", "ProfileName");
-            return View();
+            User user = await _userManager.GetUserAsync(User);
+
+            var profile = _context.Profile.FirstOrDefault(p => p.UserId == user.Id);
+            var interest = new Interests { ProfileId = profile.ProfileId };
+
+            ViewData["ProfileID"] = profile.ProfileId;
+            return View(interest);
         }
 
         // POST: Interests/Create
@@ -89,7 +94,6 @@ namespace Affinity.Controllers
             }
             ViewData["InterestCategoryId"] = new SelectList(_context.InterestCategory, "InterestCategoryId", "InterestCategoryName", interests.InterestCategoryId);
             ViewData["InterestSubCategoryId"] = new SelectList(_context.InterestSubCategory, "InterestSubCategoryId", "InterestSubCategoryName", interests.InterestSubCategoryId);
-            ViewData["ProfileId"] = new SelectList(_context.Profile, "ProfileId", "ProfileName", interests.ProfileId);
             return View(interests);
         }
 

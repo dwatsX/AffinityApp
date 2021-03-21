@@ -60,10 +60,16 @@ namespace Affinity.Controllers
         }
 
         // GET: Image/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["ProfileId"] = new SelectList(_context.Profile, "ProfileId", "ProfileId");
-            return View();
+            User user = await _userManager.GetUserAsync(User);
+
+            var profile = _context.Profile.FirstOrDefault(p => p.UserId == user.Id);
+            var image = new Image { ProfileId = profile.ProfileId};
+
+            ViewData["ProfileID"] = profile.ProfileId;
+
+            return View(image);
         }
 
         // POST: Image/Create
@@ -74,17 +80,11 @@ namespace Affinity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ImageId,ProfileId,ImageURL")] Image image)
         {
-            User user = await _userManager.GetUserAsync(User);
-
-            var profile = _context.Profile.FirstOrDefault(p => p.UserId == user.Id);
-
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _context.Add(image);
-                    profile.Images.Add(image);
-                    _context.Profile.Update(profile);
+                    _context.Add(image);                
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index), new { profileId = image.ProfileId });
                 }
@@ -96,7 +96,6 @@ namespace Affinity.Controllers
 
                 throw;
             }
-
         }
 
         // GET: Image/Edit/5
@@ -106,13 +105,16 @@ namespace Affinity.Controllers
             {
                 return NotFound();
             }
+            User user = await _userManager.GetUserAsync(User);
+
+            var profile = _context.Profile.FirstOrDefault(p => p.UserId == user.Id);
 
             var image = await _context.Images.FindAsync(id);
             if (image == null)
             {
                 return NotFound();
             }
-            ViewData["ProfileID"] = new SelectList(_context.Profile, "ProfileId", "Description", image.ProfileId);
+            ViewData["ProfileID"] = profile.ProfileId;
             return View(image);
         }
 

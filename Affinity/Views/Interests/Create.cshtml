@@ -21,8 +21,7 @@
                 <select asp-for="InterestSubCategoryId" class="form-control" asp-items="ViewBag.InterestSubCategoryId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="ProfileId" class="control-label">Profile</label>
-                <select asp-for="ProfileId" class="form-control" asp-items="ViewBag.ProfileId"></select>
+                <input type="hidden" asp-for="ProfileId" class="form-control" asp-items="ViewBag.ProfileId">
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

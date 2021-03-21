@@ -132,7 +132,13 @@
             <input asp-for="Discord" class="form-control" />
             <span asp-validation-for="Discord" class="text-danger"></span>
         </div>
-
+        <div class="card" style="text-align: center;">
+            <br />
+            <p>Upload or Edit Interests:</p>
+            <div class="form-group">
+                <a class="btn btn-outline-primary w-25" role="button" asp-controller="Interests" asp-action="Index">Interests</a>
+            </div>
+        </div>
         <hr />
         <div class="form-group">
             <input type="submit" value="Save" class="btn btn-primary" />
