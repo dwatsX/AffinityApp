@@ -7,29 +7,29 @@
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<div class="row centered-form">
-    <div class="container col-md-6 col-md-offset-1">
-        <h4>
-            <i aria-hidden="true"></i> Are you sure you want to add @Model.Name
-        </h4>
-        <hr />
-        <form asp-action="Add"  asp-route-id="@Model.Id">
-            <div class="form-row">
-                <div asp-validation-summary="All" class="text-danger"></div>
-            </div>
-            <div class="form-row">
-                <div>-->
-                    <a asp-controller="Friends" asp-action="AddUser" asp-route-id="@Model.Id"></a> 
-                    <input name="userProfileId"  value="@Model.Id" type="hidden"/>
-                    <input type="submit" class="btn btn-primary w-100" value="Yes"/>
+<div class="container centered-form">
+    <div class="row">
+        <div class="container col-md-6 col-md-offset-1 text-center">
+            <h4>
+                <i aria-hidden="true"></i> Are you sure you want to send a friend request to @Model.Name?
+            </h4>
+            <hr />
+            <form asp-action="Add" asp-route-id="@Model.Id">
+                <div class="form-row">
+                    <div asp-validation-summary="All" class="text-danger"></div>
                 </div>
-                <div>
-                    <a asp-controller="Matches" asp-action="Index">No - Back to Matches List</a>
+                <div class="form-row">
+                    <div class="col-sm-6">
+                        <a asp-controller="Friends" asp-action="AddUser" asp-route-id="@Model.Id"></a>
+                        <input name="userProfileId" value="@Model.Id" type="hidden" />
+                        <input type="submit" class="btn btn-outline-primary btn-lg" style="width: 100%;" value="Yes" />
+                    </div>
+                    <div class="col-sm-6">
+                        <a class="btn btn-outline-danger btn-lg" style="width: 100%;" role="button" asp-controller="Matches" asp-action="Index">No - Back to Matches</a>
+                    </div>
                 </div>
-            </div>
-        </form>
-
-
+            </form>
+        </div>
     </div>
 </div>
 

@@ -4,28 +4,21 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
-<img class="img-fluid" src="@Model.ImageURL">
-
-<div>
-    <h4>Image</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Profile)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Profile.ProfileName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageURL)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ImageURL)
-        </dd>
-    </dl>
+<div class="row">
+    <h1>Image Details</h1>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.ImageId">Edit</a> |
-    <a asp-controller="Image" asp-action="Index" asp-route-profileId="@Model.ProfileId">Back to List</a>
+<div class="text-center">
+    <img class="img-fluid" src="@Model.ImageURL">
+</div>
+<br />
+<div class="row">
+    <div class="col-sm-4">
+        <a class="btn btn-outline-primary btn-lg" style="width: 100%;" role="button" asp-action="Edit" asp-route-id="@Model.ImageId">Edit</a>
+    </div>
+    <div class="col-sm-4">
+        <a class="btn btn-outline-primary btn-lg" style="width: 100%;" role="button" asp-controller="Image" asp-action="Index" asp-route-profileId="@Model.ProfileId">Back to List</a>
+    </div>
+    <div class="col-sm-4">
+        <a class="btn btn-outline-danger btn-lg" style="width: 100%;" role="button" asp-action="Delete" asp-route-id="@Model.ImageId">Delete</a>
+    </div>
 </div>
