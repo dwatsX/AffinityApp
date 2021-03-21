@@ -141,7 +141,7 @@ namespace Affinity.Controllers
             }
             else
             {
-                TempData["FriendInvite"] = $"A friend invite was sent to {userInviting.Profile.ProfileName}.";
+                TempData["FriendInvite"] = $"A friend invite was sent to {userInvited.Profile.ProfileName}.";
                 _context.UserRelationships.Add(relationship);
             }
 

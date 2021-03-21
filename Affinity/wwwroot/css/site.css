@@ -17,7 +17,7 @@ a.navbar-brand {
 
 /* Provide sufficient contrast against white background */
 a, a:visited {
-    color: cornflowerblue;
+    color: dodgerblue;
 }
 
     a:hover {
@@ -139,6 +139,10 @@ body {
     background-color: #91daff !important;
 }
 
+.card-footer {
+    background-color: #91daff !important;
+}
+
 /* Interests
 ----------------------------------------------- */
 
@@ -153,3 +157,22 @@ body {
     .interestsBadges:active {
         color: blue;
     }
+
+/* Style
+----------------------------------------------- */
+
+.affinity-shadow {
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.5) !important;
+}
+
+.affinity-border-blue {
+    border: 1px solid #8cd8ff !important;
+}
+
+.affinity-border-secondary tr:not(:first-child) td {
+    border-top: 1px solid #8cd8ff !important;
+}
+
+.affinity-bg-light {
+    background-color: #8cd8ff;
+}

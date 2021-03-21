@@ -4,16 +4,14 @@
     ViewData["Title"] = "Details";
 }
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
-
-<h1>My Profile (<a asp-action="Edit" asp-route-id="@Model.ProfileId">Edit</a>)</h1>
+<h1><i class="fa fa-user text-primary pr-2" aria-hidden="true"></i> @Html.DisplayFor(model => model.ProfileName)'s Profile (<a asp-action="Edit" asp-route-id="@Model.ProfileId">Edit</a>)</h1>
 
 <div>
     <hr />
     @if (Model.Images.Any())
     {
         // Images Carousel
-        <div class="card">
+        <div class="card affinity-shadow">
             <div id="profilePicCarousel" class="carousel carouselContainer" data-ride="carousel">
                 <ol class="carousel-indicators">
                     @if (Model.Images.Count >= 2)
@@ -49,13 +47,6 @@
             </div>
         </div>
     }
-</div>
-<div class="card" style="margin-top: 10px;">
-    <div style="font-weight: bold;">
-        <div class="card-header">
-            <h2>@Html.DisplayFor(model => model.ProfileName), (Age)</h2>
-        </div>
-    </div>
 </div>
 <br />
 <div class="row">

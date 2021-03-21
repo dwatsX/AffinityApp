@@ -27,7 +27,17 @@ namespace Affinity.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Interests.Include(i => i.InterestCategory).Include(i => i.InterestSubCategory).Include(i =>i.Profile);
+            User user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Problem();
+            }
+
+            var profile = _context.Profile
+                .FirstOrDefault(r => r.UserId == user.Id);
+
+            var applicationDbContext = _context.Interests.Include(i => i.InterestCategory).Include(i => i.InterestSubCategory).Include(i => i.Profile)
+                .Where(i => i.ProfileId == profile.ProfileId);
             return View(await applicationDbContext.ToListAsync());
         }
 
