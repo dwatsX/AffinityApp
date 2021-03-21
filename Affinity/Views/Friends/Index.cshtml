@@ -42,49 +42,47 @@
                 <div class="container affinity-border-secondary">
                     @foreach (var item in Model.PendingRelationships)
                     {
-                        <div class="row">
+                    <div class="row">
 
-                            @if (User.Identity.Name == item.RelatingUser.Email)
-                            {
-                                <div class="col-sm-4">
-                                    <span class=" font-weight-bold">
-                                        <i class="fa fa-user-o pl-2 pr-2" aria-hidden="true"></i>@Html.DisplayFor(modelItem => item.RelatedProfile.ProfileName)
-                                    </span>
-                                </div>
-                                <form class="col-sm-4">
-                                    <button type="button" class="btn btn-warning w-100" disabled>
-                                        <i class="fa fa-user-plus pr-2" aria-hidden="true"></i>Pending...
-                                    </button>
-                                </form>
-                                <form class="col-sm-4" asp-action="Remove">
-                                    <input type="hidden" name="id" value="@item.RelatedProfileId" />
-                                    <button type="submit" class="btn btn-danger w-100">
-                                        <i class="fa fa-user-times pr-2" aria-hidden="true"></i>Remove
-                                    </button>
-                                </form>
-                            }
-                            else
-                            {
-                                <div class="col-sm-4">
-                                    <span class=" font-weight-bold">
-                                        <i class="fa fa-user-o pl-2 pr-2" aria-hidden="true"></i>@Html.DisplayFor(modelItem => item.RelatingProfile.ProfileName)
-                                    </span>
-                                </div>
-                                <form class="col-sm-4" asp-action="Add">
-                                    <input type="hidden" name="id" value="@item.RelatingProfileId" />
-                                    <button type="submit" class="btn btn-primary btn-success w-100">
-                                        <i class="fa fa-user-plus pr-2" aria-hidden="true"></i>Accept
-                                    </button>
-                                </form>
-                                <form class="col-sm-4" asp-action="Remove">
-                                    <input type="hidden" name="id" value="@item.RelatingProfileId" />
-                                    <button type="submit" class="btn btn-danger w-100">
-                                        <i class="fa fa-user-times pr-2" aria-hidden="true"></i>Remove
-                                    </button>
-                                </form>
-                            }
+                        @if (User.Identity.Name == item.RelatingUser.Email)
+                        {
+                            <div class="col-sm-4">
+                                <span class=" font-weight-bold">
+                                    <i class="fa fa-user-o pl-2 pr-2" aria-hidden="true"></i>@Html.DisplayFor(modelItem => item.RelatedProfile.ProfileName)
+                                </span>
+                            </div>
+                            <form class="col-sm-4">
+                                <button type="button" class="btn btn-warning w-100" disabled>
+                                    <i class="fa fa-user-plus pr-2" aria-hidden="true"></i>Pending...
+                                </button>
+                            </form>
+                            <div class="col-sm-4">
+                                <a class="btn btn-danger w-100" style="color: white;" asp-action="Remove" asp-route-id="@item.RelatedUser.Id" title="Remove">
+                                    <i class="fa fa-user-times pr-2" aria-hidden="true"></i> Remove
+                                </a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-sm-4">
+                                <span class=" font-weight-bold">
+                                    <i class="fa fa-user-o pl-2 pr-2" aria-hidden="true"></i>@Html.DisplayFor(modelItem => item.RelatingProfile.ProfileName)
+                                </span>
+                            </div>
+                            <form class="col-sm-4" asp-action="Add">
+                                <input type="hidden" name="id" value="@item.RelatingProfileId" />
+                                <button type="submit" class="btn btn-primary btn-success w-100">
+                                    <i class="fa fa-user-plus pr-2" aria-hidden="true"></i>Accept
+                                </button>
+                            </form>
+                            <div class="col-sm-4">
+                                <a class="btn btn-danger w-100" style="color: white;" asp-action="Remove" asp-route-id="@item.RelatingUser.Id" title="Remove">
+                                    <i class="fa fa-user-times pr-2" aria-hidden="true"></i> Remove
+                                </a>
+                            </div>
+                        }
 
-                        </div>
+                    </div>
                         <br />
                     }
                 </div>
@@ -108,8 +106,7 @@
                                             <i class="fa fa-user text-secondary pl-2 pr-2" aria-hidden="true"></i>@Html.DisplayFor(modelItem => item.RelatedProfile.ProfileName)
                                         </span>
                                     </div>
-                                    <div class="col-sm-4">
-                                        <!-- intentionally empty -->
+                                    <div class="col-sm-4">                                
                                     </div>
                                     <div class="col-sm-4">
                                         <a class="btn btn-danger w-100" style="color: white;" asp-action="Remove" asp-route-id="@item.RelatedUser.Id" title="Unfriend">
@@ -127,7 +124,6 @@
                                         </span>
                                     </div>
                                     <div class="col-sm-4">
-                                        <!-- intentionally empty -->
                                     </div>
                                     <div class="col-sm-4">
                                         <a class="btn btn-danger w-100" style="color: white;" asp-action="Remove" asp-route-id="@item.RelatingUser.Id" title="Unfriend">
@@ -142,7 +138,7 @@
             else if (!Model.PendingRelationships.Any())
             {
                 <h4 class="font-weight-light text-uppercase text-center mt-3">You haven't added anybody yet! View your matches to find friends to add.</h4>
-                <a class="btn btn-outline-primary btn-lg" role="button" asp-area="" asp-controller="Matches" asp-action="Index">><i class="fa fa-plus mr-2" aria-hidden="true"></i> View Matches</a>
+                <a class="btn btn-outline-primary btn-lg" role="button" asp-area="" asp-controller="Matches" asp-action="Index"><i class="fa fa-plus mr-2" aria-hidden="true"></i> View Matches</a>
             }
         </div>
     </div>

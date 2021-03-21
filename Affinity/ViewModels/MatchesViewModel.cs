@@ -14,6 +14,7 @@ namespace Affinity.ViewModels
         public Profile Profile { get; set; }
         public List<Image> Images { get; set; }
         public List<Interests> Interests { get; set; }
+        public string Image { get; set; }
         public string ProfileName { get; set; }
         public string Description { get; set; }
         

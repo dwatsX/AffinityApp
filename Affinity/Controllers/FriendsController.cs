@@ -200,7 +200,7 @@ namespace Affinity.Controllers
             {
                 return Problem();
             }
-
+            var userProfile = _context.Profile.FirstOrDefault(r => r.UserId == user.Id);
             var userRemoving = _context.Profile.FirstOrDefault(r => r.ProfileId.ToString() == id);
             if (user.Id == userRemoving.ProfileId)
             {
@@ -211,7 +211,7 @@ namespace Affinity.Controllers
 
             var relationship = await _context.UserRelationships
                 .Include(r => r.RelatingUser)
-                .FirstOrDefaultAsync(r => r.RelatingUser.Id == user.Id && r.RelatedProfileId.ToString() == id);
+                .FirstOrDefaultAsync(r => r.RelatingUser.Id == user.Id && r.RelatedProfileId.ToString() == id || r.RelatedUser.Id == user.Id && r.RelatingProfileId.ToString() == id);
                 
             _context.RemoveRange(relationship);
             await _context.SaveChangesAsync();
