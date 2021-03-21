@@ -21,9 +21,17 @@
             </h3>
         </div>
         <div class="card-body">
-            <div class="picContainer">
-                <img class="profilePic" src="~/img/empty.png" />
-            </div>
+            @if (item.MatchedProfile.Images.Count == 0 )
+            {
+                <div class="picContainer">
+                    <img class="profilePic" src="~/img/empty.png" />
+                </div>
+            }
+            else
+            {
+                <img class="profilePic" src="@item.MatchedProfile.Images.FirstOrDefault().ImageURL" />
+            }
+
             <h5 class="card-title">Headline</h5>
             <p class="card-text">@Html.DisplayFor(modelItem => item.MatchedProfile.Description)</p>
         </div>

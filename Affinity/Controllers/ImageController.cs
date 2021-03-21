@@ -8,16 +8,19 @@ using Microsoft.EntityFrameworkCore;
 using Affinity.Data;
 using Affinity.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Affinity.Controllers
 {
     public class ImageController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public ImageController(ApplicationDbContext context)
+        public ImageController(ApplicationDbContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Image
@@ -71,11 +74,17 @@ namespace Affinity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ImageId,ProfileId,ImageURL")] Image image)
         {
+            User user = await _userManager.GetUserAsync(User);
+
+            var profile = _context.Profile.FirstOrDefault(p => p.UserId == user.Id);
+
             try
             {
                 if (ModelState.IsValid)
                 {
                     _context.Add(image);
+                    profile.Images.Add(image);
+                    _context.Profile.Update(profile);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index), new { profileId = image.ProfileId });
                 }
@@ -170,8 +179,14 @@ namespace Affinity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            User user = await _userManager.GetUserAsync(User);
+
+            var profile = _context.Profile.FirstOrDefault(p => p.UserId == user.Id);
+
             var image = await _context.Images.FindAsync(id);
             _context.Images.Remove(image);
+            profile.Images.Remove(image);
+            _context.Profile.Update(profile);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index), new { profileId = image.ProfileId });
         }

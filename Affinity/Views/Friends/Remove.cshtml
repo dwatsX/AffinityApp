@@ -11,29 +11,37 @@
     <h4>UserRelationship</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Type)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Type)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.RelatingProfile)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.RelatingProfile.ProfileId)
-        </dd class>
-        <dt class = "col-sm-2">
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.RelatedUser)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.RelatedProfile.ProfileId)
-        </dd class>
+        </dd>
     </dl>
-    
+
     <form asp-action="Delete">
-        <input type="hidden" name="id" value="@Model.RelatedProfileId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        @if (User.Identity.Name == Model.RelatedUser.Email)
+        {
+            <input type="hidden" name="id" value="@Model.RelatingProfileId" />
+            <input type="submit" value="Delete" class="btn btn-danger" /> 
+         }
+         else
+         {
+            <input type="hidden" name="id" value="@Model.RelatedProfileId" />
+            <input type="submit" value="Delete" class="btn btn-danger" /> 
+         }
         <a asp-action="Index">Back to List</a>
     </form>
 </div>

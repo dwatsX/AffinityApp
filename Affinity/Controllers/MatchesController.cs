@@ -33,9 +33,10 @@ namespace Affinity.Controllers
             {
                 return Problem();
             }
-
+            
             var profile = await _context.Profile
                 .Include(p => p.Interests)
+
                     .ThenInclude(i => i.InterestSubCategory)
                     .ThenInclude(i => i.InterestCategory)
                 .FirstOrDefaultAsync(m => m.UserId == user.Id);
@@ -44,7 +45,7 @@ namespace Affinity.Controllers
             var otherProfiles = await _context.Profile
                 .Include(p => p.Interests)
                     .ThenInclude(i => i.InterestSubCategory)
-                    .ThenInclude(i => i.InterestCategory)
+                    .ThenInclude(i => i.InterestCategory)          
                 .Where(p => p.UserId != user.Id)
                 .ToListAsync();
 
@@ -68,6 +69,8 @@ namespace Affinity.Controllers
                 }
                 if (count >= 2)
                 {
+                    var images = _context.Images.Where(i => i.ProfileId == o.ProfileId);
+                    o.Images = images.ToList();
                     profile.Matches.Add(new Matches { ProfileId = profile.ProfileId, MatchedProfileId = o.ProfileId, Profile = profile, MatchedProfile = o, SharedInterests = interests });
                 }
 
@@ -197,6 +200,7 @@ namespace Affinity.Controllers
 
             var matches = await _context.Matches
                 .Include(m => m.MatchedProfile)
+                .ThenInclude(p => p.Images)
                 .Include(m => m.Profile)
                 .FirstOrDefaultAsync(m => m.MatchId == id);
             if (matches == null)
