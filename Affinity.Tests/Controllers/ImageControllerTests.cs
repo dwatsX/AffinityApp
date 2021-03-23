@@ -20,7 +20,7 @@ namespace Affinity.Tests.Controllers
 
         public override ImageController CreateControllerSUT()
         {
-            return new ImageController(_context);
+            return new ImageController(_context, _mockUserManager.Object);
         }
 
         public override void SeedDatabase()
