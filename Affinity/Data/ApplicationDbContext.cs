@@ -18,7 +18,8 @@ namespace Affinity.Data
         public virtual DbSet<Matches> Matches { get; set; }
         public virtual DbSet<UserRelationship> UserRelationships { get; set; }
 
-
+        public virtual DbSet<Event> Event { get; set; }
+        public virtual DbSet<EventGroup> EventGroups { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -433,7 +434,69 @@ namespace Affinity.Data
                     .HasConstraintName("FK_Profile_Related");
             });
 
-            Seed(modelBuilder);
+            modelBuilder.Entity<Event>(entity =>
+            {
+                entity.HasKey(e => e.EventId);
+
+                entity.ToTable("Event");
+
+                entity.Property(p => p.EventId).HasColumnName("EventId").UseIdentityColumn();
+
+                entity.Property(e => e.GroupId).HasColumnName("GroupId")
+                    .IsRequired();
+
+                entity.Property(e => e.EventName)
+                    .IsRequired()
+                    .HasColumnName("EventName");
+
+                entity.Property(e => e.EventDescription)
+                    .IsRequired()
+                    .HasColumnName("EventDescription");
+
+                entity.Property(e => e.EventDateTime)
+                    .IsRequired()
+                    .HasColumnName("EventDateTime");
+
+                entity.HasOne(d => d.Group)
+                    .WithMany(p => p.CreatedEvents)
+                    .HasForeignKey(d => d.GroupId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Event_Created_User");
+            });
+
+            modelBuilder.Entity<EventGroup>(entity =>
+            {
+                entity.HasKey(e => e.EventUserId);
+
+                entity.ToTable("EventUser");
+
+                entity.Property(p => p.EventId).HasColumnName("EventId")
+                    .IsRequired();
+
+                entity.Property(e => e.GroupId).HasColumnName("GroupId")
+                    .IsRequired();
+
+                entity.HasOne(d => d.Event)
+                    .WithMany(p => p.EventGroups)
+                    .HasForeignKey(d => d.EventId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Event_Group");
+
+                entity.HasOne(d => d.Group)
+                    .WithMany(p => p.JoinedEvents)
+                    .HasForeignKey(d => d.GroupId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Group_Event");
+            });
+
+            modelBuilder.Entity<Group>(entity =>
+            {
+                entity.HasKey(e => e.id);
+
+                entity.ToTable("Group");
+            });
+
+                Seed(modelBuilder);
         } 
     }
 }
