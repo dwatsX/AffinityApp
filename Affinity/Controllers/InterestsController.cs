@@ -67,8 +67,9 @@ namespace Affinity.Controllers
         [Authorize]
         public async Task<IActionResult> Create()
         {
-            ViewData["InterestCategoryId"] = new SelectList(_context.InterestCategory, "InterestCategoryId", "InterestCategoryName");
-            ViewData["InterestSubCategoryId"] = new SelectList(_context.InterestSubCategory, "InterestSubCategoryId", "InterestSubCategoryName");
+            List<InterestCategory> categories = _context.InterestCategory.ToList();
+            categories.Add(new InterestCategory { InterestCategoryId = 0, InterestCategoryName = null });
+            ViewData["InterestCategoryId"] = new SelectList(categories, "InterestCategoryId", "InterestCategoryName", null);
             User user = await _userManager.GetUserAsync(User);
 
             var profile = _context.Profile.FirstOrDefault(p => p.UserId == user.Id);
@@ -86,14 +87,22 @@ namespace Affinity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("InterestId,InterestCategoryId,InterestSubCategoryId,ProfileId")] Interests interests)
         {
+            interests.InterestCategory = _context.InterestCategory.Where(i => i.InterestCategoryId == interests.InterestCategoryId).FirstOrDefault();
+            List<InterestSubCategory> subList = _context.InterestSubCategory.Where(i => i.InterestCategoryId == interests.InterestCategoryId).ToList();
+            interests.InterestSubCategory = _context.InterestSubCategory.Where(i => i.InterestSubCategoryId == interests.InterestSubCategoryId).FirstOrDefault();
+            if (interests.InterestSubCategory == null || interests.InterestCategory.InterestCategoryId != interests.InterestSubCategory.InterestCategoryId)
+            {
+                ViewData["InterestCategoryId"] = new SelectList(_context.InterestCategory, "InterestCategoryId", "InterestCategoryName", interests.InterestCategoryId);
+                ViewData["InterestSubCategoryId"] = new SelectList(subList, "InterestSubCategoryId", "InterestSubCategoryName", interests.InterestSubCategoryId);
+                return View(interests);
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(interests);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["InterestCategoryId"] = new SelectList(_context.InterestCategory, "InterestCategoryId", "InterestCategoryName", interests.InterestCategoryId);
-            ViewData["InterestSubCategoryId"] = new SelectList(_context.InterestSubCategory, "InterestSubCategoryId", "InterestSubCategoryName", interests.InterestSubCategoryId);
             return View(interests);
         }
 
@@ -111,8 +120,9 @@ namespace Affinity.Controllers
             {
                 return NotFound();
             }
-            ViewData["InterestCategoryId"] = new SelectList(_context.InterestCategory, "InterestCategoryId", "InterestCategoryName", interests.InterestCategoryId);
-            ViewData["InterestSubCategoryId"] = new SelectList(_context.InterestSubCategory, "InterestSubCategoryId", "InterestSubCategoryName", interests.InterestSubCategoryId);
+            List<InterestCategory> categories = _context.InterestCategory.ToList();
+            categories.Add(new InterestCategory { InterestCategoryId = 0, InterestCategoryName = null });
+            ViewData["InterestCategoryId"] = new SelectList(categories, "InterestCategoryId", "InterestCategoryName", null);
             ViewData["ProfileId"] = new SelectList(_context.Profile, "ProfileId", "ProfileName", interests.ProfileId);
             return View(interests);
         }
@@ -128,6 +138,16 @@ namespace Affinity.Controllers
             if (id != interests.InterestId)
             {
                 return NotFound();
+            }
+
+            interests.InterestCategory = _context.InterestCategory.Where(i => i.InterestCategoryId == interests.InterestCategoryId).FirstOrDefault();
+            List<InterestSubCategory> subList = _context.InterestSubCategory.Where(i => i.InterestCategoryId == interests.InterestCategoryId).ToList();
+            interests.InterestSubCategory = _context.InterestSubCategory.Where(i => i.InterestSubCategoryId == interests.InterestSubCategoryId).FirstOrDefault();
+            if (interests.InterestSubCategory == null || interests.InterestCategory.InterestCategoryId != interests.InterestSubCategory.InterestCategoryId)
+            {
+                ViewData["InterestCategoryId"] = new SelectList(_context.InterestCategory, "InterestCategoryId", "InterestCategoryName", interests.InterestCategoryId);
+                ViewData["InterestSubCategoryId"] = new SelectList(subList, "InterestSubCategoryId", "InterestSubCategoryName", interests.InterestSubCategoryId);
+                return View(interests);
             }
 
             if (ModelState.IsValid)

@@ -32,20 +32,11 @@
                         </div>
                     </p>
                     <p>
-                        Birthday:
                         <div class="form-group">
-                            <div class='input-group date' id='datetimepicker1'>
-                                <input type='text' class="form-control" />
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                            </div>
-                        </div>
-                        <script type="text/javascript">
-                            $(function () {
-                                $('#datetimepicker1').datetimepicker();
-                            });
-                        </script>
+                            <label asp-for="Birthday"></label>
+                            <input type="date" asp-for="Birthday" class="form-control" tabindex="2" />
+                            <span asp-validation-for="Birthday" class="text-danger"></span>
+                        </div>                
                     </p>
                 </div>
                 <div class="card-body">
@@ -73,11 +64,10 @@
                 </div>
             </div>
             <div class="col-sm-4">
-                <h4>Education:</h4>
+                <h4>@Html.DisplayNameFor(model => model.Education):</h4>
                 <div class="form-group">
-                    <div class='input-group'>
-                        <input type='text' class="form-control" />
-                    </div>
+                    <input asp-for="Education" class="form-control" />
+                    <span asp-validation-for="Education" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-sm-4">

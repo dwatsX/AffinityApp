@@ -59,7 +59,7 @@
         <h4><i class="fa fa-briefcase text-secondary pr-2" aria-hidden="true"></i>  @Html.DisplayFor(model => model.Occupation)</h4>
     </div>
     <div class="col-sm-4">
-        <h4><i class="fa fa-graduation-cap text-secondary pr-2" aria-hidden="true"></i>  Education</h4>
+        <h4><i class="fa fa-graduation-cap text-secondary pr-2" aria-hidden="true"></i>   @Html.DisplayFor(model => model.Education)</h4>
     </div>
     <div class="col-sm-4">
         <h4><i class="fa fa-search-location text-secondary pr-2" aria-hidden="true"></i>  @Html.DisplayFor(model => model.Location)</h4>
@@ -85,11 +85,20 @@
 <hr />
 <div class="row">
     <div class="col-sm-12">
+        <h3>Age</h3>
+        <br />
+        <div class="shadow p-3 mb-5 bg-body rounded">@Html.DisplayFor(model => model.Age)</div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
         <h3>Description</h3>
         <br />
         <div class="shadow p-3 mb-5 bg-body rounded">@Html.DisplayFor(model => model.Description)</div>
     </div>
 </div>
+
 <div class="row">
     <div class="col-sm-6">
         <h3>Instagram</h3>
