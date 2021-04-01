@@ -8,6 +8,18 @@ namespace Affinity.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Group",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Group", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "InterestCategory",
                 columns: table => new
                 {
@@ -66,6 +78,28 @@ namespace Affinity.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Event",
+                columns: table => new
+                {
+                    EventId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    GroupId = table.Column<int>(nullable: false),
+                    EventName = table.Column<string>(nullable: false),
+                    EventDescription = table.Column<string>(nullable: false),
+                    EventDateTime = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Event", x => x.EventId);
+                    table.ForeignKey(
+                        name: "FK_Event_Created_User",
+                        column: x => x.GroupId,
+                        principalTable: "Group",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "InterestSubCategory",
                 columns: table => new
                 {
@@ -119,6 +153,7 @@ namespace Affinity.Migrations
                     Location = table.Column<string>(unicode: false, maxLength: 150, nullable: true),
                     Occupation = table.Column<string>(unicode: false, maxLength: 150, nullable: true),
                     Education = table.Column<string>(nullable: true),
+                    Birthday = table.Column<DateTime>(type: "date", nullable: false),
                     Alcohol = table.Column<int>(nullable: false),
                     Marijuana = table.Column<int>(nullable: false),
                     Cigarettes = table.Column<int>(nullable: false)
@@ -216,6 +251,32 @@ namespace Affinity.Migrations
                         principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EventUser",
+                columns: table => new
+                {
+                    EventUserId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EventId = table.Column<int>(nullable: false),
+                    GroupId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EventUser", x => x.EventUserId);
+                    table.ForeignKey(
+                        name: "FK_Event_Group",
+                        column: x => x.EventId,
+                        principalTable: "Event",
+                        principalColumn: "EventId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Group_Event",
+                        column: x => x.GroupId,
+                        principalTable: "Group",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -362,8 +423,8 @@ namespace Affinity.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "ee2d242b-6adb-46ba-a77a-dfa1a77f2603", "Admin", "ADMIN" },
-                    { 2, "87487151-a1b0-4500-9fbd-641b40ee06c8", "Member", "MEMBER" }
+                    { 1, "856e0304-7cd3-4dc0-945c-587a7ee9e27e", "Admin", "ADMIN" },
+                    { 2, "3c9029b0-749a-40df-b5c0-d7b0df87bc2d", "Member", "MEMBER" }
                 });
 
             migrationBuilder.InsertData(
@@ -371,8 +432,8 @@ namespace Affinity.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "AccountNum", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "Gender", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, "b81af45d-9dc7-4794-931b-cfd0e2b1bf0d", new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "53a29bfc-360e-4962-8cfe-53073631c1e0", "admin@admin.com", true, "Other", false, null, "Admin", "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAEI3cV/paGeDbhjJIovCnrHOD3glhnhFPyiT2o3twMvRHTbKfqm9SNFYQvvO+JQRgJg==", "555-555-5555", false, "", false, "admin" },
-                    { 2, 0, "20d4d5ad-ef79-4da4-b917-d7fcbf519e0f", new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "f11b3a01-c12e-4fe7-b643-f16c4288a7df", "user@user.com", true, "Other", false, null, "User", "USER@USER.COM", "USER", "AQAAAAEAACcQAAAAEDHeKbKhlhj3i1Nf0TkAmfdTg1QoGanR3/r4o+TFtjt7Infy7Y6l1xMFkogpd+up4A==", "555-555-5555", false, "", false, "user" }
+                    { 1, 0, "f1f9f086-3faa-4b8b-ab1c-41bff7391501", new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "369af448-cd20-4cb9-b660-05979a72f8f9", "admin@admin.com", true, "Other", false, null, "Admin", "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAEFD9JFOUsK/2PlEUL4gOwGJFref7ED/qpQP+r2Lq/RcYtaLJWQhAIwo5IQ9bqyu43Q==", "555-555-5555", false, "", false, "admin" },
+                    { 2, 0, "ff4f5644-ceed-48fa-b304-0d557a25ac6d", new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "3a17c6bd-9649-4a53-b12a-b3baf52bc91c", "user@user.com", true, "Other", false, null, "User", "USER@USER.COM", "USER", "AQAAAAEAACcQAAAAEEku6ctm4L0wBBF+e55UwFkS825Gc2xJCx3IhS5MmbUuoHkfUI5+dd3FaKDGjK/Yhw==", "555-555-5555", false, "", false, "user" }
                 });
 
             migrationBuilder.InsertData(
@@ -415,6 +476,21 @@ namespace Affinity.Migrations
                     { 1, 1 },
                     { 2, 2 }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Event_GroupId",
+                table: "Event",
+                column: "GroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EventUser_EventId",
+                table: "EventUser",
+                column: "EventId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EventUser_GroupId",
+                table: "EventUser",
+                column: "GroupId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Image_ProfileId",
@@ -511,6 +587,9 @@ namespace Affinity.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "EventUser");
+
+            migrationBuilder.DropTable(
                 name: "Image");
 
             migrationBuilder.DropTable(
@@ -535,6 +614,9 @@ namespace Affinity.Migrations
                 name: "UserTokens");
 
             migrationBuilder.DropTable(
+                name: "Event");
+
+            migrationBuilder.DropTable(
                 name: "InterestSubCategory");
 
             migrationBuilder.DropTable(
@@ -542,6 +624,9 @@ namespace Affinity.Migrations
 
             migrationBuilder.DropTable(
                 name: "Role");
+
+            migrationBuilder.DropTable(
+                name: "Group");
 
             migrationBuilder.DropTable(
                 name: "InterestCategory");

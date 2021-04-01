@@ -276,6 +276,10 @@ namespace Affinity.Data
                     .HasMaxLength(150)
                     .IsUnicode(false);
 
+                entity.Property(e => e.Birthday)
+                    .HasColumnName("Birthday")
+                    .HasColumnType("date");
+
                 entity.Property(e => e.Description).HasColumnName("Description")
                     .IsRequired(false)
                     .HasColumnName("Description")

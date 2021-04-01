@@ -15,7 +15,7 @@
             <input type="hidden" asp-for="InterestId" />
             <div class="form-group">
                 <label asp-for="InterestCategoryId" class="control-label">Category</label>
-                <select asp-for="InterestCategoryId" class="form-control" asp-items="ViewBag.InterestCategoryId">Category</select>
+                <select onchange="this.form.submit()" asp-for="InterestCategoryId" class="form-control" asp-items="ViewBag.InterestCategoryId">Category</select>
                 <span asp-validation-for="InterestCategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">

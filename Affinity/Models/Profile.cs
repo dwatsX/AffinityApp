@@ -40,6 +40,7 @@ namespace Affinity.Models
         public string Location { get; set; }
         public string Occupation { get; set; }
         public string Education { get; set; }
+        public DateTime Birthday { get; set; }
         public Frequency Alcohol { get; set; }
         public Frequency Marijuana { get; set; }
         public Frequency Cigarettes { get; set; }

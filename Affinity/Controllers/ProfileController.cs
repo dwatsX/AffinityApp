@@ -39,7 +39,10 @@ namespace Affinity.Controllers
 
             if (profile == null)
             {
-                return View(await _context.Profile.ToListAsync());
+                Profile newProfile = new Profile { ProfileName = user.Name, User = user, UserId = user.Id, Birthday = user.BirthDate };
+                _context.Add(newProfile);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Details", new { id = newProfile.ProfileId });
             }
             else
             {
@@ -86,17 +89,19 @@ namespace Affinity.Controllers
                 Instagram = profile.Instagram,
                 Location = profile.Location,
                 Occupation = profile.Occupation,
+                Education = profile.Education,
                 Cigarettes = profile.Cigarettes,
                 Marijuana = profile.Marijuana,
+                Age = Math.Round((((DateTime.Today) - profile.Birthday).TotalDays / 365)).ToString(),
                 Alcohol = profile.Alcohol
 
-            });
+            }) ;
         }
 
         // GET: Profile/Create
         [Authorize]
         public IActionResult Create()
-        {
+        {         
             return View();
         }
 
@@ -162,7 +167,7 @@ namespace Affinity.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProfileId,UserId,ProfileName,Description,Location,Occupation,Instagram,Discord,Cigarettes,Alcohol,Marijuana")] Profile profile)
+        public async Task<IActionResult> Edit(int id, [Bind("ProfileId,UserId,ProfileName,Description,Education,Birthday,Location,Occupation,Instagram,Discord,Cigarettes,Alcohol,Marijuana")] Profile profile)
         {
             if (id != profile.ProfileId)
             {
