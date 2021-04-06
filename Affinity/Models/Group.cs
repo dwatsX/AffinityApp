@@ -9,15 +9,19 @@ namespace Affinity.Models
     {
         public Group()
         {
-            CreatedEvents = new HashSet<Event>();
-            JoinedEvents = new HashSet<EventGroup>();
+            GroupEvents = new HashSet<Event>();
+            Images = new HashSet<Image>();
+            MemberProfiles = new HashSet<Profile>();
 
         }
 
-        public int id { get; set; }
-        public virtual ICollection<Event> CreatedEvents { get; set; }
-        public virtual ICollection<EventGroup> JoinedEvents { get; set; }
-
-
+        public int GroupId { get; set; }
+        public string GroupName { get; set; }
+        public string GroupDescription { get; set; }        
+        public  int ProfileId { get; set; }
+        public virtual Profile Profile { get; set; }
+        public virtual ICollection<Profile> MemberProfiles { get; set; }
+        public virtual ICollection<Image> Images { get; set; }
+        public virtual ICollection<Event> GroupEvents { get; set; }
     }
 }

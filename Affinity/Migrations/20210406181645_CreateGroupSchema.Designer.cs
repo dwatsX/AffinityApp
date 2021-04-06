@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Affinity.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210401191838_CreateApplicationSchema")]
-    partial class CreateApplicationSchema
+    [Migration("20210406181645_CreateGroupSchema")]
+    partial class CreateGroupSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -77,19 +77,33 @@ namespace Affinity.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.ToTable("EventUser");
+                    b.ToTable("EventGroup");
                 });
 
             modelBuilder.Entity("Affinity.Models.Group", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("GroupId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.HasKey("id");
+                    b.Property<string>("GroupDescription")
+                        .HasColumnName("GroupDescription")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Group");
+                    b.Property<string>("GroupName")
+                        .HasColumnName("GroupName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProfileId")
+                        .HasColumnName("ProfileId")
+                        .HasColumnType("int");
+
+                    b.HasKey("GroupId");
+
+                    b.HasIndex("ProfileId");
+
+                    b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("Affinity.Models.Image", b =>
@@ -98,6 +112,9 @@ namespace Affinity.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("GroupId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ImageURL")
                         .HasColumnName("ImageURL")
@@ -108,6 +125,8 @@ namespace Affinity.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ImageId");
+
+                    b.HasIndex("GroupId");
 
                     b.HasIndex("ProfileId");
 
@@ -439,6 +458,9 @@ namespace Affinity.Migrations
                     b.Property<string>("Education")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("GroupId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Instagram")
                         .HasColumnName("Instagram")
                         .HasColumnType("varchar(150)")
@@ -471,6 +493,8 @@ namespace Affinity.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ProfileId");
+
+                    b.HasIndex("GroupId");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -510,14 +534,14 @@ namespace Affinity.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "856e0304-7cd3-4dc0-945c-587a7ee9e27e",
+                            ConcurrencyStamp = "498acd13-86fa-45f6-b223-3a71c2d25532",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "3c9029b0-749a-40df-b5c0-d7b0df87bc2d",
+                            ConcurrencyStamp = "461ce6e2-7d29-4da5-820b-cbb3a084a002",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         });
@@ -623,9 +647,9 @@ namespace Affinity.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            AccountNum = "f1f9f086-3faa-4b8b-ab1c-41bff7391501",
+                            AccountNum = "1e04280b-9af4-4215-a190-fb32294dfa26",
                             BirthDate = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "369af448-cd20-4cb9-b660-05979a72f8f9",
+                            ConcurrencyStamp = "099873b0-ba33-4342-8a47-810c8c2f468f",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             Gender = "Other",
@@ -633,7 +657,7 @@ namespace Affinity.Migrations
                             Name = "Admin",
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFD9JFOUsK/2PlEUL4gOwGJFref7ED/qpQP+r2Lq/RcYtaLJWQhAIwo5IQ9bqyu43Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJMryqbShDQz2u79ojL3NuT8UD9Rxu9UBQz/z5b31gplVV+4AEVyJSBVV6LUsXSd1g==",
                             PhoneNumber = "555-555-5555",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -644,9 +668,9 @@ namespace Affinity.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            AccountNum = "ff4f5644-ceed-48fa-b304-0d557a25ac6d",
+                            AccountNum = "057b5fec-b0d3-4586-92a1-e47b69a9b78a",
                             BirthDate = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "3a17c6bd-9649-4a53-b12a-b3baf52bc91c",
+                            ConcurrencyStamp = "001ed66a-c1c5-41bf-a40f-9937eedcf660",
                             Email = "user@user.com",
                             EmailConfirmed = true,
                             Gender = "Other",
@@ -654,7 +678,7 @@ namespace Affinity.Migrations
                             Name = "User",
                             NormalizedEmail = "USER@USER.COM",
                             NormalizedUserName = "USER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEku6ctm4L0wBBF+e55UwFkS825Gc2xJCx3IhS5MmbUuoHkfUI5+dd3FaKDGjK/Yhw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJUkmogwuXHPBh4ptfto/hV9gbTrnOenfu1LuJPA3AbPi+vPxVKw7Gdd5TNNwVUxPw==",
                             PhoneNumber = "555-555-5555",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -813,7 +837,7 @@ namespace Affinity.Migrations
             modelBuilder.Entity("Affinity.Models.Event", b =>
                 {
                     b.HasOne("Affinity.Models.Group", "Group")
-                        .WithMany("CreatedEvents")
+                        .WithMany("GroupEvents")
                         .HasForeignKey("GroupId")
                         .HasConstraintName("FK_Event_Created_User")
                         .IsRequired();
@@ -828,14 +852,27 @@ namespace Affinity.Migrations
                         .IsRequired();
 
                     b.HasOne("Affinity.Models.Group", "Group")
-                        .WithMany("JoinedEvents")
+                        .WithMany()
                         .HasForeignKey("GroupId")
-                        .HasConstraintName("FK_Group_Event")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Affinity.Models.Group", b =>
+                {
+                    b.HasOne("Affinity.Models.Profile", "Profile")
+                        .WithMany("Groups")
+                        .HasForeignKey("ProfileId")
+                        .HasConstraintName("FK_Profile_Groups")
                         .IsRequired();
                 });
 
             modelBuilder.Entity("Affinity.Models.Image", b =>
                 {
+                    b.HasOne("Affinity.Models.Group", null)
+                        .WithMany("Images")
+                        .HasForeignKey("GroupId");
+
                     b.HasOne("Affinity.Models.Profile", "Profile")
                         .WithMany("Images")
                         .HasForeignKey("ProfileId")
@@ -894,6 +931,10 @@ namespace Affinity.Migrations
 
             modelBuilder.Entity("Affinity.Models.Profile", b =>
                 {
+                    b.HasOne("Affinity.Models.Group", null)
+                        .WithMany("MemberProfiles")
+                        .HasForeignKey("GroupId");
+
                     b.HasOne("Affinity.Models.User", "User")
                         .WithOne("Profile")
                         .HasForeignKey("Affinity.Models.Profile", "UserId")

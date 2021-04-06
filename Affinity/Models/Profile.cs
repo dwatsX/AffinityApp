@@ -11,6 +11,7 @@ namespace Affinity.Models
     {
         public Profile()
         {
+            Groups = new HashSet<Group>();
             Images = new HashSet<Image>();
             Interests = new HashSet<Interests>();
             Matches = new HashSet<Matches>();
@@ -21,6 +22,7 @@ namespace Affinity.Models
         public int ProfileId { get; set; }
         public int UserId { get; set; }
         public User User { get; set; }
+        public ICollection<Group> Groups { get; set; }
         public ICollection<Image> Images { get; set; }
         public ICollection<Interests> Interests { get; set; }
         public ICollection<Matches> Matches { get; set; }

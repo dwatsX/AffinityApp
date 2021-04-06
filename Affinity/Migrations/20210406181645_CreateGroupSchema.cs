@@ -3,22 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Affinity.Migrations
 {
-    public partial class CreateApplicationSchema : Migration
+    public partial class CreateGroupSchema : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Group",
-                columns: table => new
-                {
-                    id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Group", x => x.id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "InterestCategory",
                 columns: table => new
@@ -78,28 +66,6 @@ namespace Affinity.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Event",
-                columns: table => new
-                {
-                    EventId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    GroupId = table.Column<int>(nullable: false),
-                    EventName = table.Column<string>(nullable: false),
-                    EventDescription = table.Column<string>(nullable: false),
-                    EventDateTime = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Event", x => x.EventId);
-                    table.ForeignKey(
-                        name: "FK_Event_Created_User",
-                        column: x => x.GroupId,
-                        principalTable: "Group",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "InterestSubCategory",
                 columns: table => new
                 {
@@ -135,36 +101,6 @@ namespace Affinity.Migrations
                         name: "FK_RoleClaims_Role_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Role",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Profile",
-                columns: table => new
-                {
-                    ProfileId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(nullable: false),
-                    ProfileName = table.Column<string>(unicode: false, maxLength: 150, nullable: false),
-                    Description = table.Column<string>(unicode: false, maxLength: 150, nullable: true),
-                    Discord = table.Column<string>(unicode: false, maxLength: 150, nullable: true),
-                    Instagram = table.Column<string>(unicode: false, maxLength: 150, nullable: true),
-                    Location = table.Column<string>(unicode: false, maxLength: 150, nullable: true),
-                    Occupation = table.Column<string>(unicode: false, maxLength: 150, nullable: true),
-                    Education = table.Column<string>(nullable: true),
-                    Birthday = table.Column<DateTime>(type: "date", nullable: false),
-                    Alcohol = table.Column<int>(nullable: false),
-                    Marijuana = table.Column<int>(nullable: false),
-                    Cigarettes = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Profile", x => x.ProfileId);
-                    table.ForeignKey(
-                        name: "FK_Profile_User",
-                        column: x => x.UserId,
-                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -254,7 +190,7 @@ namespace Affinity.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EventUser",
+                name: "EventGroup",
                 columns: table => new
                 {
                     EventUserId = table.Column<int>(nullable: false)
@@ -264,19 +200,23 @@ namespace Affinity.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EventUser", x => x.EventUserId);
-                    table.ForeignKey(
-                        name: "FK_Event_Group",
-                        column: x => x.EventId,
-                        principalTable: "Event",
-                        principalColumn: "EventId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Group_Event",
-                        column: x => x.GroupId,
-                        principalTable: "Group",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                    table.PrimaryKey("PK_EventGroup", x => x.EventUserId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Event",
+                columns: table => new
+                {
+                    EventId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    GroupId = table.Column<int>(nullable: false),
+                    EventName = table.Column<string>(nullable: false),
+                    EventDescription = table.Column<string>(nullable: false),
+                    EventDateTime = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Event", x => x.EventId);
                 });
 
             migrationBuilder.CreateTable(
@@ -286,17 +226,64 @@ namespace Affinity.Migrations
                     ImageId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProfileId = table.Column<int>(nullable: false),
-                    ImageURL = table.Column<string>(nullable: true)
+                    ImageURL = table.Column<string>(nullable: true),
+                    GroupId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Image", x => x.ImageId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Profile",
+                columns: table => new
+                {
+                    ProfileId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(nullable: false),
+                    ProfileName = table.Column<string>(unicode: false, maxLength: 150, nullable: false),
+                    Description = table.Column<string>(unicode: false, maxLength: 150, nullable: true),
+                    Discord = table.Column<string>(unicode: false, maxLength: 150, nullable: true),
+                    Instagram = table.Column<string>(unicode: false, maxLength: 150, nullable: true),
+                    Location = table.Column<string>(unicode: false, maxLength: 150, nullable: true),
+                    Occupation = table.Column<string>(unicode: false, maxLength: 150, nullable: true),
+                    Education = table.Column<string>(nullable: true),
+                    Birthday = table.Column<DateTime>(type: "date", nullable: false),
+                    Alcohol = table.Column<int>(nullable: false),
+                    Marijuana = table.Column<int>(nullable: false),
+                    Cigarettes = table.Column<int>(nullable: false),
+                    GroupId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Profile", x => x.ProfileId);
                     table.ForeignKey(
-                        name: "FK_Image_Profile_ProfileId",
+                        name: "FK_Profile_User",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Groups",
+                columns: table => new
+                {
+                    GroupId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    GroupName = table.Column<string>(nullable: true),
+                    GroupDescription = table.Column<string>(nullable: true),
+                    ProfileId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Groups", x => x.GroupId);
+                    table.ForeignKey(
+                        name: "FK_Profile_Groups",
                         column: x => x.ProfileId,
                         principalTable: "Profile",
                         principalColumn: "ProfileId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -423,8 +410,8 @@ namespace Affinity.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "856e0304-7cd3-4dc0-945c-587a7ee9e27e", "Admin", "ADMIN" },
-                    { 2, "3c9029b0-749a-40df-b5c0-d7b0df87bc2d", "Member", "MEMBER" }
+                    { 1, "498acd13-86fa-45f6-b223-3a71c2d25532", "Admin", "ADMIN" },
+                    { 2, "461ce6e2-7d29-4da5-820b-cbb3a084a002", "Member", "MEMBER" }
                 });
 
             migrationBuilder.InsertData(
@@ -432,8 +419,8 @@ namespace Affinity.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "AccountNum", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "Gender", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, "f1f9f086-3faa-4b8b-ab1c-41bff7391501", new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "369af448-cd20-4cb9-b660-05979a72f8f9", "admin@admin.com", true, "Other", false, null, "Admin", "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAEFD9JFOUsK/2PlEUL4gOwGJFref7ED/qpQP+r2Lq/RcYtaLJWQhAIwo5IQ9bqyu43Q==", "555-555-5555", false, "", false, "admin" },
-                    { 2, 0, "ff4f5644-ceed-48fa-b304-0d557a25ac6d", new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "3a17c6bd-9649-4a53-b12a-b3baf52bc91c", "user@user.com", true, "Other", false, null, "User", "USER@USER.COM", "USER", "AQAAAAEAACcQAAAAEEku6ctm4L0wBBF+e55UwFkS825Gc2xJCx3IhS5MmbUuoHkfUI5+dd3FaKDGjK/Yhw==", "555-555-5555", false, "", false, "user" }
+                    { 1, 0, "1e04280b-9af4-4215-a190-fb32294dfa26", new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "099873b0-ba33-4342-8a47-810c8c2f468f", "admin@admin.com", true, "Other", false, null, "Admin", "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAEJMryqbShDQz2u79ojL3NuT8UD9Rxu9UBQz/z5b31gplVV+4AEVyJSBVV6LUsXSd1g==", "555-555-5555", false, "", false, "admin" },
+                    { 2, 0, "057b5fec-b0d3-4586-92a1-e47b69a9b78a", new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "001ed66a-c1c5-41bf-a40f-9937eedcf660", "user@user.com", true, "Other", false, null, "User", "USER@USER.COM", "USER", "AQAAAAEAACcQAAAAEJUkmogwuXHPBh4ptfto/hV9gbTrnOenfu1LuJPA3AbPi+vPxVKw7Gdd5TNNwVUxPw==", "555-555-5555", false, "", false, "user" }
                 });
 
             migrationBuilder.InsertData(
@@ -483,13 +470,23 @@ namespace Affinity.Migrations
                 column: "GroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EventUser_EventId",
-                table: "EventUser",
+                name: "IX_EventGroup_EventId",
+                table: "EventGroup",
                 column: "EventId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EventUser_GroupId",
-                table: "EventUser",
+                name: "IX_EventGroup_GroupId",
+                table: "EventGroup",
+                column: "GroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Groups_ProfileId",
+                table: "Groups",
+                column: "ProfileId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Image_GroupId",
+                table: "Image",
                 column: "GroupId");
 
             migrationBuilder.CreateIndex(
@@ -531,6 +528,11 @@ namespace Affinity.Migrations
                 name: "IX_Matches_ProfileId",
                 table: "Matches",
                 column: "ProfileId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Profile_GroupId",
+                table: "Profile",
+                column: "GroupId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Profile_UserId",
@@ -582,12 +584,64 @@ namespace Affinity.Migrations
                 name: "IX_UserRoles_RoleId",
                 table: "UserRoles",
                 column: "RoleId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_EventGroup_Groups_GroupId",
+                table: "EventGroup",
+                column: "GroupId",
+                principalTable: "Groups",
+                principalColumn: "GroupId",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Event_Group",
+                table: "EventGroup",
+                column: "EventId",
+                principalTable: "Event",
+                principalColumn: "EventId",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Event_Created_User",
+                table: "Event",
+                column: "GroupId",
+                principalTable: "Groups",
+                principalColumn: "GroupId",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Image_Groups_GroupId",
+                table: "Image",
+                column: "GroupId",
+                principalTable: "Groups",
+                principalColumn: "GroupId",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Image_Profile_ProfileId",
+                table: "Image",
+                column: "ProfileId",
+                principalTable: "Profile",
+                principalColumn: "ProfileId",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Profile_Groups_GroupId",
+                table: "Profile",
+                column: "GroupId",
+                principalTable: "Groups",
+                principalColumn: "GroupId",
+                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Profile_Groups_GroupId",
+                table: "Profile");
+
             migrationBuilder.DropTable(
-                name: "EventUser");
+                name: "EventGroup");
 
             migrationBuilder.DropTable(
                 name: "Image");
@@ -626,10 +680,10 @@ namespace Affinity.Migrations
                 name: "Role");
 
             migrationBuilder.DropTable(
-                name: "Group");
+                name: "InterestCategory");
 
             migrationBuilder.DropTable(
-                name: "InterestCategory");
+                name: "Groups");
 
             migrationBuilder.DropTable(
                 name: "Profile");
