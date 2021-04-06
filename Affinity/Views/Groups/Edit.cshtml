@@ -4,39 +4,57 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
 
-<h4>Group</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="GroupId" />
+<h1><i class="fa fa-user text-primary pr-2" aria-hidden="true"></i> Edit Group</h1>
+
+<div>
+    <hr />
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="ProfileId" />
+        <input type="hidden" asp-for="GroupId" />
+        <div class="card" style="margin-top: 10px;">
+            <div style="font-weight: bold;">
+                <div class="card-header">
+                    <p>
+                        <div class="form-group">
+                            <label asp-for="GroupName" class="control-label">Group Name:</label>
+                            <input asp-for="GroupName" class="form-control" />
+                            <span asp-validation-for="GroupName" class="text-danger"></span>
+                        </div>
+                    </p>
+                    <p>
+                        <div class="form-group">
+                            <label asp-for="GroupDescription"></label>
+                            <input asp-for="GroupDescription" class="form-control" tabindex="2" />
+                            <span asp-validation-for="GroupDescription" class="text-danger"></span>
+                        </div>
+                    </p>
+                    <p>
+                        <div class="form-group">
+                            <label asp-for="ImageUrl"></label>
+                            <input asp-for="ImageUrl" class="form-control" tabindex="2" />
+                            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                        </div>
+                    </p>
+                </div>
+
+        <div class="card" style="text-align: center;">
+            <br />
+            <p>Add or Remove Events:</p>
             <div class="form-group">
-                <label asp-for="GroupName" class="control-label"></label>
-                <input asp-for="GroupName" class="form-control" />
-                <span asp-validation-for="GroupName" class="text-danger"></span>
+                <a class="btn btn-outline-primary w-25" role="button" asp-controller="Events" asp-action="Index">Events</a>
             </div>
-            <div class="form-group">
-                <label asp-for="GroupDescription" class="control-label"></label>
-                <input asp-for="GroupDescription" class="form-control" />
-                <span asp-validation-for="GroupDescription" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProfileId" class="control-label"></label>
-                <select asp-for="ProfileId" class="form-control" asp-items="ViewBag.ProfileId"></select>
-                <span asp-validation-for="ProfileId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+    </form>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Back to Groups</a>
 </div>
 
 @section Scripts {

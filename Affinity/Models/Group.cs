@@ -10,7 +10,6 @@ namespace Affinity.Models
         public Group()
         {
             GroupEvents = new HashSet<Event>();
-            Images = new HashSet<Image>();
             MemberProfiles = new HashSet<Profile>();
 
         }
@@ -18,10 +17,10 @@ namespace Affinity.Models
         public int GroupId { get; set; }
         public string GroupName { get; set; }
         public string GroupDescription { get; set; }        
+        public string ImageUrl { get; set; }        
         public  int ProfileId { get; set; }
         public virtual Profile Profile { get; set; }
         public ICollection<Profile> MemberProfiles { get; set; }
-        public virtual ICollection<Image> Images { get; set; }
         public virtual ICollection<Event> GroupEvents { get; set; }
     }
 }
