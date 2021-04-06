@@ -8,11 +8,6 @@ namespace Affinity.Models
 {
     public class Event
     {
-        public Event()
-        {
-            EventGroups = new HashSet<EventGroup>();
-        }
-
         public virtual int EventId { get; set; }
         [Required(ErrorMessage = "User is required.")]
         public virtual int GroupId { get; set; }
@@ -26,6 +21,5 @@ namespace Affinity.Models
         public virtual DateTime EventDateTime { get; set; }
 
         public virtual Group Group { get; set; }
-        public virtual ICollection<EventGroup> EventGroups { get; set; }
     }
 }

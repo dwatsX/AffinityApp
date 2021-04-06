@@ -20,7 +20,7 @@ namespace Affinity.Models
         public string GroupDescription { get; set; }        
         public  int ProfileId { get; set; }
         public virtual Profile Profile { get; set; }
-        public virtual ICollection<Profile> MemberProfiles { get; set; }
+        public ICollection<Profile> MemberProfiles { get; set; }
         public virtual ICollection<Image> Images { get; set; }
         public virtual ICollection<Event> GroupEvents { get; set; }
     }
