@@ -479,6 +479,8 @@ namespace Affinity.Data
 
                 entity.Property(p => p.ProfileId).HasColumnName("ProfileId");
 
+                entity.Property(p => p.ImageUrl).HasColumnName("ImageURL");
+
                 entity.HasOne(e => e.Profile)
                       .WithMany(r => r.Groups)
                       .HasForeignKey(d => d.ProfileId)

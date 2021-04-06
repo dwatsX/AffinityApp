@@ -65,7 +65,7 @@ namespace Affinity.Controllers
             User user = await _userManager.GetUserAsync(User);
 
             var profile = _context.Profile.FirstOrDefault(p => p.UserId == user.Id);
-            var image = new Image { ProfileId = profile.ProfileId};
+            var image = new Image { ProfileId = profile.ProfileId };
 
             ViewData["ProfileID"] = profile.ProfileId;
 
@@ -84,7 +84,7 @@ namespace Affinity.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _context.Add(image);                
+                    _context.Add(image);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index), new { profileId = image.ProfileId });
                 }

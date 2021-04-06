@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Affinity.Data;
 using Affinity.Models;
 using Microsoft.AspNetCore.Identity;
+using Affinity.ViewModels;
 
 namespace Affinity.Controllers
 {
@@ -46,7 +47,16 @@ namespace Affinity.Controllers
                 return NotFound();
             }
 
-            return View(group);
+            return View(new GroupViewModel
+            {
+                GroupId = group.GroupId,
+                Profile = group.Profile,
+                ProfileId = group.ProfileId,
+                ImageUrl = group.ImageUrl,
+                GroupName = group.GroupName,
+                GroupDescription = group.GroupDescription
+
+            });
         }
 
         // GET: Groups/Create
@@ -67,7 +77,7 @@ namespace Affinity.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("GroupId,GroupName,GroupDescription,ProfileId")] Group group)
+        public async Task<IActionResult> Create([Bind("GroupId,GroupName,GroupDescription,ProfileId,ImageUrl")] Group group)
         {
             if (ModelState.IsValid)
             {
@@ -102,7 +112,7 @@ namespace Affinity.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("GroupId,GroupName,GroupDescription,ProfileId")] Group group)
+        public async Task<IActionResult> Edit(int id, [Bind("GroupId,GroupName,GroupDescription,ProfileId,ImageUrl")] Group group)
         {
             if (id != group.GroupId)
             {

@@ -4,44 +4,41 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1><i class="fa fa-users text-primary pr-2" aria-hidden="true"></i> Groups</h1>
+@foreach (var item in Model)
+{
+    <div class="card affinity-shadow affinity-border-blue">
+        <div class="card-header">
+            <h3 style="margin-bottom: 0px !important;">
+                <a asp-controller="Groups" asp-action="Details" asp-route-id="@item.GroupId">
+                    @Html.DisplayFor(modelItem => item.GroupName)
+                </a>
+                <a asp-controller="Groups" asp-action="Join" asp-route-id="@item.ProfileId">
+                    <span class="btn btn-outline-primary friendButton" style="float: right;">
+                        <i class="fa fa-plus mr-2" aria-hidden="true"></i> Join Group
+                    </span>
+                </a>
+            </h3>
+        </div>
+        <div class="card-body">
+            @if (item.ImageUrl == null)
+            {
+                <div class="picContainer">
+                    <img class="profilePic" src="~/img/empty.png" />
+                </div>
+            }
+            else
+            {
+                <div class="picContainer">
+                    <img class="profilePic" src="@item.ImageUrl" />
+                </div>
+            }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.GroupName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GroupDescription)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Profile)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.GroupName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GroupDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Profile.ProfileName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.GroupId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.GroupId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.GroupId">Delete</a>
-            </td>
-        </tr>
+            <p class="card-text">@Html.DisplayFor(modelItem => item.GroupDescription)</p>
+        </div>
+        <div class="card-footer">
+             Number of Members: @Html.DisplayFor(modelItem => item.MemberProfiles.Count)
+        </div>
+    </div>
+    <br />
 }
-    </tbody>
-</table>
