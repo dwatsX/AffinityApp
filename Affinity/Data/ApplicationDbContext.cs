@@ -19,7 +19,6 @@ namespace Affinity.Data
         public virtual DbSet<UserRelationship> UserRelationships { get; set; }
         public virtual DbSet<Group> Groups { get; set; }
         public virtual DbSet<Event> Event { get; set; }
-        public virtual DbSet<EventGroup> EventGroups { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -446,7 +445,7 @@ namespace Affinity.Data
 
                 entity.Property(p => p.EventId).HasColumnName("EventId").UseIdentityColumn();
 
-                entity.Property(e => e.GroupId).HasColumnName("GroupId")
+                entity.Property(e => e.GroupId).HasColumnName("GroupId")                
                     .IsRequired();
 
                 entity.Property(e => e.EventName)
@@ -461,29 +460,9 @@ namespace Affinity.Data
                     .IsRequired()
                     .HasColumnName("EventDateTime");
 
-                entity.HasOne(d => d.Group)
-                    .WithMany(p => p.GroupEvents)
-                    .HasForeignKey(d => d.GroupId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Event_Created_User");
-            });
-
-            modelBuilder.Entity<EventGroup>(entity =>
-            {
-                entity.HasKey(e => e.EventUserId);
-
-                entity.ToTable("EventGroup");
-
-                entity.Property(p => p.EventId).HasColumnName("EventId")
-                    .IsRequired();
-
-                entity.Property(e => e.GroupId).HasColumnName("GroupId")
-                    .IsRequired();
-
-                entity.HasOne(e => e.Event)
-                    .WithMany(p => p.EventGroups)
-                    .HasForeignKey(e => e.EventId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                entity.HasOne(e => e.Group)
+                    .WithMany(e => e.GroupEvents)
+                    .HasForeignKey(e => e.GroupId)
                     .HasConstraintName("FK_Event_Group");
 
             });
@@ -505,6 +484,7 @@ namespace Affinity.Data
                       .HasForeignKey(d => d.ProfileId)
                       .OnDelete(DeleteBehavior.ClientSetNull)
                       .HasConstraintName("FK_Profile_Groups");
+
             });
 
             Seed(modelBuilder);

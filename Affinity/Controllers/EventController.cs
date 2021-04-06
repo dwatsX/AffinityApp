@@ -7,29 +7,26 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Affinity.Data;
 using Affinity.Models;
-using Microsoft.AspNetCore.Identity;
 
 namespace Affinity.Controllers
 {
-    public class EventsController : Controller
+    public class EventController : Controller
     {
-        private readonly UserManager<User> _userManager;
         private readonly ApplicationDbContext _context;
 
-        public EventsController(UserManager<User> userManager, ApplicationDbContext context)
+        public EventController(ApplicationDbContext context)
         {
-            _userManager = userManager;
             _context = context;
         }
 
-        // GET: Events
+        // GET: Event
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Event.Include(e => e.Group);
+            var applicationDbContext = _context.Event.Include(g => g.Group);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Events/Details/5
+        // GET: Event/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -37,42 +34,42 @@ namespace Affinity.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Event
-                .Include(e => e.Group)
+            var events = await _context.Event
+                .Include(g => g.Group)
                 .FirstOrDefaultAsync(m => m.EventId == id);
-            if (@event == null)
+            if (events == null)
             {
                 return NotFound();
             }
 
-            return View(@event);
+            return View(events);
         }
 
-        // GET: Events/Create
+        // GET: Event/Create
         public IActionResult Create()
         {
-            ViewData["GroupId"] = new SelectList(_context.Set<Group>(), "id", "id");
+            ViewData["GroupId"] = new SelectList(_context.Groups, "GroupId", "GroupId");
             return View();
         }
 
-        // POST: Events/Create
+        // POST: Event/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EventId,GroupId,EventName,EventDescription,EventDateTime")] Event @event)
+        public async Task<IActionResult> Create([Bind("EventId,GroupId,EventName,EventDescription,EventDateTime")] Event events)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(@event);
+                _context.Add(events);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["GroupId"] = new SelectList(_context.Set<Group>(), "id", "id", @event.GroupId);
-            return View(@event);
+            ViewData["GroupId"] = new SelectList(_context.Groups, "GroupId", "GroupId", events.GroupId);
+            return View(events);
         }
 
-        // GET: Events/Edit/5
+        // GET: Event/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -80,23 +77,23 @@ namespace Affinity.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Event.FindAsync(id);
-            if (@event == null)
+            var events = await _context.Event.FindAsync(id);
+            if (events == null)
             {
                 return NotFound();
             }
-            ViewData["GroupId"] = new SelectList(_context.Set<Group>(), "id", "id", @event.GroupId);
-            return View(@event);
+            ViewData["GroupId"] = new SelectList(_context.Groups, "GroupId", "GroupId", events.GroupId);
+            return View(events);
         }
 
-        // POST: Events/Edit/5
+        // POST: Event/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EventId,GroupId,EventName,EventDescription,EventDateTime")] Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("EventId,GroupId,EventName,EventDescription,EventDateTime")] Event events)
         {
-            if (id != @event.EventId)
+            if (id != events.EventId)
             {
                 return NotFound();
             }
@@ -105,12 +102,12 @@ namespace Affinity.Controllers
             {
                 try
                 {
-                    _context.Update(@event);
+                    _context.Update(events);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EventExists(@event.EventId))
+                    if (!EventExists(events.EventId))
                     {
                         return NotFound();
                     }
@@ -121,11 +118,11 @@ namespace Affinity.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["GroupId"] = new SelectList(_context.Set<Group>(), "id", "id", @event.GroupId);
-            return View(@event);
+            ViewData["GroupId"] = new SelectList(_context.Groups, "GroupId", "GroupId", events.GroupId);
+            return View(events);
         }
 
-        // GET: Events/Delete/5
+        // GET: Event/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -133,24 +130,25 @@ namespace Affinity.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Event
-                .Include(e => e.Group)
+            var events = await _context.Event
+                .Include(g => g.Group)
                 .FirstOrDefaultAsync(m => m.EventId == id);
-            if (@event == null)
+
+            if (events == null)
             {
                 return NotFound();
             }
 
-            return View(@event);
+            return View(events);
         }
 
-        // POST: Events/Delete/5
+        // POST: Event/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var @event = await _context.Event.FindAsync(id);
-            _context.Event.Remove(@event);
+            var events = await _context.Event.FindAsync(id);
+            _context.Event.Remove(events);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
