@@ -5,6 +5,17 @@
 }
 
 <h1><i class="fa fa-users text-primary pr-2" aria-hidden="true"></i> Groups</h1>
+<div class="container">
+    <hr />
+    <br />
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <a class="btn btn-outline-primary btn-lg" role="button" asp-action="Create"><i class="fa fa-plus mr-2" aria-hidden="true"></i> Add New</a>
+        </div>
+    </div>
+</div>
+<hr />
+<br />
 @foreach (var item in Model)
 {
     <div class="card affinity-shadow affinity-border-blue">
@@ -37,7 +48,7 @@
             <p class="card-text">@Html.DisplayFor(modelItem => item.GroupDescription)</p>
         </div>
         <div class="card-footer">
-             Number of Members: @Html.DisplayFor(modelItem => item.MemberProfiles.Count)
+            Number of Members: @Html.DisplayFor(modelItem => item.MemberProfiles.Count)
         </div>
     </div>
     <br />

@@ -14,6 +14,7 @@ namespace Affinity.ViewModels
         public User User { get; set; }
         public Profile Profile { get; set; }
         public List<Profile> Members { get; set; }
+        public List<Event> Events { get; set; }
         public string GroupName { get; set; }
         public string GroupDescription { get; set; }
         public string ImageUrl { get; set; }

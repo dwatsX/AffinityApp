@@ -507,14 +507,14 @@ namespace Affinity.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "90d53049-6d4e-4be8-b720-74f92ae74538",
+                            ConcurrencyStamp = "53503b67-a20c-4eaf-94fd-ac6bffe62ce8",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "eaf058e8-a706-4595-a972-8143b6490ec8",
+                            ConcurrencyStamp = "77a58804-76af-46f4-8d16-f3591d08414e",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         });
@@ -620,9 +620,9 @@ namespace Affinity.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            AccountNum = "02dbc9d1-d65b-416d-8fea-915ab35e7420",
+                            AccountNum = "75d3fecc-0951-4ddc-8a2d-b8a2f15762b8",
                             BirthDate = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "512c9d8e-380a-4076-b270-2011500dd150",
+                            ConcurrencyStamp = "60b0c7bc-6237-41ab-badd-0b9c277ec0c4",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             Gender = "Other",
@@ -630,7 +630,7 @@ namespace Affinity.Migrations
                             Name = "Admin",
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEF5wF1KDV+2jThObUmBPAdnm3kwGimu0h1FUdcaBgqggD6dmUOZ/fXs5h97taStOag==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGyb6OE5GZvdkZe28F5wTs4yyZ1/qYBzRon/UPzYxdwmYZgD+ffDfR60cpTSJDXwWA==",
                             PhoneNumber = "555-555-5555",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -641,9 +641,9 @@ namespace Affinity.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            AccountNum = "a6b62240-e012-4add-bf09-d6fdfff00ecf",
+                            AccountNum = "4ba4f0b0-9008-44e0-827f-73a199f50b16",
                             BirthDate = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "47515bf4-4846-4c3a-b2c9-2a70250c5c0f",
+                            ConcurrencyStamp = "264cc805-6e1d-43e2-868f-6008851af828",
                             Email = "user@user.com",
                             EmailConfirmed = true,
                             Gender = "Other",
@@ -651,7 +651,7 @@ namespace Affinity.Migrations
                             Name = "User",
                             NormalizedEmail = "USER@USER.COM",
                             NormalizedUserName = "USER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEABxjDQ/6vbPIuN015WDIttnzMLitX0ZaIZrMVmb6ZsvXkvnuyjYb3CXM5HrXTsWKQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPo04mp8IMDw+p3pGyi1HCeXBpvYt7aqnhYstl9gLSws8fjWuYQMHUYgDNuyEcbKVA==",
                             PhoneNumber = "555-555-5555",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",

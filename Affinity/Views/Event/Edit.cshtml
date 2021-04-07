@@ -4,44 +4,50 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1><i class="fa fa-user text-primary pr-2" aria-hidden="true"></i> Edit Event</h1>
 
-<h4>Event</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="EventId" />
-            <div class="form-group">
-                <label asp-for="GroupId" class="control-label"></label>
-                <select asp-for="GroupId" class="form-control" asp-items="ViewBag.GroupId"></select>
-                <span asp-validation-for="GroupId" class="text-danger"></span>
+<div>
+    <hr />
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="EventId" />
+        <input type="hidden" asp-for="GroupId" />
+        <div class="card" style="margin-top: 10px;">
+            <div style="font-weight: bold;">
+                <div class="card-header">
+                    <p>
+                        <div class="form-group">
+                            <label asp-for="EventName" class="control-label">Event Name:</label>
+                            <input asp-for="EventName" class="form-control" />
+                            <span asp-validation-for="EventName" class="text-danger"></span>
+                        </div>
+                    </p>
+                    <p>
+                        <div class="form-group">
+                            <label asp-for="EventDescription"></label>
+                            <input asp-for="EventDescription" class="form-control" tabindex="2" />
+                            <span asp-validation-for="EventDescription" class="text-danger"></span>
+                        </div>
+                    </p>
+                    <p>
+                        <div class="form-group">
+                            <label asp-for="EventDateTime"></label>
+                            <input type="datetime-local" asp-for="EventDateTime" class="form-control" tabindex="2" />
+                            <span asp-validation-for="EventDateTime" class="text-danger"></span>
+                        </div>
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="EventName" class="control-label"></label>
-                <input asp-for="EventName" class="form-control" />
-                <span asp-validation-for="EventName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EventDescription" class="control-label"></label>
-                <input asp-for="EventDescription" class="form-control" />
-                <span asp-validation-for="EventDescription" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EventDateTime" class="control-label"></label>
-                <input type="datetime" asp-for="EventDateTime" class="form-control" />
-                <span asp-validation-for="EventDateTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Back to Events</a>
 </div>
 
 @section Scripts {
