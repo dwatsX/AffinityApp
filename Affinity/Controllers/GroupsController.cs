@@ -27,7 +27,7 @@ namespace Affinity.Controllers
         // GET: Groups
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Groups.Include(p => p.Profile);
+            var applicationDbContext = _context.Groups.Include(p => p.Profile).Include(p => p.MemberProfiles);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -56,7 +56,7 @@ namespace Affinity.Controllers
                 ProfileId = group.ProfileId,
                 ImageUrl = group.ImageUrl,
                 GroupName = group.GroupName,
-                GroupDescription = group.GroupDescription, 
+                GroupDescription = group.GroupDescription,
                 Members = group.MemberProfiles.ToList(),
                 Events = group.GroupEvents.ToList()
 
@@ -70,9 +70,9 @@ namespace Affinity.Controllers
 
             var profile = _context.Profile.FirstOrDefault(p => p.UserId == user.Id);
             var group = new Group { ProfileId = profile.ProfileId };
-            
+
             ViewData["ProfileID"] = profile.ProfileId;
-            
+
             return View(group);
         }
 
@@ -147,6 +147,48 @@ namespace Affinity.Controllers
             }
             ViewData["ProfileId"] = new SelectList(_context.Profile, "ProfileId", "ProfileName", group.ProfileId);
             return View(group);
+        }
+
+        // POST: JoinGroup/Add/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Group group = await _context.Groups.FirstOrDefaultAsync(g => g.GroupId == id);
+            if (group == null)
+            {
+                return NotFound();
+            }
+
+            User user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Problem();
+            }
+
+            var profile = _context.Profile.Where(p => p.UserId == user.Id).FirstOrDefault();
+            if (profile == null)
+            {
+                TempData["NoProfile"] = $"Go to Profile Page First Please!";
+                return RedirectToAction("Index", "Groups");
+            }
+
+            bool alreadyJoined = group.MemberProfiles.Any(g => g.ProfileId == profile.ProfileId);
+            if (!alreadyJoined)
+            {
+                group.MemberProfiles.Add(profile);
+                _context.Groups.Update(group);
+                await _context.SaveChangesAsync();
+                TempData["Joined"] = $"Joined {group.GroupName}";
+
+            }
+
+            return RedirectToAction("Index", "Groups");
         }
 
         // GET: Groups/Delete/5

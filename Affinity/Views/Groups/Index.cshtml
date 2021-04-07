@@ -16,6 +16,22 @@
 </div>
 <hr />
 <br />
+<div class="row">
+    <div class="col-md">
+        @if (TempData["Joined"] is string)
+        {
+            <div class="alert alert-light" role="alert">
+                <span class="text-dark"><i class="fa fa-user-circle mr-2" aria-hidden="true"></i>@TempData["Joined"]</span>
+            </div>
+        }
+        @if (TempData["NoProfile"] is string)
+        {
+            <div class="alert alert-warning" role="alert">
+                <span class="text-dark"><i class="fa fa-exclamation mr-2" aria-hidden="true"></i>@TempData["NoProfile"]</span>
+            </div>
+        }
+    </div>
+</div>
 @foreach (var item in Model)
 {
     <div class="card affinity-shadow affinity-border-blue">
@@ -24,12 +40,10 @@
                 <a asp-controller="Groups" asp-action="Details" asp-route-id="@item.GroupId">
                     @Html.DisplayFor(modelItem => item.GroupName)
                 </a>
-                <a asp-controller="Groups" asp-action="Join" asp-route-id="@item.ProfileId">
-                    <span class="btn btn-outline-primary friendButton" style="float: right;">
-                        <i class="fa fa-plus mr-2" aria-hidden="true"></i> Join Group
-                    </span>
-                </a>
             </h3>
+            <form class="w-100" asp-route-id="@item.GroupId" asp-controller="Groups" asp-action="Add">
+                <button type="submit" class="btn btn-outline-primary friendButton" style="float: right;">Join</button>
+            </form>
         </div>
         <div class="card-body">
             @if (item.ImageUrl == null)
