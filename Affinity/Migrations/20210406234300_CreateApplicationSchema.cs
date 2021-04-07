@@ -402,8 +402,8 @@ namespace Affinity.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "90d53049-6d4e-4be8-b720-74f92ae74538", "Admin", "ADMIN" },
-                    { 2, "eaf058e8-a706-4595-a972-8143b6490ec8", "Member", "MEMBER" }
+                    { 1, "53503b67-a20c-4eaf-94fd-ac6bffe62ce8", "Admin", "ADMIN" },
+                    { 2, "77a58804-76af-46f4-8d16-f3591d08414e", "Member", "MEMBER" }
                 });
 
             migrationBuilder.InsertData(
@@ -411,8 +411,8 @@ namespace Affinity.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "AccountNum", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "Gender", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, "02dbc9d1-d65b-416d-8fea-915ab35e7420", new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "512c9d8e-380a-4076-b270-2011500dd150", "admin@admin.com", true, "Other", false, null, "Admin", "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAEF5wF1KDV+2jThObUmBPAdnm3kwGimu0h1FUdcaBgqggD6dmUOZ/fXs5h97taStOag==", "555-555-5555", false, "", false, "admin" },
-                    { 2, 0, "a6b62240-e012-4add-bf09-d6fdfff00ecf", new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "47515bf4-4846-4c3a-b2c9-2a70250c5c0f", "user@user.com", true, "Other", false, null, "User", "USER@USER.COM", "USER", "AQAAAAEAACcQAAAAEABxjDQ/6vbPIuN015WDIttnzMLitX0ZaIZrMVmb6ZsvXkvnuyjYb3CXM5HrXTsWKQ==", "555-555-5555", false, "", false, "user" }
+                    { 1, 0, "75d3fecc-0951-4ddc-8a2d-b8a2f15762b8", new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "60b0c7bc-6237-41ab-badd-0b9c277ec0c4", "admin@admin.com", true, "Other", false, null, "Admin", "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAEGyb6OE5GZvdkZe28F5wTs4yyZ1/qYBzRon/UPzYxdwmYZgD+ffDfR60cpTSJDXwWA==", "555-555-5555", false, "", false, "admin" },
+                    { 2, 0, "4ba4f0b0-9008-44e0-827f-73a199f50b16", new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "264cc805-6e1d-43e2-868f-6008851af828", "user@user.com", true, "Other", false, null, "User", "USER@USER.COM", "USER", "AQAAAAEAACcQAAAAEPo04mp8IMDw+p3pGyi1HCeXBpvYt7aqnhYstl9gLSws8fjWuYQMHUYgDNuyEcbKVA==", "555-555-5555", false, "", false, "user" }
                 });
 
             migrationBuilder.InsertData(

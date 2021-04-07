@@ -4,39 +4,36 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1><i class="fa fa-user text-primary pr-2" aria-hidden="true"></i> @Html.DisplayFor(model => model.EventName) (<a asp-action="Edit" asp-route-id="@Model.EventId">Edit</a>)</h1>
+<div class="row">
+    <div class="col-sm-12" style="text-align: center;>
+        <br />
+        <div class="shadow p-3 mb-5 bg-body rounded">
+            <h3> Group Name</h3>
+            @Html.DisplayFor(model => model.Group.GroupName)
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12" style="text-align: center;>
+        <br />
+        <div class="shadow p-3 mb-5 bg-body rounded">
+            <h3> Event Description</h3>
+            @Html.DisplayFor(model => model.EventDescription)
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12" style="text-align: center;>
+        <br />
+        <div class="shadow p-3 mb-5 bg-body rounded">
+            <h3> Event Date & Time</h3>
+            @Html.DisplayFor(model => model.EventDateTime)
+        </div>
+    </div>
+</div>
+<hr />
 
 <div>
-    <h4>Event</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EventName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EventName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EventDescription)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EventDescription)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EventDateTime)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EventDateTime)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Group)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Group.GroupId)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.EventId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

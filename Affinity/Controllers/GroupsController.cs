@@ -41,6 +41,8 @@ namespace Affinity.Controllers
 
             var group = await _context.Groups
                 .Include(p => p.Profile)
+                .Include(p => p.MemberProfiles)
+                .Include(p => p.GroupEvents)
                 .FirstOrDefaultAsync(m => m.GroupId == id);
             if (group == null)
             {
@@ -54,7 +56,9 @@ namespace Affinity.Controllers
                 ProfileId = group.ProfileId,
                 ImageUrl = group.ImageUrl,
                 GroupName = group.GroupName,
-                GroupDescription = group.GroupDescription
+                GroupDescription = group.GroupDescription, 
+                Members = group.MemberProfiles.ToList(),
+                Events = group.GroupEvents.ToList()
 
             });
         }
@@ -66,7 +70,7 @@ namespace Affinity.Controllers
 
             var profile = _context.Profile.FirstOrDefault(p => p.UserId == user.Id);
             var group = new Group { ProfileId = profile.ProfileId };
-
+            
             ViewData["ProfileID"] = profile.ProfileId;
             
             return View(group);
@@ -81,6 +85,8 @@ namespace Affinity.Controllers
         {
             if (ModelState.IsValid)
             {
+                var profile = _context.Profile.Where(g => g.ProfileId == group.ProfileId).FirstOrDefault();
+                group.MemberProfiles.Add(profile);
                 _context.Add(group);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

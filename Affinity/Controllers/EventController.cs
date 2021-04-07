@@ -39,10 +39,17 @@ namespace Affinity.Controllers
                 .FirstOrDefaultAsync(m => m.EventId == id);
             if (events == null)
             {
-                return NotFound();
+                var groupEvent = await _context.Event
+                    .Include(g => g.Group)
+                    .FirstOrDefaultAsync(m => m.GroupId == id);
+                return View(groupEvent);
+
+            }
+            else
+            {
+                return View(events);
             }
 
-            return View(events);
         }
 
         // GET: Event/Create
