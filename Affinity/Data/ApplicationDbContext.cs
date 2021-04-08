@@ -17,6 +17,7 @@ namespace Affinity.Data
         public virtual DbSet<InterestSubCategory> InterestSubCategory { get; set; }
         public virtual DbSet<Matches> Matches { get; set; }
         public virtual DbSet<UserRelationship> UserRelationships { get; set; }
+        public virtual DbSet<FriendMessage> FriendMessages { get; set; }
         public virtual DbSet<Group> Groups { get; set; }
         public virtual DbSet<Event> Event { get; set; }
 
@@ -435,6 +436,38 @@ namespace Affinity.Data
                     .HasForeignKey(d => d.RelatedProfileId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Profile_Related");
+            });
+
+            modelBuilder.Entity<FriendMessage>(entity =>
+            {
+                entity.HasKey(e => e.FriendMessageId);
+
+                entity.ToTable("FriendMessage");
+
+                entity.Property(p => p.FriendMessageId).HasColumnName("FriendMessageId").UseIdentityColumn();
+
+                entity.Property(e => e.UserRelationshipId).HasColumnName("UserRelationshipId")
+                    .IsRequired();
+
+                entity.Property(e => e.SendingUserId).HasColumnName("SendingUserId")
+                    .IsRequired();
+
+                entity.Property(e => e.ReceivingUserId).HasColumnName("ReceivingUserId")
+                    .IsRequired();
+
+                entity.Property(e => e.MessageContent).HasColumnName("MessageContent")
+                    .HasMaxLength(1500)
+                    .IsUnicode(false)
+                    .IsRequired();
+
+                entity.Property(e => e.MessageDateTime).HasColumnName("MessageDateTime")
+                    .IsRequired();
+
+                entity.HasOne(d => d.UserRelationship)
+                    .WithMany(p => p.FriendMessages)
+                    .HasForeignKey(d => d.UserRelationshipId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_FriendMessage_UserRelationship");
             });
 
             modelBuilder.Entity<Event>(entity =>

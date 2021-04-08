@@ -37,6 +37,8 @@ namespace Affinity.Models
         /// This user's related User (ie: Friend).
         /// </summary>
         public User RelatedUser { get; set; }
+
+        public virtual ICollection<FriendMessage> FriendMessages { get; set; }
     }
     public enum Relationship
     {

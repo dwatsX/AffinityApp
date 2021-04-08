@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Affinity.Models.FriendMessage>
+
+@{
+    ViewData["Title"] = "Index";
+}
+@{bool displayButton = false;}
+@{int messageCount = 0;}
+
+
+<div class="container">
+    <h1><i class="fa fa-comments text-primary mr-2" aria-hidden="true"></i> Conversation with @ViewBag.profileName</h1>
+    <hr />
+    <div class="col-sm-12">
+        @foreach (var item in Model)
+        {
+            messageCount++;
+        }
+
+        @if (messageCount != 0)
+        {
+            @foreach (var item in Model)
+            {
+                <div class="row">
+                    @if (@ViewBag.profileId == item.SendingUserId)
+                    {
+                        <div class="col-sm-4" style="text-align: right;">
+                            @Html.DisplayFor(modelItem => item.MessageDateTime)
+                        </div>
+                        <div class="col-sm-8 affinity-shadow" style="float: right; border: 2px solid black; border-radius: 10px; background-color: #91daff;">
+                            @Html.DisplayFor(modelItem => item.MessageContent)
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-sm-8 affinity-shadow" style="float: left; border: 2px solid black; border-radius: 10px; background-color: #cccccc">
+                            @Html.DisplayFor(modelItem => item.MessageContent)
+                        </div>
+                        <div class="col-sm-4" style="text-align: left;">
+                            @Html.DisplayFor(modelItem => item.MessageDateTime)
+                        </div>
+                    }
+                </div>
+                <br />
+            }
+
+        }
+        else
+        {
+            <p style="text-align: center;">No messages yet! Send the first one!</p>
+        }
+
+        @{Html.RenderPartial("CreatePartial", new FriendMessage { SendingUserId = @ViewBag.ProfileId });}
+    </div>
+</div>
