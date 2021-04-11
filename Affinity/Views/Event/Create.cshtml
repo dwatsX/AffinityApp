@@ -13,42 +13,23 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="GroupId" class="control-label"></label>
-                <select asp-for="GroupId" class="form-control" asp-items="ViewBag.GroupId"></select>
+                <input asp-for="GroupId" class="form-control" value="@ViewBag.GroupID" hidden/>
             </div>
             <div class="form-group">
                 <label asp-for="EventName" class="control-label"></label>
-                <input asp-for="EventName" class="form-control" />
+                <input asp-for="EventName" class="form-control" required />
                 <span asp-validation-for="EventName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="EventDescription" class="control-label"></label>
-                <input asp-for="EventDescription" class="form-control" />
+                <input asp-for="EventDescription" class="form-control" required />
                 <span asp-validation-for="EventDescription" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
+            <div class="form-group">
                     <label asp-for="EventDateTime" class="control-label"></label>
-                    <input type="datetime-local" asp-for="EventDateTime" class="form-control" />
+                    <input type="datetime-local" asp-for="EventDateTime" class="form-control" required />
                     <span asp-validation-for="EventDateTime" class="text-danger"></span>
-                </div>*@
-            <div class="container">
-                Date & Time
-                <br/>
-                <div class="form-group">
-                    <div class='input-group date' id='datetimepicker1'>
-                        <input type='text' asp-for="EventDateTime" class="form-control" />
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
-                    </div>
-                </div>
-                <script type="text/javascript">
-                    $(function () {
-                        $('#datetimepicker1').datetimepicker();
-                    });
-                </script>
             </div>
-
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

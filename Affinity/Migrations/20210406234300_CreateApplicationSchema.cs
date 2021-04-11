@@ -213,7 +213,7 @@ namespace Affinity.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(nullable: false),
                     ProfileName = table.Column<string>(unicode: false, maxLength: 150, nullable: false),
-                    Description = table.Column<string>(unicode: false, maxLength: 150, nullable: true),
+                    Description = table.Column<string>(unicode: false, maxLength: 1500, nullable: true),
                     Discord = table.Column<string>(unicode: false, maxLength: 150, nullable: true),
                     Instagram = table.Column<string>(unicode: false, maxLength: 150, nullable: true),
                     Location = table.Column<string>(unicode: false, maxLength: 150, nullable: true),

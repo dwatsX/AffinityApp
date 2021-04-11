@@ -4,36 +4,42 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>Select Interests</h1>
 
-<h4>Interests</h4>
+<h5 class="text-center">Select a category and a sub-category! You'll be matched with other users who like the same things!</h5>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-sm-12">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="InterestCategoryId" class="control-label">Category</label>
+                <label asp-for="InterestCategoryId" class="control-label text-center">Category</label>
                 <select onchange="this.form.submit()" asp-for="InterestCategoryId" class="form-control" asp-items="ViewBag.InterestCategoryId"></select>
-        
+
             </div>
             <div class="form-group">
-                <label asp-for="InterestSubCategoryId" class="control-label">Interest</label>
+                <label asp-for="InterestSubCategoryId" class="control-label text-center">Interest</label>
                 <select asp-for="InterestSubCategoryId" class="form-control" asp-items="ViewBag.InterestSubCategoryId"></select>
 
             </div>
             <div class="form-group">
                 <input type="hidden" asp-for="ProfileId" class="form-control" asp-items="ViewBag.ProfileId">
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <br />
+            <div class="row">
+                <div class="col-sm-6">
+                    <div style="text-align: center;">
+                        <a class="btn btn-outline-primary w-100 btn-lg" role="button" asp-area="" asp-controller="Interests" asp-action="Index"><i class="fa fa-table-tennis pr-2" aria-hidden="true"></i> Back to Interests</a>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div style="text-align: center;">
+                        <input type="submit" class="btn btn-outline-primary w-100 btn-lg" role="button" value="✓ Add">
+                    </div>
+                </div>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

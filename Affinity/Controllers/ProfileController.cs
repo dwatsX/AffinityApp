@@ -32,23 +32,12 @@ namespace Affinity.Controllers
             User user = await _userManager.GetUserAsync(User);
 
             var profile = await _context.Profile
-             .Include(p => p.Interests)
-              .ThenInclude(i => i.InterestSubCategory)
-              .ThenInclude(i => i.InterestCategory)
-          .FirstOrDefaultAsync(m => m.UserId == user.Id);
+                .Include(p => p.Interests)
+                .ThenInclude(i => i.InterestSubCategory)
+                .ThenInclude(i => i.InterestCategory)
+                .FirstOrDefaultAsync(m => m.UserId == user.Id);
 
-            if (profile == null)
-            {
-                Profile newProfile = new Profile { ProfileName = user.Name, User = user, UserId = user.Id, Birthday = user.BirthDate };
-                _context.Add(newProfile);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Details", new { id = newProfile.ProfileId });
-            }
-            else
-            {
-                return RedirectToAction("Details", new { id = profile.ProfileId });
-            }
-
+            return RedirectToAction("Details", new { id = profile.ProfileId });
         }
 
         // GET: Profile/Details/5
@@ -60,40 +49,55 @@ namespace Affinity.Controllers
                 return NotFound();
             }
 
-            var profile = await _context.Profile
+            User user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Problem();
+            }
+
+            var loggedIn = _context.Profile.FirstOrDefault(r => r.UserId == user.Id);
+            var loggedInProfile = loggedIn.ProfileId;
+
+            var profileViewed = await _context.Profile
                    .Include(p => p.Interests)
                     .ThenInclude(i => i.InterestSubCategory)
                     .ThenInclude(i => i.InterestCategory)
                 .FirstOrDefaultAsync(m => m.ProfileId == id);
 
-            if (profile == null)
+            if (profileViewed == null)
             {
                 return NotFound();
             }
 
+            ViewData["loggedInProfile"] = loggedInProfile;
+            if (profileViewed.ProfileId != null)
+            {
+                ViewData["profileBeingViewed"] = profileViewed.ProfileId;
+            }
+
             return View(new ProfileViewModel
             {
-                Profile = profile,
-                ProfileId = profile.ProfileId,
-                User = profile.User,
-                UserId = profile.UserId,
+                Profile = profileViewed,
+                ProfileId = profileViewed.ProfileId,
+                User = profileViewed.User,
+                UserId = profileViewed.UserId,
                 Images = await _context.Images
-                    .Where(i => i.ProfileId == profile.ProfileId)
+                    .Where(i => i.ProfileId == profileViewed.ProfileId)
                     .ToListAsync(),
                 Interests = await _context.Interests
-                    .Where(i => i.ProfileId == profile.ProfileId)
+                    .Where(i => i.ProfileId == profileViewed.ProfileId)
                     .ToListAsync(),
-                ProfileName = profile.ProfileName,
-                Description = profile.Description,
-                Discord = profile.Discord,
-                Instagram = profile.Instagram,
-                Location = profile.Location,
-                Occupation = profile.Occupation,
-                Education = profile.Education,
-                Cigarettes = profile.Cigarettes,
-                Marijuana = profile.Marijuana,
-                Age = Math.Round((((DateTime.Today) - profile.Birthday).TotalDays / 365)).ToString(),
-                Alcohol = profile.Alcohol
+                ProfileName = profileViewed.ProfileName,
+                Description = profileViewed.Description,
+                Discord = profileViewed.Discord,
+                Instagram = profileViewed.Instagram,
+                Location = profileViewed.Location,
+                Occupation = profileViewed.Occupation,
+                Education = profileViewed.Education,
+                Cigarettes = profileViewed.Cigarettes,
+                Marijuana = profileViewed.Marijuana,
+                Age = Math.Round((((DateTime.Today) - profileViewed.Birthday).TotalDays / 365)).ToString(),
+                Alcohol = profileViewed.Alcohol
 
             }) ;
         }
