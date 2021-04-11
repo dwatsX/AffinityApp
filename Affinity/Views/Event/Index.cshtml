@@ -4,29 +4,51 @@
     ViewData["Title"] = "Index";
 }
 
+@{int eventCount = 0;}
+
 <h1><i class="fa fa-calendar-day text-primary pr-2" aria-hidden="true"></i> Events </h1>
 
 <hr />
 <br />
+
 @foreach (var item in Model)
 {
-    <div class="card affinity-shadow affinity-border-blue">
-        <div class="card-header">
-            <h3 style="margin-bottom: 0px !important;">
-                <a asp-controller="Event" asp-action="Details" asp-route-id="@item.EventId">
-                    @Html.DisplayFor(modelItem => item.EventName)
-                </a>        
-            </h3>
+    @if (item.Group.MemberProfiles.Any(g => g.ProfileId == ViewBag.ProfileID))
+    {
+        <div class="card affinity-shadow affinity-border-blue">
+            <div class="card-header">
+                <h3 style="margin-bottom: 0px !important;">
+                    <a asp-controller="Event" asp-action="Details" asp-route-id="@item.EventId">
+                        @Html.DisplayFor(modelItem => item.EventName)
+                    </a>
+                </h3>
+            </div>
+            <div class="card-body">
+                Group:
+                <p class="card-text">@Html.DisplayFor(modelItem => item.Group.GroupName)</p>
+                Description:
+                <p class="card-text">@Html.DisplayFor(modelItem => item.EventDescription)</p>
+                Date & Time:
+                <p class="card-text">@Html.DisplayFor(modelItem => item.EventDateTime)</p>
+            </div>
+
         </div>
-        <div class="card-body">
-            Group:
-            <p class="card-text">@Html.DisplayFor(modelItem => item.Group.GroupName)</p>
-            Description:
-            <p class="card-text">@Html.DisplayFor(modelItem => item.EventDescription)</p>
-            Date & Time:
-            <p class="card-text">@Html.DisplayFor(modelItem => item.EventDateTime)</p>
+        <br />
+        eventCount++;
+    }
+}
+
+@if (eventCount == 0)
+{
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <h5>Join a Group which has already scheduled events to see upcoming events here!</h5>
         </div>
-   
     </div>
     <br />
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <a class="btn btn-outline-primary btn-lg" role="button" asp-controller="Groups" asp-action="Index"><i class="fa fa-users mr-2" aria-hidden="true"></i> View Groups</a>
+        </div>
+    </div>
 }

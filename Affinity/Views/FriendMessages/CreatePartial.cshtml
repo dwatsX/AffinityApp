@@ -15,7 +15,7 @@
                 <input asp-for="ReceivingUserId" class="form-control" value="99" hidden />
             </div>
             <div class="form-group">
-                <input asp-for="MessageContent" class="form-control" placeholder="Enter your message here..." />
+                <input asp-for="MessageContent" class="form-control" placeholder="Enter your message here..." maxlength="1500" />
                 <span asp-validation-for="MessageContent" class="text-danger"></span>
             </div>
             <div class="form-group">

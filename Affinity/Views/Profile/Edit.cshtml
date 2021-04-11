@@ -21,32 +21,35 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="ProfileId" />
         <input type="hidden" asp-for="UserId" />
+        <div class="form-group">
+            <label asp-for="Discord" class="control-label">Headline</label>
+            <input asp-for="Discord" class="form-control" maxlength="70" required/>
+            <span asp-validation-for="Discord" class="text-danger"></span>
+        </div>
         <div class="card" style="margin-top: 10px;">
             <div style="font-weight: bold;">
                 <div class="card-header">
                     <p>
                         <div class="form-group">
                             <label asp-for="ProfileName" class="control-label">Profile Name:</label>
-                            <input asp-for="ProfileName" class="form-control" />
+                            <input asp-for="ProfileName" class="form-control" maxlength="30" required/>
                             <span asp-validation-for="ProfileName" class="text-danger"></span>
                         </div>
                     </p>
                     <p>
                         <div class="form-group">
-                            <label asp-for="Birthday"></label>
-                            <input type="date" asp-for="Birthday" class="form-control" tabindex="2" />
+                            <input type="date" asp-for="Birthday" class="form-control" tabindex="2" hidden />
                             <span asp-validation-for="Birthday" class="text-danger"></span>
-                        </div>                
+                        </div>
                     </p>
                 </div>
-                <div class="card-body">
-                    <div class="form-group">
-                        Headline:
-                        <div class='input-group'>
-                            <input type='text' class="form-control" />
-                        </div>
-                    </div>
-                </div>
+            </div>
+        </div>
+        <div class="card" style="text-align: center;">
+            <br />
+            <p>Upload or Edit Interests:</p>
+            <div class="form-group">
+                <a class="btn btn-outline-primary w-25" role="button" asp-controller="Interests" asp-action="Index">Interests</a>
             </div>
         </div>
         <br />
@@ -59,21 +62,21 @@
             <div class="col-sm-4">
                 <h4>@Html.DisplayNameFor(model => model.Occupation):</h4>
                 <div class="form-group">
-                    <input asp-for="Occupation" class="form-control" />
+                    <input asp-for="Occupation" class="form-control" maxlength="30" />
                     <span asp-validation-for="Occupation" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-sm-4">
                 <h4>@Html.DisplayNameFor(model => model.Education):</h4>
                 <div class="form-group">
-                    <input asp-for="Education" class="form-control" />
+                    <input asp-for="Education" class="form-control" maxlength="30" />
                     <span asp-validation-for="Education" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-sm-4">
                 <h4>@Html.DisplayNameFor(model => model.Location):</h4>
                 <div class="form-group">
-                    <input asp-for="Location" class="form-control" />
+                    <input asp-for="Location" class="form-control" maxlength="30" />
                     <span asp-validation-for="Location" class="text-danger"></span>
                 </div>
             </div>
@@ -106,28 +109,15 @@
             <div class="col-sm-12">
                 <div class="form-group">
                     <label asp-for="Description" class="control-label"></label>
-                    <input asp-for="Description" class="form-control" />
+                    <input asp-for="Description" class="form-control" maxlength="1500" required />
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
             </div>
         </div>
 
         <div class="form-group">
-            <label asp-for="Instagram" class="control-label"></label>
-            <input asp-for="Instagram" class="form-control" />
+            <input asp-for="Instagram" class="form-control" hidden />
             <span asp-validation-for="Instagram" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Discord" class="control-label"></label>
-            <input asp-for="Discord" class="form-control" />
-            <span asp-validation-for="Discord" class="text-danger"></span>
-        </div>
-        <div class="card" style="text-align: center;">
-            <br />
-            <p>Upload or Edit Interests:</p>
-            <div class="form-group">
-                <a class="btn btn-outline-primary w-25" role="button" asp-controller="Interests" asp-action="Index">Interests</a>
-            </div>
         </div>
         <hr />
         <div class="form-group">

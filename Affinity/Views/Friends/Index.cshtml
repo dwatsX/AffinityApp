@@ -147,8 +147,17 @@
             }
             else if (!Model.PendingRelationships.Any())
             {
-                <h4 class="font-weight-light text-uppercase text-center mt-3">You haven't added anybody yet! View your matches to find friends to add.</h4>
-                <a class="btn btn-outline-primary btn-lg" role="button" asp-area="" asp-controller="Matches" asp-action="Index"><i class="fa fa-plus mr-2" aria-hidden="true"></i> View Matches</a>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h4 class="font-weight-light text-center mt-3">You haven't added anybody yet! View your matches to find friends to add.</h4>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-12 text-center">
+                        <a class="btn btn-outline-primary btn-lg" role="button" asp-area="" asp-controller="Matches" asp-action="Index"><i class="fa fa-plus mr-2" aria-hidden="true"></i> View Matches</a>
+                    </div>
+                </div>
             }
         </div>
     </div>

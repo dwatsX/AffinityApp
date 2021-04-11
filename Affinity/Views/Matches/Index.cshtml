@@ -3,44 +3,69 @@
 @{
     ViewData["Title"] = "Index";
 }
+@{int matches = 0;}
 
 <h1><i class="fa fa-handshake text-primary pr-2" aria-hidden="true"></i> Matches</h1>
 <hr />
+
 @foreach (var item in Model)
 {
-    <div class="card affinity-shadow affinity-border-blue">
-        <div class="card-header">
-            <h3 style="margin-bottom: 0px !important;">
-                <a asp-controller="Profile" asp-action="Details" asp-route-id="@item.MatchedProfileId">
-                    @Html.DisplayFor(modelItem => item.MatchedProfile.ProfileName)
-                </a>
-                <a asp-controller="Friends" asp-action="Add" asp-route-id="@item.MatchedProfileId">
-                    <span class="btn btn-outline-primary friendButton" style="float: right;">
-                        <i class="fa fa-plus mr-2" aria-hidden="true"></i> Add Friend
-                    </span>
-                </a>
-            </h3>
-        </div>
-        <div class="card-body">
-            @if (item.MatchedProfile.Images.Count == 0)
-            {
-                <div class="picContainer">
-                    <img class="profilePic" src="~/img/empty.png" />
-                </div>
-            }
-            else
-            {
-                <div class="picContainer">
-                    <img class="profilePic" src="@item.MatchedProfile.Images.FirstOrDefault().ImageURL" />
-                </div>
-                    }
-
-                    <h5 class="card-title">Headline</h5>
-                    <p class="card-text">@Html.DisplayFor(modelItem => item.MatchedProfile.Description)</p>
-                </div>
-                <div class="card-footer">
-                    Interests in Common: @Html.DisplayFor(modelItem => item.SharedInterests.Count)
-                </div>
-            </div>
-    <br />
+    matches++;
 }
+
+@if (matches != 0)
+{
+    @foreach (var item in Model)
+    {
+        <div class="card affinity-shadow affinity-border-blue">
+            <div class="card-header">
+                <h3 style="margin-bottom: 0px !important;">
+                    <a asp-controller="Profile" asp-action="Details" asp-route-id="@item.MatchedProfileId">
+                        @Html.DisplayFor(modelItem => item.MatchedProfile.ProfileName)
+                    </a>
+                    <a asp-controller="Friends" asp-action="Add" asp-route-id="@item.MatchedProfileId">
+                        <span class="btn btn-outline-primary friendButton" style="float: right;">
+                            <i class="fa fa-plus mr-2" aria-hidden="true"></i> Add Friend
+                        </span>
+                    </a>
+                </h3>
+            </div>
+            <div class="card-body">
+                @if (item.MatchedProfile.Images.Count == 0)
+                {
+                    <div class="picContainer">
+                        <img class="profilePic" src="~/img/empty.png" />
+                    </div>
+                }
+                else
+                {
+                    <div class="picContainer">
+                        <img class="profilePic" src="@item.MatchedProfile.Images.FirstOrDefault().ImageURL" />
+                    </div>
+                }
+
+                <h5 class="card-title">@item.MatchedProfile.Discord</h5>
+                <p class="card-text">@Html.DisplayFor(modelItem => item.MatchedProfile.Description)</p>
+            </div>
+            <div class="card-footer">
+                Interests in Common: @Html.DisplayFor(modelItem => item.SharedInterests.Count)
+            </div>
+        </div>
+        <br />
+    }
+}
+else
+{
+    <div class="row">
+        <div class="col-sm-12">
+            <h4 class="font-weight-light text-center mt-3">You don't have any matches! Try adding more Interests, to match with people!</h4>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <a class="btn btn-outline-primary btn-lg" role="button" asp-area="" asp-controller="Interests" asp-action="Index"><i class="fa fa-plus mr-2" aria-hidden="true"></i> Add Interests</a>
+        </div>
+    </div>
+}
+

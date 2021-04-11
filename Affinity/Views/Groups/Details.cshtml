@@ -4,72 +4,102 @@
     ViewData["Title"] = "Details";
 }
 
-<h1><i class="fa fa-user text-primary pr-2" aria-hidden="true"></i> @Html.DisplayFor(model => model.GroupName) (<a asp-action="Edit" asp-route-id="@Model.GroupId">Edit</a>)</h1>
-
-<div>
-    <hr />
-
-    @if (Model.ImageUrl != null)
-    {
-        <div id="profilePicCarousel" class="carousel carouselContainer">
-            <img class="profilePic" src="@Model.ImageUrl" />
-        </div>
-    }
-</div>
-<br />
-
-<div class="row">
-    <div class="col-sm-12" style="text-align: center;>
-        <h3> Group Description</h3>
-        <br />
-        <div class="shadow p-3 mb-5 bg-body rounded">@Html.DisplayFor(model => model.GroupDescription)</div>
-    </div>
-</div>
-<hr />
-
-<hr />
 <div class="container">
+    <h1>
+        <i class="fa fa-users text-primary pr-2" aria-hidden="true"></i> @Html.DisplayFor(model => model.GroupName)
+        @if (@ViewBag.groupCreator == "true")
+        {
+            <a asp-action="Edit" asp-route-id="@Model.GroupId">( Edit )</a>
+        }
+    </h1>
+    <hr />
+    <div>
+        @if (Model.ImageUrl != null)
+        {
+            <div id="profilePicCarousel" class="carousel carouselImage text-center">
+                <img class="profilePic" src="@Model.ImageUrl" />
+            </div>
+        }
+    </div>
+    <br />
 
     <div class="row">
-        <div class="col-sm-12">
-            <h3>Members</h3>
-            <h3 class="profileInterests">
-                @if (Model.Members != null)
-                {
-                    @foreach (var i in Model?.Members)
-                    {
-                        <a asp-controller="Profile" asp-action="Details" asp-route-id="@i.ProfileId">
-                            <span class="badge bg-primary">@i.ProfileName</span>
-                        </a>
-                    }
-                }
-            </h3>
+        <div class="col-sm-12" style="text-align: center;">
+            <h3> Group Description</h3>
+            <br />
+            <div class="shadow p-3 mb-5 bg-body rounded">@Html.DisplayFor(model => model.GroupDescription)</div>
         </div>
     </div>
+    <hr />
+    <h3>Group Creator</h3>
     <div class="row">
         <div class="col-sm-12">
-            <h3>Events</h3>
-            <h3 class="profileInterests">
-                @if (Model.Events.Count != 0)
-                {
-                    @foreach (var i in Model.Events)
-                    {
-                        <a asp-controller="Event" asp-action="Details" asp-route-id="@Model.GroupId">
-                            <span class="badge bg-primary" >@i.EventName</span>
-                        </a>
-                    }
-                }
+            <h3 style="display: inline-block;">
+                <a asp-controller="Profile" asp-action="Details" asp-route-id="@ViewBag.groupCreatorID">
+                    <span class="badge badge-primary">@ViewBag.groupCreatorName</span>
+                </a>
             </h3>
-            <hr />
-            <br />
-            <div class="row">
-                <div class="col-sm-12 text-center">
-                    <a class="btn btn-outline-primary btn-lg" role="button" asp-controller="Event" asp-action="Create" asp-route-id="@Model.GroupId"><i class="fa fa-plus mr-2" aria-hidden="true"></i> Add New Event</a>
-                </div>
-            </div>
         </div>
     </div>
-</div>
-<div>
-    <a asp-action="Index">Back to List</a>
+    <hr />
+    <h3>Members</h3>
+    <div class="row">
+        <div class="col-sm-12">
+            @if (Model.Members != null)
+            {
+                @foreach (var i in Model?.Members)
+                {
+                    <h3 style="display: inline-block;">
+                        <a asp-controller="Profile" asp-action="Details" asp-route-id="@i.ProfileId">
+                            <span class="badge badge-primary">@i.ProfileName</span>
+                        </a>
+                    </h3>
+                }
+            }
+        </div>
+    </div>
+    <hr />
+    <h3>Events</h3>
+    <div class="row">
+        <div class="col-sm-12">
+            @if (Model.Events.Count != 0)
+            {
+                @foreach (var i in Model.Events)
+                {
+                    <h3 style="display: inline-block;">
+                        <a asp-controller="Event" asp-action="Details" asp-route-id="@i.EventId">
+                            <span class="badge badge-primary">@i.EventName</span>
+                        </a>
+                    </h3>
+                    @if (@ViewBag.groupCreator == "true")
+                    {
+                        <h3 style="display: inline-block;">
+                            <a class="close" role="button" style="position: relative; top: 12px; color: cornflowerblue;" asp-controller="Event" asp-action="Delete" asp-route-id="@i.EventId">&nbsp;×&nbsp;</a>
+                        </h3>
+                    }
+                }
+            }
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        @if (@ViewBag.groupCreator == "true")
+        {
+            <div class="col-sm-4">
+                <a class="btn btn-outline-primary btn-lg w-100" role="button" asp-area="" asp-controller="Event" asp-action="Create" asp-route-id="@Model.GroupId"><i class="fa fa-plus mr-2" aria-hidden="true"></i> Add New Event</a>
+            </div>
+            <div class="col-sm-4">
+                <a class="btn btn-outline-primary btn-lg w-100" role="button" asp-area="" asp-controller="Groups" asp-action="Edit" asp-route-id="@Model.GroupId"><i class="fa fa-edit mr-2" aria-hidden="true"></i> Edit Group</a>
+            </div>
+            <div class="col-sm-4">
+                <a class="btn btn-outline-primary btn-lg w-100" role="button" asp-area="" asp-action="Index"><i class="fa fa-users text-primary pr-2" aria-hidden="true"></i> Back to Groups</a>
+            </div>
+        }
+        else
+        {
+            <div class="col-sm-12">
+                <a class="btn btn-outline-primary btn-lg w-100" role="button" asp-area="" asp-action="Index"><i class="fa fa-users text-primary pr-2" aria-hidden="true"></i> Back to Groups</a>
+            </div>
+        }
+    </div>
 </div>

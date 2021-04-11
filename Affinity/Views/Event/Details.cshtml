@@ -4,36 +4,66 @@
     ViewData["Title"] = "Details";
 }
 
-<h1><i class="fa fa-user text-primary pr-2" aria-hidden="true"></i> @Html.DisplayFor(model => model.EventName) (<a asp-action="Edit" asp-route-id="@Model.EventId">Edit</a>)</h1>
+<h1>
+    <i class="fa fa-user text-primary pr-2" aria-hidden="true"></i> @Html.DisplayFor(model => model.EventName)
+    @if (ViewBag.eventCreator == true)
+    {
+        <a asp-action="Edit" asp-route-id="@Model.EventId">( Edit )</a>
+    }
+
+</h1>
 <div class="row">
-    <div class="col-sm-12" style="text-align: center;>
+    <div class="col-sm-12" style="text-align: center;">
         <br />
         <div class="shadow p-3 mb-5 bg-body rounded">
-            <h3> Group Name</h3>
+            <h3>Group Name</h3>
             @Html.DisplayFor(model => model.Group.GroupName)
         </div>
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-12" style="text-align: center;>
+    <div class="col-sm-12" style="text-align: center;">
         <br />
         <div class="shadow p-3 mb-5 bg-body rounded">
-            <h3> Event Description</h3>
+            <h3>Event Description</h3>
             @Html.DisplayFor(model => model.EventDescription)
         </div>
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-12" style="text-align: center;>
+    <div class="col-sm-12" style="text-align: center;">
         <br />
         <div class="shadow p-3 mb-5 bg-body rounded">
-            <h3> Event Date & Time</h3>
+            <h3>Event Date & Time</h3>
             @Html.DisplayFor(model => model.EventDateTime)
         </div>
     </div>
 </div>
-<hr />
-
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="row">
+    <div class="col-sm-12" style="text-align: center;">
+        <br />
+        <div class="shadow p-3 mb-5 bg-body rounded">
+            <h3>Created By:</h3>
+            <a asp-controller="Profile" asp-action="Details" asp-route-id="@ViewBag.eventCreatorID">
+                @ViewBag.eventCreatorName
+            </a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    @if (@ViewBag.eventCreator == true)
+    {
+        <div class="col-sm-6">
+            <a class="btn btn-outline-primary btn-lg w-100" role="button" asp-area="" asp-controller="Event" asp-action="Edit" asp-route-id="@Model.EventId"><i class="fa fa-edit mr-2" aria-hidden="true"></i> Edit Event</a>
+        </div>
+        <div class="col-sm-6">
+            <a class="btn btn-outline-primary btn-lg w-100" role="button" asp-area="" asp-controller="Event" asp-action="Index"><i class="fa fa-calendar-day text-primary pr-2" aria-hidden="true"></i> List Events</a>
+        </div>
+    }
+    else
+    {
+        <div class="col-sm-12">
+            <a class="btn btn-outline-primary btn-lg w-100" role="button" asp-area="" asp-controller="Event" asp-action="Index"><i class="fa fa-users text-primary pr-2" aria-hidden="true"></i> List Events</a>
+        </div>
+    }
 </div>

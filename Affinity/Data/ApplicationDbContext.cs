@@ -283,7 +283,7 @@ namespace Affinity.Data
                 entity.Property(e => e.Description).HasColumnName("Description")
                     .IsRequired(false)
                     .HasColumnName("Description")
-                    .HasMaxLength(150)
+                    .HasMaxLength(1500)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Occupation).HasColumnName("Occupation")

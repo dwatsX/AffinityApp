@@ -7,21 +7,33 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Affinity.Data;
 using Affinity.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Affinity.Controllers
 {
     public class EventController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public EventController(ApplicationDbContext context)
+        public EventController(ApplicationDbContext context, UserManager<User> user)
         {
             _context = context;
+            _userManager = user;
         }
 
         // GET: Event
         public async Task<IActionResult> Index()
         {
+            User user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Problem();
+            }
+
+            var profile = _context.Profile.FirstOrDefault(r => r.UserId == user.Id);
+            ViewData["ProfileID"] = profile.ProfileId;
+
             var applicationDbContext = _context.Event.Include(g => g.Group);
             return View(await applicationDbContext.ToListAsync());
         }
@@ -34,9 +46,29 @@ namespace Affinity.Controllers
                 return NotFound();
             }
 
+            User user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Problem();
+            }
+
+            var profile = _context.Profile.FirstOrDefault(r => r.UserId == user.Id);
+
             var events = await _context.Event
                 .Include(g => g.Group)
                 .FirstOrDefaultAsync(m => m.EventId == id);
+
+            var groupCreator = events.Group.ProfileId;
+            if (groupCreator == profile.ProfileId)
+            {
+                ViewData["eventCreator"] = true;
+            }
+            ViewData["eventCreatorID"] = events.Group.ProfileId;
+
+            var eventCreatorName = _context.Profile.FirstOrDefault(r => r.ProfileId == events.Group.ProfileId);
+
+            ViewData["eventCreatorName"] = eventCreatorName.ProfileName;
+
             if (events == null)
             {
                 var groupEvent = await _context.Event
@@ -53,9 +85,11 @@ namespace Affinity.Controllers
         }
 
         // GET: Event/Create
-        public IActionResult Create()
+        public IActionResult Create([FromRoute] int id)
         {
-            ViewData["GroupId"] = new SelectList(_context.Groups, "GroupId", "GroupId");
+
+            ViewData["GroupID"] = id.ToString();
+            //ViewData["GroupId"] = new SelectList(_context.Groups, "GroupId", "GroupId");
             return View();
         }
 

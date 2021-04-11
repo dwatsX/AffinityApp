@@ -39,15 +39,28 @@ namespace Affinity.Controllers
                 return NotFound();
             }
 
+            User user = await _userManager.GetUserAsync(User);
+
+            var profile = await _context.Profile
+                .FirstOrDefaultAsync(m => m.UserId == user.Id);
+
             var group = await _context.Groups
                 .Include(p => p.Profile)
                 .Include(p => p.MemberProfiles)
                 .Include(p => p.GroupEvents)
                 .FirstOrDefaultAsync(m => m.GroupId == id);
+
             if (group == null)
             {
                 return NotFound();
             }
+
+            if (group.ProfileId == profile.ProfileId) 
+            {
+                ViewData["groupCreator"] = "true";
+            }
+            ViewData["groupCreatorName"] = group.Profile.ProfileName;
+            ViewData["groupCreatorID"] = group.ProfileId;
 
             return View(new GroupViewModel
             {
@@ -110,6 +123,7 @@ namespace Affinity.Controllers
                 return NotFound();
             }
             ViewData["ProfileId"] = new SelectList(_context.Profile, "ProfileId", "ProfileName", group.ProfileId);
+            ViewData["GroupId"] = id;
             return View(group);
         }
 
@@ -186,6 +200,10 @@ namespace Affinity.Controllers
                 await _context.SaveChangesAsync();
                 TempData["Joined"] = $"Joined {group.GroupName}";
 
+            }
+            else
+            {
+                TempData["Joined"] = $"You've already joined {group.GroupName}!";
             }
 
             return RedirectToAction("Index", "Groups");

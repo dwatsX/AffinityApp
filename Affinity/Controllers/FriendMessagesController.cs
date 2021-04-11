@@ -74,7 +74,6 @@ namespace Affinity.Controllers
 
             ViewData["UserRelationshipId"] = id;
             ViewData["SendingProfileId"] = sendingUser.ProfileId;
-            //ViewData["ReceivingProfileId"] = receivingUser.RelatingProfileId;
             return View();
         }
 
