@@ -124,7 +124,23 @@ namespace Affinity.Controllers
             }
             ViewData["ProfileId"] = new SelectList(_context.Profile, "ProfileId", "ProfileName", group.ProfileId);
             ViewData["GroupId"] = id;
-            return View(group);
+
+            User user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Problem();
+            }
+
+            var loggedIn = _context.Profile.FirstOrDefault(r => r.UserId == user.Id);
+
+            if (loggedIn.ProfileId == group.ProfileId)
+            {
+                return View(group);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         // POST: Groups/Edit/5
@@ -225,7 +241,22 @@ namespace Affinity.Controllers
                 return NotFound();
             }
 
-            return View(group);
+            User user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Problem();
+            }
+
+            var loggedIn = _context.Profile.FirstOrDefault(r => r.UserId == user.Id);
+
+            if (loggedIn.ProfileId == group.ProfileId)
+            {
+                return View(group);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         // POST: Groups/Delete/5

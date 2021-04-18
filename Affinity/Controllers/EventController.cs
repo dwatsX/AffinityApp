@@ -124,7 +124,31 @@ namespace Affinity.Controllers
                 return NotFound();
             }
             ViewData["GroupId"] = new SelectList(_context.Groups, "GroupId", "GroupId", events.GroupId);
-            return View(events);
+
+            User user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Problem();
+            }
+
+            var group = await _context.Groups
+                .Include(p => p.Profile)
+                .FirstOrDefaultAsync(m => m.GroupId == events.GroupId);
+            if (group == null)
+            {
+                return NotFound();
+            }
+
+            var loggedIn = _context.Profile.FirstOrDefault(r => r.UserId == user.Id);
+
+            if (loggedIn.ProfileId == group.ProfileId)
+            {
+                return View(events);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         // POST: Event/Edit/5
@@ -180,7 +204,30 @@ namespace Affinity.Controllers
                 return NotFound();
             }
 
-            return View(events);
+            User user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Problem();
+            }
+
+            var group = await _context.Groups
+                .Include(p => p.Profile)
+                .FirstOrDefaultAsync(m => m.GroupId == events.GroupId);
+            if (group == null)
+            {
+                return NotFound();
+            }
+
+            var loggedIn = _context.Profile.FirstOrDefault(r => r.UserId == user.Id);
+
+            if (loggedIn.ProfileId == group.ProfileId)
+            {
+                return View(events);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         // POST: Event/Delete/5

@@ -14,12 +14,6 @@
         </div>
     </div>
     <br />
-    <div class="row">
-        <div class="col-sm-12 text-center">
-            <a class="btn btn-outline-primary btn-lg" role="button" asp-action="Create"><i class="fa fa-plus mr-2" aria-hidden="true"></i> Add New</a>
-        </div>
-    </div>
-    <br />
     @{int count = 0; }
     @foreach (var item in Model)
     {
@@ -67,4 +61,17 @@
         </div>
 
     }
+    <br />
+    <div class="row">
+        <div class="col-sm-6">
+            <div style="text-align: center;">
+                <a class="btn btn-outline-primary w-100 btn-lg" role="button" asp-area="" asp-controller="Profile" asp-action="Index"><i class="fa fa-user pr-2" aria-hidden="true"></i> Back to Profile</a>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div style="text-align: center;">
+                <a class="btn btn-outline-primary w-100 btn-lg" role="button" asp-area="" asp-controller="Image" asp-action="Create"><i class="fa fa-plus mr-2" aria-hidden="true"></i> Add Image</a>
+            </div>
+        </div>
+    </div>
 </div>
