@@ -36,24 +36,39 @@ namespace Affinity.Controllers
                 .Where(u => u.UserRelationshipId == id)
                 .FirstOrDefault();
 
-            if (thisRelationship.RelatingProfileId == profile.ProfileId)
+            if (thisRelationship == null)
             {
-                var otherUser = _context.Profile.FirstOrDefault(r => r.ProfileId == thisRelationship.RelatedProfileId);
-                ViewData["profileName"] = otherUser.ProfileName;
+                return NotFound();
             }
             else
             {
-                var otherUser = _context.Profile.FirstOrDefault(r => r.ProfileId == thisRelationship.RelatingProfileId);
-                ViewData["profileName"] = otherUser.ProfileName;
+                if (thisRelationship.RelatingProfileId == profile.ProfileId || thisRelationship.RelatedProfileId == profile.ProfileId)
+                {
+
+                    if (thisRelationship.RelatingProfileId == profile.ProfileId)
+                    {
+                        var otherUser = _context.Profile.FirstOrDefault(r => r.ProfileId == thisRelationship.RelatedProfileId);
+                        ViewData["profileName"] = otherUser.ProfileName;
+                    }
+                    else
+                    {
+                        var otherUser = _context.Profile.FirstOrDefault(r => r.ProfileId == thisRelationship.RelatingProfileId);
+                        ViewData["profileName"] = otherUser.ProfileName;
+                    }
+
+                    ViewData["userRelationshipId"] = id;
+                    ViewData["profileId"] = profile.ProfileId;
+
+                    var applicationDbContext = _context.FriendMessages.Include(f => f.UserRelationship)
+                        .Where(f => f.UserRelationshipId == id);
+
+                    return View(await applicationDbContext.ToListAsync());
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
-
-            ViewData["userRelationshipId"] = id;
-            ViewData["profileId"] = profile.ProfileId;
-
-            var applicationDbContext = _context.FriendMessages.Include(f => f.UserRelationship)
-                .Where(f => f.UserRelationshipId == id);
-
-            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: FriendMessages/Create

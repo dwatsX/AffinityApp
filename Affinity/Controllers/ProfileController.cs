@@ -162,7 +162,23 @@ namespace Affinity.Controllers
             {
                 return NotFound();
             }
-            return View(profile);
+
+            User user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Problem();
+            }
+
+            var loggedIn = _context.Profile.FirstOrDefault(r => r.UserId == user.Id);
+
+            if (loggedIn.ProfileId == profile.ProfileId) {
+                return View(profile);
+            }
+            else
+            {
+                return NotFound();
+            }
+
         }
 
         // POST: Profile/Edit/5
@@ -199,37 +215,6 @@ namespace Affinity.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(profile);
-        }
-
-        // GET: Profile/Delete/5
-        [Authorize]
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var profile = await _context.Profile
-                .FirstOrDefaultAsync(m => m.ProfileId == id);
-            if (profile == null)
-            {
-                return NotFound();
-            }
-
-            return View(profile);
-        }
-
-        // POST: Profile/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [Authorize]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var profile = await _context.Profile.FindAsync(id);
-            _context.Profile.Remove(profile);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
         private bool ProfileExists(int id)

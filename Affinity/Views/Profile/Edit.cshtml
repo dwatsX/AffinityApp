@@ -23,7 +23,7 @@
         <input type="hidden" asp-for="UserId" />
         <div class="form-group">
             <label asp-for="Discord" class="control-label">Headline</label>
-            <input asp-for="Discord" class="form-control" maxlength="70" required/>
+            <input asp-for="Discord" class="form-control" maxlength="70" required />
             <span asp-validation-for="Discord" class="text-danger"></span>
         </div>
         <div class="card" style="margin-top: 10px;">
@@ -32,7 +32,7 @@
                     <p>
                         <div class="form-group">
                             <label asp-for="ProfileName" class="control-label">Profile Name:</label>
-                            <input asp-for="ProfileName" class="form-control" maxlength="30" required/>
+                            <input asp-for="ProfileName" class="form-control" maxlength="30" required />
                             <span asp-validation-for="ProfileName" class="text-danger"></span>
                         </div>
                     </p>
@@ -119,17 +119,19 @@
             <input asp-for="Instagram" class="form-control" hidden />
             <span asp-validation-for="Instagram" class="text-danger"></span>
         </div>
-        <hr />
-        <div class="form-group">
-            <input type="submit" value="Save" class="btn btn-primary" />
+        <div class="row">
+            <div class="col-sm-6">
+                <div style="text-align: center;">
+                    <a class="btn btn-outline-primary w-100 btn-lg" role="button" asp-area="" asp-controller="Profile" asp-action="Index"><i class="fa fa-user pr-2" aria-hidden="true"></i> Back to Profile</a>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div style="text-align: center;">
+                    <input type="submit" class="btn btn-outline-primary w-100 btn-lg" role="button" value="✓ Save">
+                </div>
+            </div>
         </div>
     </form>
-</div>
-
-
-
-<div>
-    <a asp-action="Index">Back to View Profile</a>
 </div>
 
 @section Scripts {
