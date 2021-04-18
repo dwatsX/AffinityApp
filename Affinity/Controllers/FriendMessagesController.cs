@@ -82,10 +82,6 @@ namespace Affinity.Controllers
 
             var profile = _context.Profile.FirstOrDefault(r => r.UserId == user.Id);
             var sendingUser = _context.Profile.FirstOrDefault(r => r.ProfileId == profile.ProfileId);
-            var receivingUser = _context.UserRelationships
-                .Where(u => u.UserRelationshipId == id)
-                .Where(u => u.RelatingProfileId != profile.ProfileId)
-                .FirstOrDefault();
 
             ViewData["UserRelationshipId"] = id;
             ViewData["SendingProfileId"] = sendingUser.ProfileId;

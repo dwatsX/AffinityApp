@@ -141,46 +141,5 @@ namespace Affinity.Tests.Controllers
             Assert.IsAssignableFrom<NotFoundResult>(result);
         }
 
-        [Fact]
-        public async Task Delete_ReturnsViewResult_WhenIdIsFound()
-        {
-            // Arrange
-
-            // Act
-            var result = await ControllerSUT.Delete(166);
-
-            // Assert
-            var viewResult = Assert.IsAssignableFrom<ViewResult>(result);
-            Assert.IsAssignableFrom<Profile>(viewResult.ViewData.Model);
-        }
-
-        [Theory]
-        [InlineData(null)]
-        [InlineData(666)]
-        public async Task Delete_ReturnsNotFound_WhenIdIsNotFound(int? id)
-        {
-            // Arrange
-
-            // Act
-            var result = await ControllerSUT.Delete(id);
-
-            // Assert
-            Assert.IsAssignableFrom<NotFoundResult>(result);
-        }
-
-        [Fact]
-        public async Task DeleteConfirmed_ReturnsRedirectToActionResult_WhenProfileIsDeleted()
-        {
-            // Arrange
-
-            // Act
-            var result = await ControllerSUT.DeleteConfirmed(166);
-
-            // Assert
-            var redirectResult = Assert.IsAssignableFrom<RedirectToActionResult>(result);
-            Assert.Equal(nameof(ProfileController.Index), redirectResult.ActionName);
-        }
-
-
     }
 }
