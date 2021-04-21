@@ -207,12 +207,19 @@ namespace Affinity.Controllers
                 return BadRequest();
             }
 
+            //var messageLog = await _context.FriendMessages
+            //    .Where(m => m.UserRelationshipId)
+
             // get relationships
 
             var relationship = await _context.UserRelationships
                 .Include(r => r.RelatingUser)
                 .FirstOrDefaultAsync(r => r.RelatingUser.Id == user.Id && r.RelatedProfileId.ToString() == id || r.RelatedUser.Id == user.Id && r.RelatingProfileId.ToString() == id);
-                
+
+            var messages = _context.FriendMessages
+                .Where(m => m.UserRelationshipId == relationship.UserRelationshipId);
+
+            _context.RemoveRange(messages);
             _context.RemoveRange(relationship);
             await _context.SaveChangesAsync();
 
