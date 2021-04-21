@@ -30,6 +30,16 @@
             <div class="shadow p-3 mb-5 bg-body rounded">@Html.DisplayFor(model => model.GroupDescription)</div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <a asp-controller="GroupMessages" asp-action="Index" asp-route-id="@ViewBag.groupId">
+                <span class="btn btn-outline-primary btn-lg w-100">
+                    <i class="fa fa-comments mr-2" aria-hidden="true"></i> Group Chat
+                </span>
+            </a>
+        </div>
+    </div>
+    <br />
     <hr />
     <h3>Group Creator</h3>
     <div class="row">

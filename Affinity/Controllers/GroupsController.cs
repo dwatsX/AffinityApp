@@ -61,6 +61,7 @@ namespace Affinity.Controllers
             }
             ViewData["groupCreatorName"] = group.Profile.ProfileName;
             ViewData["groupCreatorID"] = group.ProfileId;
+            ViewData["groupId"] = group.GroupId;
 
             return View(new GroupViewModel
             {

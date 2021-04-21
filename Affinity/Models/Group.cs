@@ -22,5 +22,6 @@ namespace Affinity.Models
         public virtual Profile Profile { get; set; }
         public ICollection<Profile> MemberProfiles { get; set; }
         public virtual ICollection<Event> GroupEvents { get; set; }
+        public virtual ICollection<GroupMessage> GroupMessages { get; set; }
     }
 }

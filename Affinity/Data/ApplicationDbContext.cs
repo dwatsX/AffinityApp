@@ -18,6 +18,7 @@ namespace Affinity.Data
         public virtual DbSet<Matches> Matches { get; set; }
         public virtual DbSet<UserRelationship> UserRelationships { get; set; }
         public virtual DbSet<FriendMessage> FriendMessages { get; set; }
+        public virtual DbSet<GroupMessage> GroupMessages { get; set; }
         public virtual DbSet<Group> Groups { get; set; }
         public virtual DbSet<Event> Event { get; set; }
 
@@ -470,6 +471,38 @@ namespace Affinity.Data
                     .HasConstraintName("FK_FriendMessage_UserRelationship");
             });
 
+            modelBuilder.Entity<GroupMessage>(entity =>
+            {
+                entity.HasKey(e => e.GroupMessageId);
+
+                entity.ToTable("GroupMessage");
+
+                entity.Property(p => p.GroupMessageId).HasColumnName("GroupMessageId").UseIdentityColumn();
+
+                entity.Property(e => e.GroupId).HasColumnName("GroupId")
+                    .IsRequired();
+
+                entity.Property(e => e.SendingUserProfileId).HasColumnName("SendingUserProfileId")
+                    .IsRequired();
+
+                entity.Property(e => e.SendingUserProfileName).HasColumnName("SendingUserProfileName")
+                    .IsRequired();
+
+                entity.Property(e => e.MessageContent).HasColumnName("MessageContent")
+                    .HasMaxLength(1500)
+                    .IsUnicode(false)
+                    .IsRequired();
+
+                entity.Property(e => e.MessageDateTime).HasColumnName("MessageDateTime")
+                    .IsRequired();
+
+                entity.HasOne(d => d.Group)
+                    .WithMany(p => p.GroupMessages)
+                    .HasForeignKey(d => d.GroupId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_GroupMessage_Group");
+            });
+
             modelBuilder.Entity<Event>(entity =>
             {
                 entity.HasKey(e => e.EventId);
@@ -524,5 +557,6 @@ namespace Affinity.Data
 
             Seed(modelBuilder);
         }
+
     }
 }
