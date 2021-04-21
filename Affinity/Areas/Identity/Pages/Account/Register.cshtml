@@ -13,7 +13,7 @@
             <hr />
             <div class="form-group">
                 <label asp-for="Input.Name"></label>
-                <input asp-for="Input.Name" class="form-control" tabindex="1" />
+                <input asp-for="Input.Name" class="form-control" />
                 <span asp-validation-for="Input.Name" class="text-danger"></span>
             </div>
             <div asp-validation-summary="All" class="text-danger"></div>
@@ -30,7 +30,7 @@
 
             <div class="form-group">
                 <label asp-for="Input.Birthdate"></label>
-                <input asp-for="Input.Birthdate" class="form-control" tabindex="2" />
+                <input asp-for="Input.Birthdate" class="form-control" />
                 <span asp-validation-for="Input.Birthdate" class="text-danger"></span>
             </div>
 
@@ -38,7 +38,7 @@
                 <label asp-for="Input.Gender" class="d-block text-center"></label>
                 <div class="d-flex justify-content-center">
                     <div class="form-check form-check-inline ml-3 mr-3">
-                        <input asp-for="Input.Gender" value="male" type="radio" class="form-check-input" tabindex="7">
+                        <input asp-for="Input.Gender" value="male" type="radio" class="form-check-input">
                         <label class="form-check-label">Male</label>
                     </div>
                     <div class="form-check form-check-inline ml-3 mr-3">
