@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Affinity.Models.GroupMessage>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@{bool displayButton = false;}
+@{int messageCount = 0;}
+
+<div class="container">
+    <h1><i class="fa fa-comments text-primary mr-2" aria-hidden="true"></i> @ViewBag.groupName Group Chat</h1>
+    <hr />
+    <div class="col-sm-12">
+        @foreach (var item in Model)
+        {
+            messageCount++;
+        }
+
+        @if (messageCount != 0)
+        {
+            @foreach (var item in Model)
+            {
+                @if (@ViewBag.profileId == item.SendingUserProfileId)
+                {
+                    <div class="row">
+                        <div class="col-sm-12" style="text-align: right; font-weight: bold;">
+                            You
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4" style="text-align: right;">
+                            @Html.DisplayFor(modelItem => item.MessageDateTime)
+                        </div>
+                        <div class="col-sm-8 affinity-shadow" style="float: right; border: 2px solid black; border-radius: 10px; background-color: #91daff;">
+                            @Html.DisplayFor(modelItem => item.MessageContent)
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="row" style="text-align: left; font-weight: bold;">
+                        <a asp-controller="Profile" asp-action="Details" asp-route-id="@item.SendingUserProfileId">@Html.DisplayFor(modelItem => item.SendingUserProfileName)</a>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8 affinity-shadow" style="float: left; border: 2px solid black; border-radius: 10px; background-color: #cccccc">
+                            @Html.DisplayFor(modelItem => item.MessageContent)
+                        </div>
+                        <div class="col-sm-4" style="text-align: left;">
+                            @Html.DisplayFor(modelItem => item.MessageDateTime)
+                        </div>
+                    </div>
+                }
+                <br />
+            }
+
+        }
+        else
+        {
+            <p style="text-align: center;">No messages yet! Send the first one!</p>
+        }
+
+        @{Html.RenderPartial("_createPartial", new GroupMessage { SendingUserProfileId = @ViewBag.ProfileId, SendingUserProfileName = @ViewBag.ProfileName });}
+    </div>
+</div>
