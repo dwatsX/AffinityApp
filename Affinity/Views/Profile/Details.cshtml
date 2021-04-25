@@ -8,12 +8,21 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-6">
             <div class="h1" style="display: inline-block; margin-bottom: 0px !important;">
                 <i class="fa fa-user text-primary pr-2" aria-hidden="true"></i> @Html.DisplayFor(model => model.ProfileName)
             </div>
             <div style="display: inline-block"> (@Html.DisplayFor(model => model.Age) years old)</div>
         </div>
+        @if (@ViewBag.profileBeingViewed != @ViewBag.loggedInProfile) {
+        <div class="col-sm-6">
+            <a asp-controller="Friends" asp-action="Add" asp-route-id="@ViewBag.profileBeingViewed">
+                <span class="btn btn-outline-primary friendButton" style="float: right;">
+                    <i class="fa fa-plus mr-2" aria-hidden="true"></i> Add Friend
+                </span>
+            </a>
+        </div>
+        }
     </div>
     <hr />
     <br />

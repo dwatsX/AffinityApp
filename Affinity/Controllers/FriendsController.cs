@@ -135,7 +135,7 @@ namespace Affinity.Controllers
             if (existingRelationship != null)
             {
                 existingRelationship.Type = Relationship.Friend;
-                _context.UserRelationships.Update(existingRelationship);        
+                _context.UserRelationships.Update(existingRelationship);
                 relationship.Type = Relationship.Friend;
                 TempData["FriendInvite"] = $"{profileInvited.ProfileName} has been added to your friends.";
             }
@@ -166,7 +166,7 @@ namespace Affinity.Controllers
                 return Problem();
             }
 
-            var userRemoving = _userManager.FindByIdAsync(id);
+            var userRemoving = await _userManager.FindByIdAsync(id);
             if (userRemoving.Id == user.Id)
             {
                 return BadRequest();
@@ -207,9 +207,6 @@ namespace Affinity.Controllers
                 return BadRequest();
             }
 
-            //var messageLog = await _context.FriendMessages
-            //    .Where(m => m.UserRelationshipId)
-
             // get relationships
 
             var relationship = await _context.UserRelationships
@@ -219,7 +216,10 @@ namespace Affinity.Controllers
             var messages = _context.FriendMessages
                 .Where(m => m.UserRelationshipId == relationship.UserRelationshipId);
 
-            _context.RemoveRange(messages);
+            if (messages != null)
+            { 
+                _context.RemoveRange(messages);
+            }
             _context.RemoveRange(relationship);
             await _context.SaveChangesAsync();
 
